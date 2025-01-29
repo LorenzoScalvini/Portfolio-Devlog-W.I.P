@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from "./Navbar.module.css";
 
-const Navbar = () => {
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -12,12 +12,10 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>
-        {/* Logo */}
-        <Link to="/" className={styles.logo}>
-          MyLogo
-        </Link>
+        <NavLink to="/" className={styles.logo}>
+          LS
+        </NavLink>
 
-        {/* Hamburger Menu */}
         <button
           className={`${styles.hamburger} ${isOpen ? styles.active : ""}`}
           onClick={toggleMenu}
@@ -28,27 +26,44 @@ const Navbar = () => {
           <span className={styles.bar}></span>
         </button>
 
-        {/* Nav Links */}
         <div className={`${styles.navLinks} ${isOpen ? styles.active : ""}`}>
-          <Link to="/" onClick={toggleMenu}>
+          <NavLink
+            to="/"
+            className={({ isActive }) => (isActive ? styles.activeLink : "")}
+            onClick={toggleMenu}
+          >
             Home
-          </Link>
-          <Link to="/about" onClick={toggleMenu}>
+          </NavLink>
+          <NavLink
+            to="/about"
+            className={({ isActive }) => (isActive ? styles.activeLink : "")}
+            onClick={toggleMenu}
+          >
             About
-          </Link>
-          <Link to="/services" onClick={toggleMenu}>
+          </NavLink>
+          <NavLink
+            to="/services"
+            className={({ isActive }) => (isActive ? styles.activeLink : "")}
+            onClick={toggleMenu}
+          >
             Services
-          </Link>
-          <Link to="/portfolio" onClick={toggleMenu}>
+          </NavLink>
+          <NavLink
+            to="/portfolio"
+            className={({ isActive }) => (isActive ? styles.activeLink : "")}
+            onClick={toggleMenu}
+          >
             Portfolio
-          </Link>
-          <Link to="/contact" onClick={toggleMenu}>
+          </NavLink>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) => (isActive ? styles.activeLink : "")}
+            onClick={toggleMenu}
+          >
             Contact
-          </Link>
+          </NavLink>
         </div>
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}

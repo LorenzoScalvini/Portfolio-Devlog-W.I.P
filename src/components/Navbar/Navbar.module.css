@@ -1,5 +1,5 @@
 .navbar {
-  background: #333;
+  background: #070707;
   padding: 1rem 2rem;
   position: fixed;
   width: 100%;
@@ -25,7 +25,6 @@
 .navLinks {
   display: flex;
   gap: 2rem;
-  margin-right: 5rem;
 }
 
 .navLinks a {
@@ -35,7 +34,13 @@
 }
 
 .navLinks a:hover {
-  color: #000000;
+  color: #a8e4a0; /* Change to your desired hover color */
+}
+
+/* Active link style */
+.navLinks .activeLink {
+  color: #a8e4a0; /* Change to your desired active color */
+  text-decoration: underline;
 }
 
 .hamburger {
@@ -45,7 +50,6 @@
   background: none;
   border: none;
   cursor: pointer;
-  margin-right: 40px; /* Added right margin */
 }
 
 .bar {
@@ -77,9 +81,9 @@
     top: 60px;
     right: -100%;
     height: calc(100vh - 60px);
-    width: 100%;
-    max-width: 300px;
-    background: #333;
+    width: 40%;
+    max-width: 100%;
+    background: #070707;
     flex-direction: column;
     align-items: center;
     padding-top: 2rem;
