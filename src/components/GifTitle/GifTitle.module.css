@@ -1,0 +1,24 @@
+.container {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+  margin-top: 6rem;
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.gif {
+  width: 200px;
+  height: auto;
+  border-radius: 10px;
+}
