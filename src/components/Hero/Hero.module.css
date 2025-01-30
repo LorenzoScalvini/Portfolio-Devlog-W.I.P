@@ -1,0 +1,156 @@
+.container {
+  display: flex;
+  justify-content: center;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Ensure image is on the right of the text */
+  flex-direction: row; /* Stack content horizontally */
+  height: auto; /* Adjust height */
+  background: white; /* Change background to white */
+  color: #070707; /* Adjust text color */
+  gap: 50px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 1s ease forwards;
+  margin-top: 6rem;
+  max-width: 1200px; /* Limit the width of the hero */
+  width: 100%; /* Make hero take full width of container */
+  padding: 3rem;
+  border-radius: 10px;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-content {
+  flex: 1;
+  text-align: left; /* Align text to the left */
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #070707; /* Adjust text color */
+  animation: textFloat 3s ease-in-out infinite;
+}
+
+@keyframes textFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #070707; /* Adjust text color */
+  opacity: 0.8;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center; /* Center buttons horizontally */
+}
+
+.btn {
+  padding: 16px 32px;
+  text-decoration: none;
+  font-size: 1rem;
+  border-radius: 25px;
+  position: relative;
+  overflow: hidden;
+  margin: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition */
+  border: none; /* Remove border */
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(0, 0, 0, 0.1); /* Adjust hover background */
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: none; /* Remove transition */
+}
+
+.btn:hover::before {
+  width: 0; /* Remove hover effect */
+  height: 0; /* Remove hover effect */
+}
+
+.btn.primary {
+  background: #a8e4a0; /* Match navbar hover color */
+  color: #070707; /* Contrast with button background */
+}
+
+.btn.secondary {
+  background: #333; /* Darker secondary color */
+  color: white; /* Match navbar text color */
+}
+
+.btn:hover {
+  transform: translateY(-5px) scale(1.05); /* Add hover effect */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+.btn.secondary:hover {
+  transform: none; /* Remove hover effect */
+  box-shadow: none; /* Remove hover effect */
+}
+
+.hero-image {
+  flex: 1;
+  max-width: 500px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  animation: imageFloat 4s ease-in-out infinite;
+}
+
+@keyframes imageFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-20px) rotate(2deg);
+  }
+}
+
+.icon {
+  width: 20px; /* Adjust the size as needed */
+  height: 20px; /* Adjust the size as needed */
+  margin-right: 8px; /* Add some space between the icon and text */
+  vertical-align: middle; /* Align icon with text */
+  display: inline-block; /* Ensure the icon is inline with text */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+}
