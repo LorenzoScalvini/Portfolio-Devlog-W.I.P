@@ -1,55 +1,80 @@
+:root {
+  --navbar-bg-color: #070707; /* Colore di sfondo della navbar */
+  --text-color: white; /* Colore del testo */
+  --hover-color: #a8e4a0; /* Colore al passaggio del mouse */
+  --transition-duration: 0.3s; /* Durata delle transizioni */
+  --max-width: 1200px; /* Larghezza massima del contenitore */
+}
+
+/* Stile della navbar */
 .navbar {
-  background: #070707;
+  background: var(--navbar-bg-color);
   padding: 1rem 2rem;
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
-  transform: translateY(-100%);
+  transform: translateY(-100%); /* Nasconde la navbar inizialmente */
   opacity: 0;
   transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
+/* Classe applicata quando la navbar è caricata */
 .navbar.loaded {
-  transform: translateY(0);
+  transform: translateY(0); /* Mostra la navbar */
   opacity: 1;
 }
 
+/* Contenitore principale per gli elementi della navbar */
 .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
+  max-width: var(--max-width);
   margin: 0 auto;
 }
 
+/* Stile del logo */
 .logo {
-  color: white;
+  color: var(--text-color);
   font-size: 1.5rem;
   text-decoration: none;
   font-weight: bold;
 }
 
+/* Stile dell'icona nella navbar */
+.navIcon {
+  width: 50px;
+  margin-right: 10px;
+  vertical-align: middle;
+  border-radius: 5px;
+}
+
+/* Contenitore per i link di navigazione */
 .navLinks {
   display: flex;
   gap: 2rem;
 }
 
+/* Stile dei link di navigazione */
 .navLinks a {
-  color: white;
+  color: var(--text-color);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color var(--transition-duration) ease;
 }
 
+/* Effetto al passaggio del mouse sui link */
 .navLinks a:hover {
-  color: #a8e4a0;
+  color: var(--hover-color);
 }
 
+/* Stile del link attivo */
 .navLinks .activeLink {
-  color: #a8e4a0;
+  color: var(--hover-color);
   text-decoration: underline;
 }
 
+/* Stile del menu  (visibile solo su dispositivi mobili) */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -59,13 +84,15 @@
   cursor: pointer;
 }
 
+/* Stile delle barre del menu */
 .bar {
   width: 25px;
   height: 3px;
-  background: white;
-  transition: all 0.3s ease;
+  background: var(--text-color);
+  transition: all var(--transition-duration) ease;
 }
 
+/* Animazione del menu quando attivo */
 .hamburger.active .bar:nth-child(1) {
   transform: translateY(8px) rotate(45deg);
 }
@@ -78,11 +105,14 @@
   transform: translateY(-8px) rotate(-45deg);
 }
 
+/* Media query per dispositivi con larghezza massima di 768px */
 @media (max-width: 768px) {
+  /* Mostra menu */
   .hamburger {
     display: flex;
   }
 
+  /* Nasconde i link di navigazione e li posiziona fuori dallo schermo */
   .navLinks {
     position: fixed;
     top: 60px;
@@ -90,13 +120,14 @@
     height: calc(100vh - 60px);
     width: 40%;
     max-width: 100%;
-    background: #070707;
+    background: var(--navbar-bg-color);
     flex-direction: column;
     align-items: center;
     padding-top: 2rem;
-    transition: right 0.3s ease;
+    transition: right var(--transition-duration) ease;
   }
 
+  /* Mostra i link di navigazione quando il menu è attivo */
   .navLinks.active {
     right: 0;
   }
