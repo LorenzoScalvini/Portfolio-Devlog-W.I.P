@@ -1,0 +1,104 @@
+.container {
+  width: 100%; /* Container takes up 100% of the parent's width */
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 2s ease-in-out;
+  opacity: 0;
+  margin-bottom: 1rem;
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+.container.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slider {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Gradient overlay for fading effect */
+.slider::before,
+.slider::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px; /* Width of the fade effect */
+  z-index: 2;
+  pointer-events: none; /* Ensure clicks pass through */
+}
+
+.slider::before {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+.slider::after {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+.slideTrack {
+  display: flex;
+  width: calc(150px * 16); /* Adjusted width for smaller gaps */
+  animation: scroll 20s linear infinite;
+}
+
+.slide {
+  width: 150px; /* Adjusted width for smaller gaps */
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #070707;
+  border-radius: 999px;
+  margin: 0.4rem;
+  padding: 0.2rem 0.5rem;
+}
+
+.slide span {
+  font-size: 1.5rem; /* Adjust text size as needed */
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(
+      calc(-150px * 8)
+    ); /* Adjusted translation for smaller gaps */
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInScroll {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
