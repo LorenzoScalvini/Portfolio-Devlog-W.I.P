@@ -1,14 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Hero.module.css';
-import heroImage from '../../assets/placeholder.png'; // Adjust the path to your image
-import GitHubIcon from '../../assets/GitHubIcon.png'; // Import GitHub icon
+import heroImage from '../../assets/devIcon.png';
 
 export default function Hero() {
   const navigate = useNavigate();
 
   const handleGoToAbout = () => {
-    navigate('/about');
+    navigate('/portfolio');
   };
 
   return (
@@ -16,22 +15,18 @@ export default function Hero() {
       <div className={styles.hero}>
         <div className={styles.heroContent}>
           <h1>LORENZO SCALVINI</h1>
-          <p>Discover the beauty of simplicity and elegance in every detail.</p>
+          <p>
+            Full Stack Web Developer con React e Vanilla JS,
+            <br /> focalizzato su soluzioni scalabili e performanti.
+            <br /> Sviluppo frontend e backend con attenzione
+            all’ottimizzazione.
+          </p>
           <div className={styles.heroButtons}>
             <button
               onClick={handleGoToAbout}
               className={`${styles.btn} ${styles.primary}`}
             >
-              Watch my works
-            </button>
-            <button
-              onClick={() =>
-                (window.location.href = 'https://github.com/LorenzoScalvini')
-              }
-              className={`${styles.btn} ${styles.secondary}`}
-            >
-              <img src={GitHubIcon} alt="GitHub" className={styles.icon} />{' '}
-              Github
+              MY PROJECTS
             </button>
           </div>
         </div>

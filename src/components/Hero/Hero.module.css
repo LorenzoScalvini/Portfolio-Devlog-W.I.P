@@ -1,29 +1,41 @@
+:root {
+  --colore-primario: #a8e4a0; /* Verde chiaro per i pulsanti primari */
+  --colore-secondario: #333; /* Colore scuro per i pulsanti secondari */
+  --colore-testo: #070707; /* Colore principale del testo */
+  --sfondo: white; /* Colore di sfondo */
+  --ombra: rgba(0, 0, 0, 0.2); /* Ombra per effetti */
+  --spazio-gap: 50px; /* Spaziatura tra elementi */
+}
+
+/* Contenitore principale centrato */
 .container {
   display: flex;
   justify-content: center;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  margin-top: 10rem;
+  margin-bottom: 10rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
 
+/* Sezione Hero */
 .hero {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Ensure image is on the right of the text */
-  flex-direction: row; /* Stack content horizontally */
-  height: auto; /* Adjust height */
-  background: white; /* Change background to white */
-  color: #070707; /* Adjust text color */
-  gap: 50px;
+  justify-content: space-between; /* Posiziona il testo a sinistra e l'immagine a destra */
+  flex-direction: row; /* Disposizione orizzontale */
+  height: auto;
+  background: var(--sfondo);
+  color: var(--colore-testo);
+  gap: var(--spazio-gap);
   opacity: 0;
   transform: translateY(30px);
-  animation: fadeInUp 1s ease forwards;
-  margin-top: 6rem;
-  max-width: 1200px; /* Limit the width of the hero */
-  width: 100%; /* Make hero take full width of container */
-  padding: 3rem;
+  animation: fadeInUp 1s ease forwards; /* Animazione di apparizione */
+  max-width: 1200px;
+  width: 100%;
   border-radius: 10px;
 }
 
+/* Animazione di fade-in dall'alto */
 @keyframes fadeInUp {
   to {
     opacity: 1;
@@ -31,18 +43,23 @@
   }
 }
 
-.hero-content {
+/* Contenitore del contenuto testuale */
+.heroContent {
   flex: 1;
-  text-align: left; /* Align text to the left */
+  text-align: left; /* Allinea il testo a sinistra */
+  padding: 1rem;
 }
 
+/* Titolo principale della sezione */
 .hero h1 {
   font-size: 3rem;
-  margin-bottom: 1rem;
-  color: #070707; /* Adjust text color */
-  animation: textFloat 3s ease-in-out infinite;
+  color: var(--colore-testo);
+  animation: textFloat 3s ease-in-out infinite; /* Effetto di flottazione */
+  padding-top: 2rem;
+  padding-left: 3rem;
 }
 
+/* Animazione per far fluttuare il titolo */
 @keyframes textFloat {
   0%,
   100% {
@@ -53,19 +70,23 @@
   }
 }
 
+/* Paragrafo della sezione */
 .hero p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
-  color: #070707; /* Adjust text color */
+  color: var(--colore-testo);
   opacity: 0.8;
+  text-align: left;
+  padding-left: 3rem;
 }
 
-.hero-buttons {
+/* Contenitore dei pulsanti */
+.heroButtons {
   display: flex;
   gap: 1rem;
-  justify-content: center; /* Center buttons horizontally */
 }
 
+/* Stile base dei pulsanti */
 .btn {
   padding: 16px 32px;
   text-decoration: none;
@@ -74,57 +95,37 @@
   position: relative;
   overflow: hidden;
   margin: 1rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition */
-  border: none; /* Remove border */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  cursor: pointer;
 }
 
-.btn::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(0, 0, 0, 0.1); /* Adjust hover background */
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: none; /* Remove transition */
-}
-
-.btn:hover::before {
-  width: 0; /* Remove hover effect */
-  height: 0; /* Remove hover effect */
-}
-
+/* Pulsante primario */
 .btn.primary {
-  background: #a8e4a0; /* Match navbar hover color */
-  color: #070707; /* Contrast with button background */
+  background: var(--colore-primario);
+  color: var(--colore-testo);
+  font-weight: 600;
 }
 
-.btn.secondary {
-  background: #333; /* Darker secondary color */
-  color: white; /* Match navbar text color */
-}
-
+/* Effetto hover per i pulsanti */
 .btn:hover {
-  transform: translateY(-5px) scale(1.05); /* Add hover effect */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 5px 15px var(--ombra);
 }
 
-.btn.secondary:hover {
-  transform: none; /* Remove hover effect */
-  box-shadow: none; /* Remove hover effect */
-}
-
-.hero-image {
+/* Immagine nella sezione Hero */
+.heroImage {
   flex: 1;
-  max-width: 500px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 320px;
+  border-radius: 999px;
+  box-shadow: 0 10px 30px var(--ombra);
   transition: all 0.3s ease;
-  animation: imageFloat 4s ease-in-out infinite;
+  animation: textFloat 3s ease-in-out infinite;
+  padding: 0.5rem;
+  margin: 2rem;
 }
 
+/* Animazione di flottazione dell'immagine */
 @keyframes imageFloat {
   0%,
   100% {
@@ -135,22 +136,31 @@
   }
 }
 
-.icon {
-  width: 20px; /* Adjust the size as needed */
-  height: 20px; /* Adjust the size as needed */
-  margin-right: 8px; /* Add some space between the icon and text */
-  vertical-align: middle; /* Align icon with text */
-  display: inline-block; /* Ensure the icon is inline with text */
-}
-
-/* Responsive Styles */
+/* Stili responsivi per schermi più piccoli */
 @media (max-width: 768px) {
   .hero {
     flex-direction: column;
     text-align: center;
+    margin-top: -4rem;
   }
 
-  .hero-buttons {
+  .hero h1 {
+    font-size: 2rem;
+    padding: 0;
+    text-align: center;
+    padding-top: 1rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    padding: 0;
+    text-align: center;
+  }
+  .heroButtons {
     justify-content: center;
+  }
+  .heroImage {
+    position: relative;
+    margin-top: 2rem;
   }
 }
