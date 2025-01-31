@@ -11,7 +11,7 @@ export default function Hero() {
   };
 
   const handleGoToGitHub = () => {
-    window.open('https://github.com/your-github-username', '_blank'); // Replace with your GitHub URL
+    window.open('https://github.com/your-github-username', '_blank');
   };
 
   return (
@@ -34,7 +34,7 @@ export default function Hero() {
             </button>
             <button
               onClick={handleGoToGitHub}
-              className={`${styles.btn} ${styles.github}`} // Apply the new github class
+              className={`${styles.btn} ${styles.github}`}
             >
               GITHUB
             </button>
