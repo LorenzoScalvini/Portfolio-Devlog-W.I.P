@@ -10,6 +10,10 @@ export default function Hero() {
     navigate('/portfolio');
   };
 
+  const handleGoToGitHub = () => {
+    window.open('https://github.com/your-github-username', '_blank'); // Replace with your GitHub URL
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.hero}>
@@ -27,6 +31,12 @@ export default function Hero() {
               className={`${styles.btn} ${styles.primary}`}
             >
               MY PROJECTS
+            </button>
+            <button
+              onClick={handleGoToGitHub}
+              className={`${styles.btn} ${styles.github}`} // Apply the new github class
+            >
+              GITHUB
             </button>
           </div>
         </div>

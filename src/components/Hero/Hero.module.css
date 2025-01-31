@@ -1,10 +1,15 @@
 :root {
-  --colore-primario: #a8e4a0; /* Verde chiaro per i pulsanti primari */
-  --colore-secondario: #333; /* Colore scuro per i pulsanti secondari */
-  --colore-testo: #070707; /* Colore principale del testo */
-  --sfondo: white; /* Colore di sfondo */
-  --ombra: rgba(0, 0, 0, 0.2); /* Ombra per effetti */
-  --spazio-gap: 50px; /* Spaziatura tra elementi */
+  --primary-color: #a8e4a0; /* Verde chiaro per i pulsanti primari */
+  --secondary-color: #333; /* Colore scuro per i pulsanti secondari */
+  --text-color: #ffffff; /* Colore principale del testo (cambiato in bianco) */
+  --background: black; /* Colore di sfondo (cambiato in nero) */
+  --shadow: rgba(
+    95,
+    92,
+    92,
+    0.2
+  ); /* Ombra per effetti (cambiata in ombra grigia) */
+  --gap: 50px; /* Spaziatura tra elementi */
 }
 
 /* Contenitore principale centrato */
@@ -24,15 +29,16 @@
   justify-content: space-between; /* Posiziona il testo a sinistra e l'immagine a destra */
   flex-direction: row; /* Disposizione orizzontale */
   height: auto;
-  background: var(--sfondo);
-  color: var(--colore-testo);
-  gap: var(--spazio-gap);
+  background: var(--background); /* Cambiato in nero */
+  color: var(--text-color); /* Cambiato in bianco */
+  gap: var(--gap);
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 1s ease forwards; /* Animazione di apparizione */
   max-width: 1200px;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 17px;
+  padding: 2rem; /* Aggiunto padding per una migliore spaziatura */
 }
 
 /* Animazione di fade-in dall'alto */
@@ -53,7 +59,7 @@
 /* Titolo principale della sezione */
 .hero h1 {
   font-size: 3rem;
-  color: var(--colore-testo);
+  color: var(--text-color); /* Cambiato in bianco */
   animation: textFloat 3s ease-in-out infinite; /* Effetto di flottazione */
   padding-top: 2rem;
   padding-left: 3rem;
@@ -74,7 +80,7 @@
 .hero p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
-  color: var(--colore-testo);
+  color: var(--text-color); /* Cambiato in bianco */
   opacity: 0.8;
   text-align: left;
   padding-left: 3rem;
@@ -84,6 +90,7 @@
 .heroButtons {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap; /* Aggiunto per far avvolgere i pulsanti su schermi più piccoli */
 }
 
 /* Stile base dei pulsanti */
@@ -102,26 +109,27 @@
 
 /* Pulsante primario */
 .btn.primary {
-  background: var(--colore-primario);
-  color: var(--colore-testo);
+  background: var(--primary-color);
+  color: var(--secondary-color); /* Cambiato in colore secondario */
   font-weight: 600;
 }
 
 /* Effetto hover per i pulsanti */
 .btn:hover {
   transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 5px 15px var(--ombra);
+  box-shadow: 0 5px 15px var(--shadow);
+  color: var(--text-color); /* Cambiato in bianco */
 }
 
 /* Immagine nella sezione Hero */
 .heroImage {
   flex: 1;
   max-width: 320px;
+  border: solid 5px var(--text-color); /* Aggiunto bordo intorno all'immagine */
   border-radius: 999px;
-  box-shadow: 0 10px 30px var(--ombra);
+  box-shadow: 0 10px 30px var(--shadow);
   transition: all 0.3s ease;
   animation: textFloat 3s ease-in-out infinite;
-  padding: 0.5rem;
   margin: 2rem;
 }
 
@@ -134,6 +142,14 @@
   50% {
     transform: translateY(-20px) rotate(2deg);
   }
+}
+
+/* Stile del pulsante GitHub */
+.btn.github {
+  background: transparent; /* Sfondo trasparente */
+  color: var(--text-color); /* Testo bianco */
+  font-weight: 600;
+  border: 2px solid var(--text-color); /* Bordo bianco */
 }
 
 /* Stili responsivi per schermi più piccoli */
@@ -156,9 +172,11 @@
     padding: 0;
     text-align: center;
   }
+
   .heroButtons {
     justify-content: center;
   }
+
   .heroImage {
     position: relative;
     margin-top: 2rem;
