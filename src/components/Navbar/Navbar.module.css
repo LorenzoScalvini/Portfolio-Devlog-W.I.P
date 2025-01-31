@@ -42,14 +42,6 @@
   font-weight: bold;
 }
 
-/* Stile dell'icona nella navbar */
-.navIcon {
-  width: 50px;
-  margin-right: 10px;
-  vertical-align: middle;
-  border-radius: 5px;
-}
-
 /* Contenitore per i link di navigazione */
 .navLinks {
   display: flex;
@@ -74,7 +66,7 @@
   text-decoration: underline;
 }
 
-/* Stile del menu  (visibile solo su dispositivi mobili) */
+/* Stile del menu (visibile solo su dispositivi mobili) */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -107,7 +99,7 @@
 
 /* Media query per dispositivi con larghezza massima di 768px */
 @media (max-width: 768px) {
-  /* Mostra menu */
+  /* Mostra il menu hamburger */
   .hamburger {
     display: flex;
   }
