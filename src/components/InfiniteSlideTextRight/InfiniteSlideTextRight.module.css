@@ -1,0 +1,101 @@
+.container {
+  width: 100%; /* Occupa tutta la larghezza del genitore */
+  position: relative;
+  overflow: hidden;
+  margin-top: 0.1rem; /* Margine superiore regolabile */
+  animation: fadeIn 2s ease-in-out; /* Animazione di fade-in */
+  opacity: 0;
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+  margin-bottom: 4rem;
+}
+
+.container.fade-in {
+  opacity: 1; /* Visibile quando la classe fade-in è attiva */
+  transform: translateY(0);
+}
+
+.slider {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Gradienti laterali per l'effetto di dissolvenza */
+.slider::before,
+.slider::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px; /* Larghezza del gradiente */
+  z-index: 2;
+  pointer-events: none; /* Ignora i clic */
+}
+
+.slider::before {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  ); /* Gradiente sinistro */
+}
+
+.slider::after {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  ); /* Gradiente destro */
+}
+
+.slideTrack {
+  display: flex;
+  width: calc(150px * 16); /* Larghezza totale della pista */
+  animation: scroll 20s linear infinite; /* Animazione di scorrimento */
+}
+
+.slide {
+  width: 150px; /* Larghezza di ogni slide */
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.slide span {
+  font-size: 1.5rem; /* Dimensione del testo */
+  white-space: nowrap; /* Testo su una sola riga */
+}
+
+/* Animazione di scorrimento */
+@keyframes scroll {
+  0% {
+    transform: translateX(calc(-150px * 8)); /* Inizia da sinistra */
+  }
+  100% {
+    transform: translateX(0); /* Scorre a destra */
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInScroll {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

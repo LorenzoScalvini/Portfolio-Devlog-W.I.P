@@ -1,19 +1,20 @@
 import { useEffect } from 'react';
-import styles from './InfiniteSlideTextLeft.module.css';
+import styles from './InfiniteSlideTextRight.module.css';
 
-export default function InfiniteSlideTextLeft() {
+export default function InfiniteSlideTextRight() {
+  // Array of text items
   const textItems = [
-    'React.js',
-    'Tailwind',
-    'Frontend',
-    'Javascript',
-    'Backend',
-    'CSS',
-    'HTML',
-    'UX/UI',
-    'Tailwind',
-    'Frontend',
-    'Javascript',
+    'INNOVATIVE',
+    'CREATIVE',
+    'DYNAMIC',
+    'EFFICIENT',
+    'RELIABLE',
+    'RESPONSIVE',
+    'INTUITIVE',
+    'FLEXIBLE',
+    'OPTIMIZED',
+    'VERSATILE',
+    'SEAMLESS',
   ];
 
   useEffect(() => {
@@ -41,11 +42,13 @@ export default function InfiniteSlideTextLeft() {
     <div className={styles.container}>
       <div className={styles.slider}>
         <div className={styles.slideTrack}>
+          {/* Original text items */}
           {textItems.map((text, index) => (
             <div key={index} className={styles.slide}>
               <span>{text}</span>
             </div>
           ))}
+          {/* Cloned text items for seamless looping */}
           {textItems.map((text, index) => (
             <div key={`clone-${index}`} className={styles.slide}>
               <span>{text}</span>
