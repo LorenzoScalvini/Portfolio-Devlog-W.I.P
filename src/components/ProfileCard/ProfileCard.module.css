@@ -1,0 +1,180 @@
+:root {
+  --background-color: #000; /* Colore di sfondo nero */
+  --text-color: #fff; /* Colore del testo bianco */
+  --container-max-width: 1400px; /* Larghezza massima del container */
+  --container-padding: 60px; /* Padding del container */
+  --container-background: linear-gradient(
+    135deg,
+    #1a1a1a,
+    #333
+  ); /* Sfondo gradient scuro */
+  --container-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Ombra del container */
+  --title-font-size: 40px; /* Dimensione del titolo principale */
+  --animated-title-font-size: 36px; /* Dimensione dei titoli animati */
+  --text-font-size: 20px; /* Dimensione del testo */
+  --image-width: 300px; /* Larghezza delle immagini */
+  --section-margin-bottom: 50px; /* Margine inferiore delle sezioni */
+  --border-radius: 17px; /* Bordi arrotondati */
+  --hover-scale: 1.05; /* Effetto di scaling al hover */
+}
+
+/* Wrapper per centrare il contenuto e applicare uno sfondo nero */
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: var(--background-color); /* Sfondo nero */
+  color: var(--text-color); /* Testo bianco */
+}
+
+/* Container principale con sfondo gradient e ombra */
+.container {
+  width: 100%;
+  max-width: var(--container-max-width); /* Larghezza massima */
+  background: var(--container-background); /* Sfondo gradient scuro */
+  padding: var(--container-padding); /* Padding interno */
+  border-radius: var(--border-radius); /* Bordi arrotondati */
+  box-shadow: var(--container-shadow); /* Ombra */
+  animation: floatingEffect 5s infinite ease-in-out; /* Animazione di fluttuazione */
+  margin-top: 8rem;
+}
+
+/* Animazione di fluttuazione per il container */
+@keyframes floatingEffect {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Titolo principale centrato con animazione di fade-in */
+.title {
+  text-align: center;
+  font-size: var(--title-font-size); /* Dimensione del titolo */
+  margin-bottom: 40px; /* Margine inferiore */
+  color: var(--text-color); /* Testo bianco */
+  animation: fadeIn 2s ease-in-out; /* Animazione di fade-in */
+}
+
+/* Animazione di fade-in per il titolo */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Contenitore per i titoli animati */
+.animatedTitleContainer {
+  text-align: center;
+  margin: 30px 0; /* Margine superiore e inferiore */
+}
+
+/* Stile dei titoli animati con effetto di rimbalzo */
+.animatedTitle {
+  font-size: var(--animated-title-font-size); /* Dimensione del titolo */
+  display: inline-block;
+  color: var(--text-color); /* Testo bianco */
+  animation: bounce 2s infinite; /* Animazione di rimbalzo */
+}
+
+/* Animazione di rimbalzo per i titoli */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Sezioni con disposizione flessibile e animazione di slide-in */
+.section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--section-margin-bottom); /* Margine inferiore */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideIn 1s forwards; /* Animazione di slide-in */
+}
+
+/* Animazione di slide-in per le sezioni */
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stile del testo con padding e allineamento giustificato */
+.text {
+  flex: 1;
+  padding: 20px; /* Padding interno */
+  font-size: var(--text-font-size); /* Dimensione del testo */
+  text-align: justify;
+  margin: 1rem;
+  color: var(--text-color); /* Testo bianco */
+}
+
+/* Stile delle immagini con effetto di scaling al hover */
+.image {
+  width: var(--image-width); /* Larghezza dell'immagine */
+  height: auto;
+  border-radius: var(--border-radius); /* Bordi arrotondati */
+  transition: transform 0.3s ease-in-out; /* Transizione per l'effetto hover */
+}
+
+.image:hover {
+  transform: scale(var(--hover-scale)); /* Effetto di scaling al hover */
+}
+
+/* Stili responsive per schermi più piccoli */
+@media (max-width: 768px) {
+  :root {
+    --container-padding: 30px; /* Padding ridotto */
+    --title-font-size: 32px; /* Dimensione del titolo ridotta */
+    --animated-title-font-size: 28px; /* Dimensione dei titoli animati ridotta */
+    --text-font-size: 18px; /* Dimensione del testo ridotta */
+    --image-width: 250px; /* Larghezza dell'immagine ridotta */
+    --section-margin-bottom: 30px; /* Margine inferiore ridotto */
+  }
+
+  .wrapper {
+    padding: 20px; /* Padding ridotto */
+  }
+
+  .container {
+    margin-top: 4rem; /* Margine superiore ridotto */
+  }
+
+  .section {
+    flex-direction: column; /* Disposizione in colonna */
+    text-align: center; /* Allineamento del testo al centro */
+  }
+
+  .image {
+    margin-bottom: 20px; /* Margine inferiore per le immagini */
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --container-padding: 20px; /* Padding ulteriormente ridotto */
+    --title-font-size: 28px; /* Dimensione del titolo ulteriormente ridotta */
+    --animated-title-font-size: 24px; /* Dimensione dei titoli animati ulteriormente ridotta */
+    --text-font-size: 16px; /* Dimensione del testo ulteriormente ridotta */
+    --image-width: 200px; /* Larghezza dell'immagine ulteriormente ridotta */
+  }
+}
