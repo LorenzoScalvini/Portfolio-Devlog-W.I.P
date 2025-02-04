@@ -1,72 +1,92 @@
-:root {
-  --navbar-bg-color: #070707; /* Colore di sfondo della navbar */
-  --text-color: white; /* Colore del testo */
-  --hover-color: #a8e4a0; /* Colore al passaggio del mouse */
-  --transition-duration: 0.3s; /* Durata delle transizioni */
-  --max-width: 1200px; /* Larghezza massima del contenitore */
-}
-
-/* Stile della navbar */
+/* Navbar: Fissa, nascosta inizialmente, appare con animazione */
 .navbar {
-  background: var(--navbar-bg-color);
+  background: #070707;
   padding: 1rem 2rem;
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
-  transform: translateY(-100%); /* Nasconde la navbar inizialmente */
+  transform: translateY(-100%);
   opacity: 0;
   transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
-/* Classe applicata quando la navbar è caricata */
+/* Navbar visibile */
 .navbar.loaded {
-  transform: translateY(0); /* Mostra la navbar */
+  transform: translateY(0);
   opacity: 1;
 }
 
-/* Contenitore principale per gli elementi della navbar */
+/* Contenitore: Flexbox, centrato, larghezza massima */
 .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: var(--max-width);
+  max-width: 1200px;
   margin: 0 auto;
 }
 
-/* Stile del logo */
+/* Logo: Testo bianco, animazione al passaggio del mouse */
 .logo {
-  color: var(--text-color);
+  color: #ffffff;
   font-size: 1.5rem;
   text-decoration: none;
   font-weight: bold;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
-/* Contenitore per i link di navigazione */
+/* Logo: Effetto hover */
+.logo:hover {
+  color: #a8e4a0;
+  transform: scale(1.1);
+}
+
+/* Link di navigazione: Flexbox, spaziatura */
 .navLinks {
   display: flex;
   gap: 2rem;
 }
 
-/* Stile dei link di navigazione */
+/* Link: Testo bianco, animazione hover */
 .navLinks a {
-  color: var(--text-color);
+  color: #ffffff;
   text-decoration: none;
-  transition: color var(--transition-duration) ease;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  position: relative;
 }
 
-/* Effetto al passaggio del mouse sui link */
+/* Link: Effetto hover */
 .navLinks a:hover {
-  color: var(--hover-color);
+  color: #a8e4a0;
+  transform: translateY(-3px);
 }
 
-/* Stile del link attivo */
+/* Link: Sottolineatura animata */
+.navLinks a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: #a8e4a0;
+  left: 0;
+  bottom: -5px;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.navLinks a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Link attivo: Colore hover */
 .navLinks .activeLink {
-  color: var(--hover-color);
-  text-decoration: underline;
+  color: #a8e4a0;
 }
 
-/* Stile del menu (visibile solo su dispositivi mobili) */
+/* Menu hamburger: Solo per mobile */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -76,15 +96,15 @@
   cursor: pointer;
 }
 
-/* Stile delle barre del menu */
+/* Barre del menu */
 .bar {
   width: 25px;
   height: 3px;
-  background: var(--text-color);
-  transition: all var(--transition-duration) ease;
+  background: #ffffff;
+  transition: all 0.3s ease;
 }
 
-/* Animazione del menu quando attivo */
+/* Animazione menu attivo */
 .hamburger.active .bar:nth-child(1) {
   transform: translateY(8px) rotate(45deg);
 }
@@ -97,30 +117,41 @@
   transform: translateY(-8px) rotate(-45deg);
 }
 
-/* Media query per dispositivi con larghezza massima di 768px */
+/* Media query per mobile (<= 768px) */
 @media (max-width: 768px) {
-  /* Mostra il menu hamburger */
   .hamburger {
     display: flex;
   }
 
-  /* Nasconde i link di navigazione e li posiziona fuori dallo schermo */
   .navLinks {
     position: fixed;
     top: 60px;
     right: -100%;
     height: calc(100vh - 60px);
     width: 40%;
-    max-width: 100%;
-    background: var(--navbar-bg-color);
+    background: #070707;
     flex-direction: column;
     align-items: center;
     padding-top: 2rem;
-    transition: right var(--transition-duration) ease;
+    transition: right 0.3s ease;
   }
 
-  /* Mostra i link di navigazione quando il menu è attivo */
   .navLinks.active {
     right: 0;
+  }
+}
+
+/* Media query per desktop (> 768px) */
+@media (min-width: 769px) {
+  .navbar {
+    padding: 1.5rem 3rem;
+  }
+
+  .logo {
+    font-size: 2rem;
+  }
+
+  .navLinks a {
+    font-size: 1.2rem;
   }
 }
