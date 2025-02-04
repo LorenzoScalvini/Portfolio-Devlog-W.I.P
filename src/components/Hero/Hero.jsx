@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Hero.module.css';
-import heroImage from '../../assets/devIcon.png';
+import heroImage from '../../assets/placeholder.png';
 
 export default function Hero() {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ export default function Hero() {
   };
 
   const handleGoToGitHub = () => {
-    window.open('https://github.com/your-github-username', '_blank');
+    window.open('https://github.com/LorenzoScalvini', '_blank');
   };
 
   return (
@@ -20,10 +20,11 @@ export default function Hero() {
         <div className={styles.heroContent}>
           <h1>LORENZO SCALVINI</h1>
           <p>
-            Full Stack Web Developer con React e Vanilla JS,
+            Full Stack Web Developer con <strong>React</strong> e{' '}
+            <strong>Vanilla JS</strong>,
             <br /> focalizzato su soluzioni scalabili e performanti.
-            <br /> Sviluppo frontend e backend con attenzione
-            all’ottimizzazione.
+            <br /> Sviluppo <strong>Frontend</strong> e <strong>Backend</strong>{' '}
+            con attenzione all’ottimizzazione.
           </p>
           <div className={styles.heroButtons}>
             <button
