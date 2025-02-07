@@ -12,7 +12,7 @@ import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import Footer from './components/Footer/Footer';
 import Loader from './components/Loader/Loader';
-import CustomCursor from './components/CustomCursor/CustomCursor';
+// import CustomCursor from './components/CustomCursor/CustomCursor';
 import './App.css';
 
 export default function App() {
@@ -37,7 +37,7 @@ function AppContent() {
 
   return (
     <>
-      <CustomCursor />
+      {/* <CustomCursor /> */}
       {loading && <Loader />}
       <Navbar />
       <Routes>

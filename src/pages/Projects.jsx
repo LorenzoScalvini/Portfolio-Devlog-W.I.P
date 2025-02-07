@@ -1,8 +1,9 @@
 import styles from './Projects.module.css';
+import ImageCarousel from '../components/ImageCarousel/ImageCarousel';
 export default function Projects() {
   return (
     <div>
-      <h1 className={styles.title}>Portfolio W.I.P ⚙️</h1>
+      <ImageCarousel />
     </div>
   );
 }

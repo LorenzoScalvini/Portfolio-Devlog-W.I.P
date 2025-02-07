@@ -4,7 +4,11 @@
   <img src="./preview.gif" alt="Portfolio GIF" />
 </p>
 
+<<<<<<< HEAD
 ## 📃 Panoramica del Progetto
+=======
+## Panoramica del Progetto
+>>>>>>> e5276563f7552839250866b81821ef1d7a12319c
 
 Questo progetto mira a creare un sito web di portfolio personale per mostrare le mie competenze, progetti ed esperienze. Il portfolio includerà sezioni come:
 
