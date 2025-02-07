@@ -4,8 +4,6 @@
   <img src="./preview.gif" alt="Portfolio GIF" />
 </p>
 
-Benvenuti nel registro di sviluppo del mio progetto di portfolio. Questo documento fornirà una panoramica del progetto, i suoi obiettivi e i progressi fatti finora.
-
 ## Panoramica del Progetto
 
 Questo progetto mira a creare un sito web di portfolio personale per mostrare le mie competenze, progetti ed esperienze. Il portfolio includerà sezioni come:
