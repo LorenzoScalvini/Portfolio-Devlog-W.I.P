@@ -1,213 +1,319 @@
-/* Contenitore principale */
-.container {
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 2rem;
-  margin-top: 7rem;
+.heroSection {
+  position: relative;
+  padding: 8rem 1rem;
+  background-color: #f8f9fa;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  margin-top: 2rem;
 }
 
-/* Stile per la sezione hero */
-.hero {
+.glowBackground {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.glowBackground::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(168, 228, 160, 0.3) 0%,
+    rgba(168, 228, 160, 0.1) 25%,
+    rgba(168, 228, 160, 0.05) 50%,
+    rgba(168, 228, 160, 0) 75%
+  );
+  animation: rotateBackground 15s linear infinite;
+}
+
+/* Animazione background potenziata */
+@keyframes rotateBackground {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+.content {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 4rem;
-  padding: 2rem;
-  opacity: 0;
-  transform: translateY(30px);
-  animation: fadeInUp 1.5s ease forwards;
 }
 
-/* Animazione di fade-in verso l'alto */
+.textContent {
+  flex: 1;
+  max-width: 650px;
+}
+
+.subtitle {
+  display: inline-block;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #666;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(168, 228, 160, 0.1);
+  border-radius: 20px;
+  animation: slideIn 1s ease;
+}
+
+/* Nuova animazione per il titolo */
+.title {
+  font-size: 4rem;
+  color: #333;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.2;
+  animation: titleAnimation 3s ease-in-out infinite;
+  background: linear-gradient(45deg, #333 30%, #a8e4a0 50%, #333 70%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-fill-color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes titleAnimation {
+  0% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+  100% {
+    background-position: 0% center;
+  }
+}
+
+.description {
+  margin-bottom: 2.5rem;
+  animation: fadeInUp 1s ease 0.2s backwards;
+}
+
+.description p {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: #555;
+  margin: 0;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 1rem;
+  animation: fadeInUp 1s ease 0.4s backwards;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.primaryButton {
+  background: #a8e4a0;
+  color: #333;
+}
+
+.secondaryButton {
+  background: white;
+  color: #333;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.primaryButton:hover {
+  box-shadow: 0 5px 15px rgba(168, 228, 160, 0.4);
+}
+
+.secondaryButton:hover {
+  border-color: #a8e4a0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+.button:hover .arrow {
+  transform: translateX(5px);
+}
+
+/* Animazioni potenziate per l'immagine */
+.imageWrapper {
+  flex: 1;
+  max-width: 500px;
+  animation: floatImage 6s ease-in-out infinite;
+  position: relative;
+}
+
+@keyframes floatImage {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-15px) rotate(2deg);
+  }
+  75% {
+    transform: translateY(15px) rotate(-2deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+.imageContainer {
+  position: relative;
+  padding: 1rem;
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  border-radius: 30px;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.heroImage:hover {
+  transform: scale(1.05);
+}
+
+.imageGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(
+    circle,
+    rgba(168, 228, 160, 0.4) 0%,
+    rgba(168, 228, 160, 0) 70%
+  );
+  filter: blur(40px);
+  z-index: 1;
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.6;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* Contenuto della sezione hero */
-.heroContent {
-  flex: 1;
-  min-width: 0; /* Previene l'overflow dell'elemento flex */
-}
-
-/* Stile per il titolo */
-.title {
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  color: #070707;
-  margin-bottom: 1.5rem;
-  animation: textFloat 4s ease-in-out infinite;
-  line-height: 1.2;
-}
-
-/* Animazione di fluttuazione del testo */
-@keyframes textFloat {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-/* Stile per la descrizione */
-.description {
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  color: #333;
-  opacity: 0.8;
-  margin-bottom: 2rem;
-  line-height: 1.6;
-}
-
-/* Contenitore per i pulsanti */
-.heroButtons {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-/* Stile per i pulsanti */
-.btn {
-  padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1.5rem, 3vw, 2.5rem);
-  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
-  border-radius: 30px;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease,
-    background-color 0.3s ease;
-  border: none;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-/* Stile per il pulsante primario */
-.btn.primary {
-  background: #a8e4a0;
-  color: #333;
-  font-weight: 600;
-}
-
-/* Stile per il pulsante GitHub */
-.btn.github {
-  background: transparent;
-  color: #333;
-  font-weight: 600;
-  border: 3px solid #333;
-}
-
-/* Effetto hover per i pulsanti */
-.btn:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(95, 92, 92, 0.2);
-}
-
-/* Effetto hover per il pulsante primario */
-.btn.primary:hover {
-  background: #90d388;
-}
-
-/* Effetto hover per il pulsante GitHub */
-.btn.github:hover {
-  background: #333;
-  color: #fff;
-}
-
-/* Contenitore per l'immagine */
-.imageWrapper {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 400px;
-}
-
-/* Stile per l'immagine hero */
-.heroImage {
-  width: 100%;
-  height: auto;
-  border-radius: 999px;
-  animation: imageFloat 4s ease-in-out infinite;
-  object-fit: cover;
-}
-
-/* Animazione di fluttuazione dell'immagine */
-@keyframes imageFloat {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-/* Breakpoint per tablet */
-@media (max-width: 1024px) {
-  .container {
-    padding: 1rem;
-  }
-
-  .hero {
-    gap: 2rem;
-    padding: 1rem;
+/* Responsive Styles rimangono gli stessi */
+@media (max-width: 1200px) {
+  .title {
+    font-size: 3.5rem;
   }
 
   .imageWrapper {
-    max-width: 300px;
+    max-width: 400px;
   }
 }
 
-/* Breakpoint per dispositivi mobili */
-@media (max-width: 768px) {
-  .hero {
-    flex-direction: column-reverse;
-    text-align: center;
-    gap: 2rem;
+@media (max-width: 992px) {
+  .heroSection {
+    padding: 6rem 1rem;
   }
 
-  .heroContent {
-    display: flex;
+  .content {
     flex-direction: column;
-    align-items: center;
+    text-align: center;
+    gap: 3rem;
   }
 
-  .description br {
-    display: none;
+  .textContent {
+    max-width: 100%;
   }
 
-  .heroButtons {
+  .actionButtons {
     justify-content: center;
-    margin-top: 1rem;
   }
 
   .imageWrapper {
-    max-width: 250px;
+    max-width: 350px;
   }
 }
 
-/* Breakpoint per dispositivi mobili piccoli */
-@media (max-width: 480px) {
-  .container {
-    padding: 0.5rem;
+@media (max-width: 576px) {
+  .heroSection {
+    padding: 4rem 1rem;
   }
 
-  .hero {
-    padding: 0.5rem;
+  .title {
+    font-size: 2.5rem;
   }
 
-  .btn {
+  .description p {
+    font-size: 1.1rem;
+  }
+
+  .actionButtons {
+    flex-direction: column;
+  }
+
+  .button {
     width: 100%;
-    margin: 0.5rem 0;
-  }
-
-  .heroButtons {
-    width: 100%;
+    justify-content: center;
   }
 
   .imageWrapper {
-    max-width: 200px;
+    max-width: 280px;
   }
 }

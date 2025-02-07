@@ -31,22 +31,12 @@ export default function Footer() {
               </li>
               <li>
                 <NavLink
-                  to="/services"
-                  className={({ isActive }) =>
-                    isActive ? styles.activeLink : ''
-                  }
-                >
-                  Services
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
                   to="/projects"
                   className={({ isActive }) =>
                     isActive ? styles.activeLink : ''
                   }
                 >
-                  Projects
+                  Progetti
                 </NavLink>
               </li>
               <li>
@@ -56,18 +46,18 @@ export default function Footer() {
                     isActive ? styles.activeLink : ''
                   }
                 >
-                  Contact
+                  Contattami
                 </NavLink>
               </li>
             </ul>
           </div>
 
           <div className={styles.footerSection}>
-            <h3 className={styles.footerTitle}>Contact Info</h3>
+            <h3 className={styles.footerTitle}>Informazioni</h3>
             <ul className={styles.contactInfo}>
-              <li>Email: info@ls.dev</li>
-              <li>Phone: +123 456 7890</li>
-              <li>Address: 123 Main St, City, Country</li>
+              <li>Email: lorenzo.scalvini.dev@gmail.com</li>
+              <li>Phone: +39 ??? ??? ????</li>
+              <li>Brescia (BS)</li>
             </ul>
           </div>
 
@@ -75,29 +65,17 @@ export default function Footer() {
             <h3 className={styles.footerTitle}>Follow Us</h3>
             <ul className={styles.socialLinks}>
               <li>
-                <a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href="https://twitter.com" target="_blank" rel="#">
                   Twitter
                 </a>
               </li>
               <li>
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href="https://instagram.com" target="_blank" rel="#">
                   Instagram
                 </a>
               </li>
               <li>
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href="https://linkedin.com" target="_blank" rel="#">
                   LinkedIn
                 </a>
               </li>
