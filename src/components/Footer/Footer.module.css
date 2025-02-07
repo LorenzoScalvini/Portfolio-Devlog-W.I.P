@@ -1,15 +1,7 @@
-:root {
-  --footer-bg-color: #070707; /* Footer background color */
-  --text-color: white; /* Text color */
-  --hover-color: #a8e4a0; /* Hover color */
-  --transition-duration: 0.3s; /* Transition duration */
-  --max-width: 1200px; /* Max container width */
-}
-
-/* Footer styling */
+/* Stile del footer */
 .footer {
-  background: var(--footer-bg-color);
-  color: var(--text-color);
+  background: #f8f8f8; /* Colore di sfondo del footer */
+  color: #070707; /* Colore del testo */
   padding: 1.5rem 0;
   width: 100%;
   position: relative;
@@ -17,15 +9,15 @@
   text-decoration: none;
 }
 
-/* Container for footer content */
+/* Contenitore per il contenuto del footer */
 .container {
-  max-width: var(--max-width);
+  max-width: 1200px; /* Larghezza massima del contenitore */
   margin: 0 auto;
   padding: 0 1.5rem;
   text-decoration: none;
 }
 
-/* Footer content layout */
+/* Layout del contenuto del footer */
 .footerContent {
   display: flex;
   justify-content: space-between;
@@ -33,19 +25,19 @@
   gap: 1.5rem;
 }
 
-/* Footer section styling */
+/* Stile delle sezioni del footer */
 .footerSection {
   flex: 1;
   min-width: 150px;
 }
 
-/* Footer title styling */
+/* Stile del titolo del footer */
 .footerTitle {
   font-size: 1.25rem;
   margin-bottom: 1rem;
   font-weight: bold;
-  color: var(--text-color);
-  transition: transform var(--transition-duration) ease;
+  color: #070707;
+  transition: transform 0.3s ease; /* Durata della transizione */
 }
 
 .footerTitle:hover {
@@ -53,29 +45,29 @@
   text-decoration: none;
 }
 
-/* Footer links and text styling */
+/* Stile dei link e del testo del footer */
 .footerLinks a,
 .socialLinks a,
 .contactInfo {
-  color: var(--text-color);
+  color: #070707;
   text-decoration: none;
-  transition: color var(--transition-duration) ease;
+  transition: color 0.3s ease; /* Durata della transizione */
   font-size: 1rem;
 }
 
-/* Hover effect for links */
+/* Effetto hover per i link */
 .footerLinks a:hover,
 .socialLinks a:hover {
-  color: var(--hover-color);
+  color: #a8e4a0; /* Colore hover */
 }
 
-/* Active link styling */
+/* Stile del link attivo */
 .footerLinks .activeLink {
-  color: var(--hover-color);
+  color: #a8e4a0; /* Colore hover */
   font-weight: bold;
 }
 
-/* List styling */
+/* Stile delle liste */
 .footerLinks,
 .socialLinks,
 .contactInfo {
@@ -101,12 +93,12 @@
   position: absolute;
   width: 100%;
   height: 2px;
-  background: var(--hover-color);
+  background: #a8e4a0; /* Colore hover */
   left: 0;
   bottom: -5px;
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform var(--transition-duration) ease;
+  transition: transform 0.3s ease; /* Durata della transizione */
   text-decoration: none;
 }
 
@@ -116,23 +108,23 @@
   transform-origin: left;
 }
 
-/* Footer bottom section */
+/* Sezione inferiore del footer */
 .footerBottom {
   text-align: center;
   margin-top: 1.5rem;
   padding-top: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   font-size: 0.875rem;
-  color: var(--text-color);
+  color: #070707;
 }
 
 /* Animazione di rotazione per le icone dei social media */
 .socialLinks a {
   display: inline-block;
-  transition: transform var(--transition-duration) ease;
+  transition: transform 0.3s ease; /* Durata della transizione */
 }
 
-/* Responsive adjustments */
+/* Adattamenti responsive */
 @media (max-width: 768px) {
   .footerContent {
     flex-direction: column;
