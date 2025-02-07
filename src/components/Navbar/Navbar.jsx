@@ -59,14 +59,14 @@ export default function Navbar() {
             className={({ isActive }) => (isActive ? styles.activeLink : '')}
             onClick={toggleMenu}
           >
-            Projects
+            Progetti
           </NavLink>
           <NavLink
             to="/contact"
             className={({ isActive }) => (isActive ? styles.activeLink : '')}
             onClick={toggleMenu}
           >
-            Contact
+            Contattami
           </NavLink>
         </div>
       </div>

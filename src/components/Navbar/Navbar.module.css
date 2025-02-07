@@ -1,6 +1,6 @@
 /* Navbar: Fissa, nascosta inizialmente, appare con animazione */
 .navbar {
-  background: #070707;
+  background: #f8f8f8;
   padding: 1rem 2rem;
   position: fixed;
   width: 100%;
@@ -28,7 +28,7 @@
 
 /* Logo: Testo bianco, animazione al passaggio del mouse */
 .logo {
-  color: #ffffff;
+  color: #070707;
   font-size: 1.5rem;
   text-decoration: none;
   font-weight: bold;
@@ -49,7 +49,7 @@
 
 /* Link: Testo bianco, animazione hover */
 .navLinks a {
-  color: #ffffff;
+  color: #070707;
   text-decoration: none;
   transition: all 0.3s ease;
   font-size: 1rem;
@@ -100,7 +100,7 @@
 .bar {
   width: 25px;
   height: 3px;
-  background: #ffffff;
+  background: #070707;
   transition: all 0.3s ease;
 }
 
@@ -129,7 +129,7 @@
     right: -100%;
     height: calc(100vh - 60px);
     width: 40%;
-    background: #070707;
+    background: #f8f8f8;
     flex-direction: column;
     align-items: center;
     padding-top: 2rem;
