@@ -1,29 +1,25 @@
-/* Contenitore principale centrato */
+/* Contenitore principale */
 .container {
-  display: flex;
-  justify-content: center;
-  margin: 3rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
   margin-top: 7rem;
 }
 
-/* Sezione Hero */
+/* Stile per la sezione hero */
 .hero {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Testo a sinistra, immagine a destra */
-  flex-direction: row;
-  height: auto;
-  color: #ffffff;
-  gap: 80px;
+  justify-content: space-between;
+  gap: 4rem;
+  padding: 2rem;
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 1.5s ease forwards;
-  max-width: 1400px;
-  width: 100%;
-  border-radius: 80px;
 }
 
-/* Animazione fade-in dall'alto */
+/* Animazione di fade-in verso l'alto */
 @keyframes fadeInUp {
   to {
     opacity: 1;
@@ -31,23 +27,22 @@
   }
 }
 
-/* Contenitore del testo */
+/* Contenuto della sezione hero */
 .heroContent {
   flex: 1;
-  text-align: left;
-  padding: 2rem;
+  min-width: 0; /* Previene l'overflow dell'elemento flex */
 }
 
-/* Titolo principale */
-.hero h1 {
-  font-size: 4.5rem;
+/* Stile per il titolo */
+.title {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
   color: #070707;
+  margin-bottom: 1.5rem;
   animation: textFloat 4s ease-in-out infinite;
-  padding-top: 2rem;
-  padding-left: 2rem;
+  line-height: 1.2;
 }
 
-/* Effetto di fluttuazione per il titolo */
+/* Animazione di fluttuazione del testo */
 @keyframes textFloat {
   0%,
   100% {
@@ -58,98 +53,161 @@
   }
 }
 
-/* Paragrafo */
-.hero p {
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
+/* Stile per la descrizione */
+.description {
+  font-size: clamp(1rem, 2vw, 1.5rem);
   color: #333;
   opacity: 0.8;
-  text-align: left;
-  padding-left: 2rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
 }
 
-/* Contenitore dei pulsanti */
+/* Contenitore per i pulsanti */
 .heroButtons {
   display: flex;
-  gap: 2rem;
-  flex-wrap: wrap; /* I pulsanti vanno a capo su schermi piccoli */
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
-/* Stile base dei pulsanti */
+/* Stile per i pulsanti */
 .btn {
-  padding: 20px 40px;
-  text-decoration: none;
-  font-size: 1.2rem;
+  padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1.5rem, 3vw, 2.5rem);
+  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
   border-radius: 30px;
   position: relative;
   overflow: hidden;
-  margin: 1.5rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.3s ease;
   border: none;
   cursor: pointer;
+  white-space: nowrap;
 }
 
-/* Pulsante primario */
+/* Stile per il pulsante primario */
 .btn.primary {
   background: #a8e4a0;
   color: #333;
   font-weight: 600;
 }
 
-/* Effetto hover sui pulsanti */
-.btn:hover {
-  transform: translateY(-8px) scale(1.1);
-  box-shadow: 0 8px 20px rgba(95, 92, 92, 0.2);
-  color: #ffffff;
-}
-
-/* Immagine nella sezione Hero */
-.heroImage {
-  flex: 1;
-  max-width: 400px;
-  border-radius: 170px;
-  transition: all 0.3s ease;
-  animation: imageFloat 4s ease-in-out infinite;
-  margin: 3rem;
-  top: 2rem;
-}
-
-/* Pulsante stile GitHub */
+/* Stile per il pulsante GitHub */
 .btn.github {
   background: transparent;
-  color: #ffffff;
+  color: #333;
   font-weight: 600;
-  border: 3px solid #ffffff;
+  border: 3px solid #333;
 }
 
-/* Stili responsivi per schermi piccoli */
+/* Effetto hover per i pulsanti */
+.btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(95, 92, 92, 0.2);
+}
+
+/* Effetto hover per il pulsante primario */
+.btn.primary:hover {
+  background: #90d388;
+}
+
+/* Effetto hover per il pulsante GitHub */
+.btn.github:hover {
+  background: #333;
+  color: #fff;
+}
+
+/* Contenitore per l'immagine */
+.imageWrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 400px;
+}
+
+/* Stile per l'immagine hero */
+.heroImage {
+  width: 100%;
+  height: auto;
+  border-radius: 999px;
+  animation: imageFloat 4s ease-in-out infinite;
+  object-fit: cover;
+}
+
+/* Animazione di fluttuazione dell'immagine */
+@keyframes imageFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Breakpoint per tablet */
+@media (max-width: 1024px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .hero {
+    gap: 2rem;
+    padding: 1rem;
+  }
+
+  .imageWrapper {
+    max-width: 300px;
+  }
+}
+
+/* Breakpoint per dispositivi mobili */
 @media (max-width: 768px) {
   .hero {
+    flex-direction: column-reverse;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .heroContent {
+    display: flex;
     flex-direction: column;
-    text-align: center;
-    margin-top: -6rem;
-    border-radius: 30px;
+    align-items: center;
   }
 
-  .hero h1 {
-    font-size: 3rem;
-    padding: 0;
-    text-align: center;
-    padding-top: 2rem;
-  }
-
-  .hero p {
-    font-size: 1.2rem;
-    padding: 0;
-    text-align: center;
+  .description br {
+    display: none;
   }
 
   .heroButtons {
     justify-content: center;
+    margin-top: 1rem;
   }
 
-  .heroImage {
-    position: relative;
-    margin-top: 3rem;
+  .imageWrapper {
+    max-width: 250px;
+  }
+}
+
+/* Breakpoint per dispositivi mobili piccoli */
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .hero {
+    padding: 0.5rem;
+  }
+
+  .btn {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  .heroButtons {
+    width: 100%;
+  }
+
+  .imageWrapper {
+    max-width: 200px;
   }
 }

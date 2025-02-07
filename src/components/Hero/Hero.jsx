@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Hero.module.css';
-import heroImage from '../../assets/placeholder.png';
+import heroImage from '../../assets/devIcon.jpg';
 
 export default function Hero() {
   const navigate = useNavigate();
@@ -18,13 +18,15 @@ export default function Hero() {
     <div className={styles.container}>
       <div className={styles.hero}>
         <div className={styles.heroContent}>
-          <h1>LORENZO SCALVINI</h1>
-          <p>
+          <h1 className={styles.title}>LORENZO SCALVINI</h1>
+          <p className={styles.description}>
             Full Stack Web Developer con <strong>React</strong> e{' '}
             <strong>Vanilla JS</strong>,
-            <br /> focalizzato su soluzioni scalabili e performanti.
-            <br /> Sviluppo <strong>Frontend</strong> e <strong>Backend</strong>{' '}
-            con attenzione all’ottimizzazione.
+            <br className={styles.desktopBreak} />
+            focalizzato su soluzioni scalabili e performanti.
+            <br className={styles.desktopBreak} />
+            Sviluppo <strong>Frontend</strong> e <strong>Backend</strong> con
+            attenzione all'ottimizzazione.
           </p>
           <div className={styles.heroButtons}>
             <button
@@ -41,7 +43,9 @@ export default function Hero() {
             </button>
           </div>
         </div>
-        <img src={heroImage} alt="Hero Image" className={styles.heroImage} />
+        <div className={styles.imageWrapper}>
+          <img src={heroImage} alt="Hero Image" className={styles.heroImage} />
+        </div>
       </div>
     </div>
   );
