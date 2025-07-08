@@ -1,0 +1,158 @@
+/* Contenitore full viewport, nero, flex centering */
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Wrapper per contenere Asgore e box, flex column centrato */
+.gameWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Immagine Asgore sopra la box */
+.asgore {
+  margin-top: 4rem;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  border: 2px solid white;
+}
+
+/* Box nera con bordo bianco */
+.box {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  border: 2px solid white;
+  overflow: hidden;
+}
+
+.menuHeart {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+
+/* Cuore più piccolo */
+.heart {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  user-select: none;
+  image-rendering: pixelated;
+}
+
+/* Fiamme più piccole */
+.flame {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+  user-select: none;
+  image-rendering: pixelated;
+}
+
+/* Overlay menu e retry full screen */
+.menu,
+.retryMenu {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 10;
+}
+
+/* Bottoni start e retry più piccoli */
+.menuButton,
+.retryButton {
+  background: white;
+  color: black;
+  border: 2px solid white;
+  font-size: 16px;
+  padding: 6px 20px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+  border-radius: 4px;
+  user-select: none;
+}
+
+/* Hover button */
+.menuButton:hover,
+.retryButton:hover {
+  background: black;
+  color: white;
+  border-color: white;
+}
+
+/* Testo Retry rosso più piccolo */
+.retryText {
+  font-size: 32px;
+  color: red;
+  text-shadow: 2px 2px 0 black;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Countdown testo più piccolo e centrato */
+.countdownText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 64px;
+  color: white;
+  text-shadow: 2px 2px 5px black;
+  pointer-events: none;
+  user-select: none;
+  z-index: 5;
+}
+
+/* Box frase con altezza minima e centratura */
+.phraseBox {
+  text-align: center;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+}
+
+/* Frasi con dimensione coerente e animazione */
+.phrase {
+  font-size: 14px;
+  color: white;
+  font-family: monospace;
+  animation: fadeIn 0.6s ease;
+}
+
+/* Fade-in animazione */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
