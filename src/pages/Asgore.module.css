@@ -3,7 +3,6 @@
   position: relative;
   width: 100vw;
   height: 100vh;
-  background-color: black;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,6 +10,83 @@
   user-select: none;
   margin: 0;
   padding: 0;
+  background: linear-gradient(
+    180deg,
+    rgb(18, 18, 18) 0%,
+    rgba(53, 15, 78, 0.441) 100%
+  );
+}
+
+.controlsHint {
+  position: absolute;
+  bottom: 3rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: white;
+  font-size: 24px;
+  text-shadow: 0 0 5px #000;
+  opacity: 0.8;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+.startImage {
+  width: 400px; 
+  display: block;
+  margin: 0 auto 20px;
+  animation: floatVertical 3s ease-in-out infinite;
+}
+
+@keyframes floatVertical {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px); 
+  }
+}
+
+/* Video container styles */
+.videoContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.videoPlayer {
+  width: 800px;
+  max-height: 100%;
+  object-fit: contain;
+  border: 2px solid white;
+}
+
+/* Add these styles to your existing CSS */
+.videoTitle {
+  position: absolute;
+  bottom: 9rem;
+  width: 100%;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 /* Wrapper per contenere Asgore e box, flex column centrato */
@@ -29,6 +105,26 @@
   height: auto;
   pointer-events: none;
   border: 2px solid white;
+  animation: floaty-wiggle 3s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes floaty-wiggle {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-5px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg);
+  }
+  75% {
+    transform: translateY(5px) rotate(-2deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
 }
 
 /* Box nera con bordo bianco */
@@ -38,6 +134,7 @@
   height: 300px;
   border: 2px solid white;
   overflow: hidden;
+  background-color: #000;
 }
 
 .menuHeart {
@@ -47,7 +144,6 @@
   vertical-align: middle;
 }
 
-
 /* Cuore più piccolo */
 .heart {
   position: absolute;
@@ -56,6 +152,7 @@
   pointer-events: none;
   user-select: none;
   image-rendering: pixelated;
+  z-index: 3;
 }
 
 /* Fiamme più piccole */
@@ -66,6 +163,16 @@
   pointer-events: none;
   user-select: none;
   image-rendering: pixelated;
+  z-index: 2;
+  animation: flame-wiggle 0.2s infinite ease-in-out;
+}
+
+@keyframes flame-wiggle {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(2deg); }
+  50%  { transform: rotate(0deg); }
+  75%  { transform: rotate(-2deg); }
+  100% { transform: rotate(0deg); }
 }
 
 /* Overlay menu e retry full screen */
@@ -108,9 +215,9 @@
 .retryText {
   font-size: 32px;
   color: red;
-  text-shadow: 2px 2px 0 black;
   user-select: none;
   pointer-events: none;
+    text-shadow: 0 0 10px rgba(161, 39, 39, 0.7);
 }
 
 /* Countdown testo più piccolo e centrato */
@@ -127,22 +234,38 @@
   z-index: 5;
 }
 
-/* Box frase con altezza minima e centratura */
-.phraseBox {
-  text-align: center;
-  min-height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 8px;
+/* Zone styles */
+.greenZone {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  z-index: 1;
 }
 
-/* Frasi con dimensione coerente e animazione */
-.phrase {
-  font-size: 14px;
+.redZone {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background-color: rgba(255, 119, 0, 0.611);
+  z-index: 1;
+  transition: background-color 0.3s ease;
+}
+
+.redZone.deadly {
+  background-color: rgba(0, 217, 255, 0.525);
+}
+
+.zoneCountdown {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
   color: white;
-  font-family: monospace;
-  animation: fadeIn 0.6s ease;
+  text-shadow: 2px 2px 5px black;
+  pointer-events: none;
+  user-select: none;
+  z-index: 2;
 }
 
 /* Fade-in animazione */

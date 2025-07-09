@@ -2,9 +2,17 @@ import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./Asgore.module.css";
 
-const FLAME_SIZE = 16;
-const HEART_SIZE = 16;
+const FLAME_SIZE = 20;
+const HEART_SIZE = 20;
 const BOX_SIZE = 300;
+
+// Aggiungi questo array di frasi del narratore
+const narratorLines = [
+  "A strange light fills the room.",
+  "Twilight is shining through the barrier.",
+  "It seems your journey is finally over.",
+  "You're filled with DETERMINATION."
+];
 
 const initialFlames = [
   { id: 1, x: -80, y: 30, dx: 2.2, dy: 0 },
@@ -25,45 +33,74 @@ const initialFlames = [
   { id: 16, x: 100, y: BOX_SIZE + 130, dx: 0.3, dy: -2.5 },
 ];
 
-
-const phrases = [
-  "It seems your journey is finally over",
-  "Do not be afraid. I will not harm you.",
-  "I am sure you have questions. I will do my best to answer them.",
-  "You... you are trying to talk to me, aren't you?",
-  "I... I see. You are trying to make this easier for me, aren't you?",
-  "I... I understand. You wish to be free. I will give you my soul.",
-];
-
 const Asgore = () => {
   const [position, setPosition] = useState({ x: 90, y: 90 });
   const keys = useRef({ w: false, a: false, s: false, d: false });
   const [flames, setFlames] = useState(initialFlames);
   const [gameState, setGameState] = useState("loading");
   const [countdown, setCountdown] = useState(3);
-  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [zoneActive, setZoneActive] = useState(false);
+  const [zoneCountdown, setZoneCountdown] = useState(3);
+  const [redZoneOnRight, setRedZoneOnRight] = useState(true);
+  const [redZoneDeadly, setRedZoneDeadly] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
+  const [currentNarratorLine, setCurrentNarratorLine] = useState(0); 
   const intervalRef = useRef(null);
-  const phraseIntervalRef = useRef(null);
+  const zoneIntervalRef = useRef(null);
+  const zoneTimerRef = useRef(null);
+  const narratorIntervalRef = useRef(null);
 
   const ostRef = useRef(null);
   const deathRef = useRef(null);
+  const dangerRef = useRef(null);
+  const attackRef = useRef(null);
+  const videoRef = useRef(null);
 
-  // Musica
+  // Aggiungi questo useEffect per gestire il cambio delle frasi del narratore
   useEffect(() => {
-    if (!ostRef.current || !deathRef.current) return;
+    if (!showVideo) return;
+
+    let lineIndex = 0;
+    setCurrentNarratorLine(0);
+
+    narratorIntervalRef.current = setInterval(() => {
+      lineIndex++;
+      if (lineIndex < narratorLines.length) {
+        setCurrentNarratorLine(lineIndex);
+      } else {
+        clearInterval(narratorIntervalRef.current);
+      }
+    }, 6000);
+
+    return () => {
+      clearInterval(narratorIntervalRef.current);
+    };
+  }, [showVideo]);
+
+  // Music and sound effects
+  useEffect(() => {
+    if (!ostRef.current || !deathRef.current || !dangerRef.current || !attackRef.current) return;
 
     if (gameState === "fight" || gameState === "countdown") {
-      ostRef.current.volume = 0.2;
+      ostRef.current.volume = 0.1;
       ostRef.current.loop = true;
       ostRef.current.play().catch(() => {});
       deathRef.current.pause();
       deathRef.current.currentTime = 0;
+      dangerRef.current.pause();
+      dangerRef.current.currentTime = 0;
+      attackRef.current.pause();
+      attackRef.current.currentTime = 0;
     }
 
     if (gameState === "gameover") {
       ostRef.current.pause();
       deathRef.current.currentTime = 0;
       deathRef.current.play().catch(() => {});
+      dangerRef.current.pause();
+      dangerRef.current.currentTime = 0;
+      attackRef.current.pause();
+      attackRef.current.currentTime = 0;
     }
 
     if (gameState === "menu" || gameState === "loading") {
@@ -71,10 +108,14 @@ const Asgore = () => {
       ostRef.current.currentTime = 0;
       deathRef.current.pause();
       deathRef.current.currentTime = 0;
+      dangerRef.current.pause();
+      dangerRef.current.currentTime = 0;
+      attackRef.current.pause();
+      attackRef.current.currentTime = 0;
     }
   }, [gameState]);
 
-  // Loading iniziale
+  // Initial loading
   useEffect(() => {
     if (gameState === "loading") {
       const timer = setTimeout(() => setGameState("menu"), 1500);
@@ -82,7 +123,7 @@ const Asgore = () => {
     }
   }, [gameState]);
 
-  // Movimento
+  // Movement
   useEffect(() => {
     if (gameState !== "fight") return;
 
@@ -124,6 +165,7 @@ const Asgore = () => {
           return { ...flame, x: newX, y: newY };
         });
 
+        // Check collision with flames
         for (let flame of newFlames) {
           if (
             flame.x < position.x + HEART_SIZE &&
@@ -133,6 +175,17 @@ const Asgore = () => {
           ) {
             setGameState("gameover");
             break;
+          }
+        }
+
+        // Check collision with deadly red zone
+        if (redZoneDeadly) {
+          const inRedZone = redZoneOnRight 
+            ? position.x > BOX_SIZE / 2 
+            : position.x < BOX_SIZE / 2;
+            
+          if (inRedZone) {
+            setGameState("gameover");
           }
         }
 
@@ -149,7 +202,7 @@ const Asgore = () => {
       window.removeEventListener("keyup", handleKeyUp);
       clearInterval(intervalRef.current);
     };
-  }, [gameState, position]);
+  }, [gameState, position, redZoneDeadly, redZoneOnRight]);
 
   // Countdown
   const startCountdown = () => {
@@ -172,69 +225,206 @@ const Asgore = () => {
     return () => clearTimeout(timeout);
   }, [countdown, gameState]);
 
-  // Frasi cicliche
+  // Zone system
   useEffect(() => {
-    if (gameState !== "fight" && gameState !== "countdown") {
-      clearInterval(phraseIntervalRef.current);
+    if (gameState !== "fight") {
+      clearInterval(zoneIntervalRef.current);
+      clearTimeout(zoneTimerRef.current);
+      setZoneActive(false);
+      setRedZoneDeadly(false);
+      if (dangerRef.current) {
+        dangerRef.current.pause();
+        dangerRef.current.currentTime = 0;
+      }
+      if (attackRef.current) {
+        attackRef.current.pause();
+        attackRef.current.currentTime = 0;
+      }
       return;
     }
 
-    phraseIntervalRef.current = setInterval(() => {
-      setPhraseIndex((prev) => (prev + 1) % phrases.length);
-    }, 7000);
+    const activateZone = () => {
+      setRedZoneOnRight(prev => !prev);
+      setZoneActive(true);
+      setRedZoneDeadly(false);
+      setZoneCountdown(3);
+      
+      if (dangerRef.current) {
+        dangerRef.current.currentTime = 0;
+        dangerRef.current.play().catch(e => console.log("Audio play error:", e));
+      }
 
-    return () => clearInterval(phraseIntervalRef.current);
+      setTimeout(() => {
+        setRedZoneDeadly(true);
+        if (attackRef.current) {
+          attackRef.current.currentTime = 0;
+          attackRef.current.play().catch(e => console.log("Audio play error:", e));
+        }
+      }, 3000);
+
+      zoneTimerRef.current = setTimeout(() => {
+        setZoneActive(false);
+        setRedZoneDeadly(false);
+      }, 3500);
+
+      const countdownInterval = setInterval(() => {
+        setZoneCountdown((prev) => {
+          if (prev <= 0) {
+            clearInterval(countdownInterval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    };
+
+    const initialDelay = setTimeout(() => {
+      activateZone();
+      zoneIntervalRef.current = setInterval(activateZone, 5000);
+    }, 5000);
+
+    return () => {
+      clearInterval(zoneIntervalRef.current);
+      clearTimeout(zoneTimerRef.current);
+      clearTimeout(initialDelay);
+    };
   }, [gameState]);
+
+  // Video handling
+  useEffect(() => {
+    if (!showVideo) return;
+
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleVideoEnd = () => {
+      setShowVideo(false);
+      setPosition({ x: 90, y: 90 });
+      keys.current = { w: false, a: false, s: false, d: false };
+      setFlames(initialFlames);
+      setZoneActive(false);
+      setRedZoneDeadly(false);
+      setRedZoneOnRight(true);
+      if (ostRef.current) {
+        ostRef.current.currentTime = 0;
+      }
+      startCountdown();
+    };
+
+    video.addEventListener('ended', handleVideoEnd);
+    
+    const playVideo = async () => {
+      try {
+        video.volume = 0.5;
+        await video.play();
+      } catch (err) {
+        console.error("Video play failed:", err);
+        video.muted = true;
+        try {
+          await video.play();
+        } catch (mutedErr) {
+          console.error("Muted video play failed:", mutedErr);
+          handleVideoEnd();
+        }
+      }
+    };
+
+    playVideo();
+
+    return () => {
+      video.removeEventListener('ended', handleVideoEnd);
+    };
+  }, [showVideo]);
 
   // Retry/reset
   const startFight = () => {
-    setPosition({ x: 90, y: 90 });
-    keys.current = { w: false, a: false, s: false, d: false };
-    setFlames(initialFlames);
-    setPhraseIndex(0);
-    if (ostRef.current) {
-      ostRef.current.currentTime = 0;
+    if (deathRef.current) {
+      deathRef.current.pause();
+      deathRef.current.currentTime = 0;
     }
-    startCountdown();
+    setShowVideo(true);
   };
 
   return (
     <div className={styles.container}>
-      {/* Audio */}
-      <audio ref={ostRef} src="/assets/ost.mp3" />
-      <audio ref={deathRef} src="/assets/death.mp3" />
+      {/* Audio elements */}
+      <audio ref={ostRef} src="ost.mp3" />
+      <audio ref={deathRef} src="death.mp3" />
+      <audio ref={dangerRef} src="danger.mp3" />
+      <audio ref={attackRef} src="attack.mp3" />
 
-      {/* Loading */}
+      {/* Video element */}
+      {showVideo && (
+        <div className={styles.videoContainer}>
+          <video
+            ref={videoRef}
+            src="start.mp4"
+            className={styles.videoPlayer}
+            autoPlay
+            playsInline
+          />
+          <div className={styles.videoTitle}>
+            {narratorLines[currentNarratorLine]}
+          </div>
+        </div>
+      )}
+
+      {/* Loading screen */}
       {gameState === "loading" && (
         <div className={styles.countdownText} style={{ userSelect: "none" }}></div>
       )}
 
-      {/* Menu */}
-      {(gameState === "menu" || gameState === "gameover") && (
+      {/* Menu screens */}
+      {(gameState === "menu" || gameState === "gameover") && !showVideo && (
         <div className={gameState === "menu" ? styles.menu : styles.retryMenu}>
           {gameState === "gameover" && <div className={styles.retryText}>You cannot give up just yet...</div>}
+
+          <img src="start.png" alt="Start Image" className={styles.startImage} />
+
           <button onClick={startFight} className={styles.menuButton}>
-  <img src="/assets/heart.png" alt="Heart" className={styles.menuHeart} />
-  MERCY
-</button>
+            <img src="heart.png" alt="Heart" className={styles.menuHeart} />
+            Start
+          </button>
+
           {gameState === "gameover" && (
             <NavLink to="/" className={styles.retryButton}>
               Home
             </NavLink>
           )}
+
+          <div className={styles.controlsHint}>Use WASD keys to move</div>
         </div>
       )}
 
-      {/* Gioco */}
-      {(gameState === "fight" || gameState === "countdown") && (
+      {/* Game screen */}
+      {(gameState === "fight" || gameState === "countdown") && !showVideo && (
         <div className={styles.gameWrapper}>
-          <img src="/assets/asgore.gif" alt="Asgore" className={styles.asgore} />
-              <div className={styles.phraseBox}>
-            <p className={styles.phrase}>{phrases[phraseIndex]}</p>
-          </div>
+          <img src="asgore.gif" alt="Asgore" className={styles.asgore} />
           <div className={styles.box}>
+            {zoneActive && (
+              <>
+                <div 
+                  className={styles.greenZone} 
+                  style={{
+                    left: redZoneOnRight ? 0 : '50%',
+                    right: redZoneOnRight ? '50%' : 0
+                  }}
+                ></div>
+                <div 
+                  className={`${styles.redZone} ${redZoneDeadly ? styles.deadly : ''}`}
+                  style={{
+                    left: redZoneOnRight ? '50%' : 0,
+                    right: redZoneOnRight ? 0 : '50%'
+                  }}
+                >
+                  {zoneCountdown > 0 && (
+                    <div className={styles.zoneCountdown}>{zoneCountdown}</div>
+                  )}
+                </div>
+              </>
+            )}
             <img
-              src="/assets/heart.png"
+              src="heart.png"
               alt="Heart"
               className={styles.heart}
               style={{ top: position.y, left: position.x }}
@@ -242,7 +432,7 @@ const Asgore = () => {
             {flames.map((flame) => (
               <img
                 key={flame.id}
-                src="/assets/flames.png"
+                src="flames.png"
                 alt="Flame"
                 className={styles.flame}
                 style={{ top: flame.y, left: flame.x }}
@@ -255,6 +445,8 @@ const Asgore = () => {
               </div>
             )}
           </div>
+          
+          <div className={styles.controlsHint}>Use WASD keys to move</div>
         </div>
       )}
     </div>
