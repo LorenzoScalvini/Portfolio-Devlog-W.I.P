@@ -54,9 +54,8 @@
   right: 0;
   text-align: center;
   color: white;
-  font-size: 24px;
+  font-size: 32px;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-  opacity: 0.8;
 }
 
 .startImage {
@@ -118,7 +117,7 @@
 
 .gameWrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 1rem;
@@ -126,7 +125,7 @@
 
 .asgore {
   margin-top: 4rem;
-  width: 90%;
+  width: 500px;
   height: auto;
   pointer-events: none;
   border: 2px solid white;
@@ -159,7 +158,20 @@
   border: 2px solid white;
   overflow: hidden;
   background-color: #000;
+
+  /* Animation */
+  animation: floaty 3s ease-in-out infinite;
 }
+
+@keyframes floaty {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px); /* Adjust height as desired */
+  }
+}
+
 
 .menuHeart {
   width: 16px;
@@ -206,7 +218,8 @@
   image-rendering: pixelated;
   z-index: 2;
   animation: midAttackGlow 1s infinite alternate,
-             verticalFloat 1.5s ease-in-out infinite;
+             verticalFloat 1.5s ease-in-out infinite,
+             slowSpin 20s linear infinite;
 }
 
 @keyframes midAttackGlow {
@@ -229,6 +242,16 @@
     transform: translateY(0px);
   }
 }
+
+@keyframes slowSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 
 .menu,
 .retryMenu {
