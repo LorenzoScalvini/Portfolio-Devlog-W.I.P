@@ -1,4 +1,3 @@
-/* Contenitore full viewport, nero, flex centering */
 .container {
   position: relative;
   width: 100vw;
@@ -27,7 +26,7 @@
   font-size: 24px;
   text-shadow: 0 0 5px #000;
   opacity: 0.8;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 }
 
 .startImage {
@@ -46,7 +45,6 @@
   }
 }
 
-/* Video container styles */
 .videoContainer {
   position: absolute;
   top: 0;
@@ -67,7 +65,6 @@
   border: 2px solid white;
 }
 
-/* Add these styles to your existing CSS */
 .videoTitle {
   position: absolute;
   bottom: 9rem;
@@ -89,7 +86,6 @@
   }
 }
 
-/* Wrapper per contenere Asgore e box, flex column centrato */
 .gameWrapper {
   display: flex;
   flex-direction: column;
@@ -98,7 +94,6 @@
   gap: 12px;
 }
 
-/* Immagine Asgore sopra la box */
 .asgore {
   margin-top: 4rem;
   width: 100%;
@@ -127,7 +122,6 @@
   }
 }
 
-/* Box nera con bordo bianco */
 .box {
   position: relative;
   width: 300px;
@@ -144,7 +138,6 @@
   vertical-align: middle;
 }
 
-/* Cuore più piccolo */
 .heart {
   position: absolute;
   width: 24px;
@@ -155,7 +148,6 @@
   z-index: 3;
 }
 
-/* Fiamme più piccole */
 .flame {
   position: absolute;
   width: 32px;
@@ -175,7 +167,26 @@
   100% { transform: rotate(0deg); }
 }
 
-/* Overlay menu e retry full screen */
+.midAttack {
+  width: 128px;
+  height: 128px;
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  image-rendering: pixelated;
+  z-index: 2;
+  animation: midAttackGlow 1s infinite alternate;
+}
+
+@keyframes midAttackGlow {
+  from {
+    filter: brightness(1);
+  }
+  to {
+    filter: brightness(1.3);
+  }
+}
+
 .menu,
 .retryMenu {
   position: absolute;
@@ -189,7 +200,6 @@
   z-index: 10;
 }
 
-/* Bottoni start e retry più piccoli */
 .menuButton,
 .retryButton {
   background: white;
@@ -203,7 +213,6 @@
   user-select: none;
 }
 
-/* Hover button */
 .menuButton:hover,
 .retryButton:hover {
   background: black;
@@ -211,16 +220,14 @@
   border-color: white;
 }
 
-/* Testo Retry rosso più piccolo */
 .retryText {
   font-size: 32px;
   color: red;
   user-select: none;
   pointer-events: none;
-    text-shadow: 0 0 10px rgba(161, 39, 39, 0.7);
+  text-shadow: 0 0 10px rgba(161, 39, 39, 0.7);
 }
 
-/* Countdown testo più piccolo e centrato */
 .countdownText {
   position: absolute;
   top: 50%;
@@ -234,7 +241,6 @@
   z-index: 5;
 }
 
-/* Zone styles */
 .greenZone {
   position: absolute;
   top: 0;
@@ -268,7 +274,6 @@
   z-index: 2;
 }
 
-/* Fade-in animazione */
 @keyframes fadeIn {
   from {
     opacity: 0;
