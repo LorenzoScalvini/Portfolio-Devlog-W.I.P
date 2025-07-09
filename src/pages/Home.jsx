@@ -1,13 +1,11 @@
+import React from 'react';
 import Hero from '../components/Hero/Hero';
-import SlideIconText from '../components/SlideIconText/SlideIconText';
-import InfoSection from '../components/InfoSection/InfoSection';
-
+import InfiniteSlideText from '../components/SlideIconText/SlideIconText'
 export default function Home() {
   return (
     <>
       <Hero />
-      <SlideIconText />
-      <InfoSection />
+      <InfiniteSlideText />
     </>
   );
 }

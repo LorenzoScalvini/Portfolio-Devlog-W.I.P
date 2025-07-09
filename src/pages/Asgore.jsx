@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
 import styles from "./Asgore.module.css";
 
-const FLAME_SIZE = 20;
+const FLAME_SIZE = 15;
 const HEART_SIZE = 20;
 const BOX_SIZE = 300;
 const MID_ATTACK_WIDTH = 64;
@@ -53,12 +52,14 @@ const Asgore = () => {
     speed: 2,
     direction: 1
   });
+  const [showAngryAsgore, setShowAngryAsgore] = useState(false);
 
   const intervalRef = useRef(null);
   const zoneIntervalRef = useRef(null);
   const zoneTimerRef = useRef(null);
   const narratorIntervalRef = useRef(null);
   const midAttackIntervalRef = useRef(null);
+  const angryAsgoreTimeoutRef = useRef(null);
 
   const ostRef = useRef(null);
   const deathRef = useRef(null);
@@ -255,8 +256,10 @@ const Asgore = () => {
     if (gameState !== "fight") {
       clearInterval(zoneIntervalRef.current);
       clearTimeout(zoneTimerRef.current);
+      clearTimeout(angryAsgoreTimeoutRef.current);
       setZoneActive(false);
       setRedZoneDeadly(false);
+      setShowAngryAsgore(false);
       if (dangerRef.current) {
         dangerRef.current.pause();
         dangerRef.current.currentTime = 0;
@@ -281,6 +284,13 @@ const Asgore = () => {
 
       setTimeout(() => {
         setRedZoneDeadly(true);
+        setShowAngryAsgore(true);
+        
+        // Ripristina l'immagine normale dopo 500ms
+        angryAsgoreTimeoutRef.current = setTimeout(() => {
+          setShowAngryAsgore(false);
+        }, 500);
+        
         if (attackRef.current) {
           attackRef.current.currentTime = 0;
           attackRef.current.play().catch(e => console.log("Audio play error:", e));
@@ -290,6 +300,7 @@ const Asgore = () => {
       zoneTimerRef.current = setTimeout(() => {
         setZoneActive(false);
         setRedZoneDeadly(false);
+        setShowAngryAsgore(false);
       }, 3500);
 
       const countdownInterval = setInterval(() => {
@@ -311,6 +322,7 @@ const Asgore = () => {
     return () => {
       clearInterval(zoneIntervalRef.current);
       clearTimeout(zoneTimerRef.current);
+      clearTimeout(angryAsgoreTimeoutRef.current);
       clearTimeout(initialDelay);
     };
   }, [gameState]);
@@ -327,15 +339,15 @@ const Asgore = () => {
         active: true,
         x: Math.random() > 0.5 ? -MID_ATTACK_WIDTH : BOX_SIZE,
         y: BOX_SIZE / 2 - MID_ATTACK_HEIGHT / 2,
-        speed: 3 + Math.random() * 2,
+        speed: 2,
         direction: Math.random() > 0.5 ? 1 : -1
       });
     };
 
     const initialDelay = setTimeout(() => {
       activateMidAttack();
-      midAttackIntervalRef.current = setInterval(activateMidAttack, 8000);
-    }, 10000);
+      midAttackIntervalRef.current = setInterval(activateMidAttack, 7000);
+    }, 7000);
 
     return () => {
       clearTimeout(initialDelay);
@@ -357,11 +369,12 @@ const Asgore = () => {
       setZoneActive(false);
       setRedZoneDeadly(false);
       setRedZoneOnRight(true);
+      setShowAngryAsgore(false);
       setMidAttack({
         active: false,
         x: -MID_ATTACK_WIDTH,
         y: BOX_SIZE / 2 - MID_ATTACK_HEIGHT / 2,
-        speed: 3,
+        speed: 2,
         direction: 1
       });
       if (ostRef.current) {
@@ -403,6 +416,13 @@ const Asgore = () => {
     setShowVideo(true);
   };
 
+  const skipVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.dispatchEvent(new Event('ended'));
+    }
+  };
+
   return (
     <div className={styles.container}>
       <audio ref={ostRef} src="ost.mp3" />
@@ -422,6 +442,9 @@ const Asgore = () => {
           <div className={styles.videoTitle}>
             {narratorLines[currentNarratorLine]}
           </div>
+          <button onClick={skipVideo} className={styles.skipButton}>
+            Skip
+          </button>
         </div>
       )}
 
@@ -437,14 +460,8 @@ const Asgore = () => {
 
           <button onClick={startFight} className={styles.menuButton}>
             <img src="heart.png" alt="Heart" className={styles.menuHeart} />
-            Start
+            Determination
           </button>
-
-          {gameState === "gameover" && (
-            <NavLink to="/" className={styles.retryButton}>
-              Home
-            </NavLink>
-          )}
 
           <div className={styles.controlsHint}>Use WASD keys to move</div>
         </div>
@@ -452,7 +469,11 @@ const Asgore = () => {
 
       {(gameState === "fight" || gameState === "countdown") && !showVideo && (
         <div className={styles.gameWrapper}>
-          <img src="asgore.gif" alt="Asgore" className={styles.asgore} />
+          <img 
+            src={showAngryAsgore ? "asgore-angry.gif" : "asgore.gif"} 
+            alt="Asgore" 
+            className={styles.asgore} 
+          />
           <div className={styles.box}>
             {zoneActive && (
               <>

@@ -5,7 +5,7 @@ import CssLogo from '../../assets/Logos/CssLogo.png';
 import TailwindLogo from '../../assets/Logos/TailwindLogo.png';
 import ReactLogo from '../../assets/Logos/ReactLogo.png';
 
-export default function InfiniteSlideTextRight() {
+export default function InfiniteSlideText() {
   // Array di elementi di testo
   const textItems = [
     'INNOVATIVE',

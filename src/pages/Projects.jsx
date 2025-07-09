@@ -1,9 +1,6 @@
-import styles from './Projects.module.css';
-import ImageCarousel from '../components/ImageCarousel/ImageCarousel';
+import CardGrid from '../components/CardGrid/CardGrid'
 export default function Projects() {
-  return (
-    <div>
-      <ImageCarousel />
-    </div>
-  );
+    return (<>
+    <CardGrid />
+    </>)
 }

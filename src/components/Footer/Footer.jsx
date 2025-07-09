@@ -1,90 +1,55 @@
-import { NavLink } from 'react-router-dom';
-import styles from './Footer.module.css';
+import { NavLink } from "react-router-dom";
+import styles from "./Footer.module.css";
+import instagramLogo from "../../assets/Logos/InstagramLogo.svg";
+import githubLogo from "../../assets/Logos/GithubLogo.svg";
+import linkedinLogo from "../../assets/Logos/linkedinLogo.svg";
+
+const footerTexts = {
+  infoTitle: "Informazioni",
+  contactInfo: [
+    "Email: lorenzo.scalvini.dev@gmail.com",
+    "Phone: +39 ??? ??? ????",
+    "Brescia (BS)",
+  ],
+  followTitle: "Seguimi",
+  socialLinks: [
+    {
+      label: "Instagram",
+      href: "https://www.instagram.com/yourfavboylore?igsh=MTVxcDU4cTBkajVqYg%3D%3D&utm_source=qr",
+      icon: instagramLogo,
+    },
+    {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/lorenzo-scalvini-a2a68a31b/",
+      icon: linkedinLogo,
+    },
+    {
+      label: "GitHub",
+      href: "https://github.com/LorenzoScalvini",
+      icon: githubLogo,
+    },
+  ],
+  copyright: `© ${new Date().getFullYear()} LS.dev. All rights reserved.`,
+};
 
 export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.footerContent}>
+          {/* Informazioni */}
           <div className={styles.footerSection}>
-            <h3 className={styles.footerTitle}>Quick Links</h3>
-            <ul className={styles.footerLinks}>
-              <li>
-                <NavLink
-                  to="/"
-                  className={({ isActive }) =>
-                    isActive ? styles.activeLink : ''
-                  }
-                >
-                  Home
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/about"
-                  className={({ isActive }) =>
-                    isActive ? styles.activeLink : ''
-                  }
-                >
-                  About
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/projects"
-                  className={({ isActive }) =>
-                    isActive ? styles.activeLink : ''
-                  }
-                >
-                  Progetti
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/contact"
-                  className={({ isActive }) =>
-                    isActive ? styles.activeLink : ''
-                  }
-                >
-                  Contattami
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-
-          <div className={styles.footerSection}>
-            <h3 className={styles.footerTitle}>Informazioni</h3>
+            <h3 className={styles.footerTitle}>{footerTexts.infoTitle}</h3>
             <ul className={styles.contactInfo}>
-              <li>Email: lorenzo.scalvini.dev@gmail.com</li>
-              <li>Phone: +39 ??? ??? ????</li>
-              <li>Brescia (BS)</li>
-            </ul>
-          </div>
-
-          <div className={styles.footerSection}>
-            <h3 className={styles.footerTitle}>Follow Us</h3>
-            <ul className={styles.socialLinks}>
-              <li>
-                <a href="https://twitter.com" target="_blank" rel="#">
-                  Twitter
-                </a>
-              </li>
-              <li>
-                <a href="https://instagram.com" target="_blank" rel="#">
-                  Instagram
-                </a>
-              </li>
-              <li>
-                <a href="https://linkedin.com" target="_blank" rel="#">
-                  LinkedIn
-                </a>
-              </li>
+              {footerTexts.contactInfo.map((info, index) => (
+                <li key={index}>{info}</li>
+              ))}
             </ul>
           </div>
         </div>
 
         <div className={styles.footerBottom}>
-          <p>&copy; {new Date().getFullYear()} LS.dev. All rights reserved.</p>
+          <p>{footerTexts.copyright}</p>
         </div>
       </div>
     </footer>

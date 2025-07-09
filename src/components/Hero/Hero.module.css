@@ -1,64 +1,34 @@
 .heroSection {
   position: relative;
   padding: 8rem 1rem;
-  background-color: #f8f9fa;
   overflow: hidden;
   min-height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-top: 2rem;
 }
 
-.glowBackground {
-  position: relative;
+.backgroundVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-}
-
-.glowBackground::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(
-    circle at center,
-    rgba(168, 228, 160, 0.3) 0%,
-    rgba(168, 228, 160, 0.1) 25%,
-    rgba(168, 228, 160, 0.05) 50%,
-    rgba(168, 228, 160, 0) 75%
-  );
-  animation: rotateBackground 15s linear infinite;
-}
-
-/* Animazione background potenziata */
-@keyframes rotateBackground {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-  50% {
-    transform: rotate(180deg) scale(1.1);
-  }
-  100% {
-    transform: rotate(360deg) scale(1);
-  }
+  object-fit: cover;
+  z-index: 1;
 }
 
 .content {
   position: relative;
-  max-width: 1400px;
+  max-width: 800px;
   margin: 0 auto;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 4rem;
+  z-index: 10;
+  text-align: center;
 }
 
 .textContent {
-  flex: 1;
-  max-width: 650px;
+  width: 100%;
 }
 
 .subtitle {
@@ -66,7 +36,7 @@
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: #666;
+  color: #121212;
   margin-bottom: 1.5rem;
   padding: 0.5rem 1rem;
   background: rgba(168, 228, 160, 0.1);
@@ -74,18 +44,21 @@
   animation: slideIn 1s ease;
 }
 
-/* Nuova animazione per il titolo */
 .title {
-  font-size: 4rem;
-  color: #333;
+  font-size: 5rem;
+  color: #121212;
   margin: 0 0 1.5rem 0;
   line-height: 1.2;
   animation: titleAnimation 3s ease-in-out infinite;
-  background: linear-gradient(45deg, #333 30%, #a8e4a0 50%, #333 70%);
+  background: linear-gradient(
+    45deg,
+    #000000 30%,
+    #a8e4a0 50%,
+    #ffffff 70%
+  );
   background-size: 200% auto;
   background-clip: text;
   -webkit-background-clip: text;
-  text-fill-color: transparent;
   -webkit-text-fill-color: transparent;
 }
 
@@ -104,19 +77,24 @@
 .description {
   margin-bottom: 2.5rem;
   animation: fadeInUp 1s ease 0.2s backwards;
+  background-color: rgba(0, 0, 0, 0.85);
+  border-radius: 15px;
+  padding: 2rem;
 }
 
 .description p {
   font-size: 1.25rem;
   line-height: 1.7;
-  color: #555;
+  color: #ffffff;
   margin: 0;
 }
 
 .actionButtons {
   display: flex;
+  justify-content: center;
   gap: 1rem;
   animation: fadeInUp 1s ease 0.4s backwards;
+  flex-wrap: wrap;
 }
 
 .button {
@@ -133,14 +111,17 @@
 }
 
 .primaryButton {
-  background: #a8e4a0;
-  color: #333;
+  background: rgba(18, 18, 18, 0.8);
+  color: #a8e4a0;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .secondaryButton {
-  background: white;
-  color: #333;
-  border: 2px solid rgba(0, 0, 0, 0.1);
+  background: rgba(30, 30, 30, 0.8);
+  color: #a8e4a0;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .button:hover {
@@ -148,12 +129,11 @@
 }
 
 .primaryButton:hover {
-  box-shadow: 0 5px 15px rgba(168, 228, 160, 0.4);
+  border-color: #ffffff;
 }
 
 .secondaryButton:hover {
-  border-color: #a8e4a0;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-color: #ffffff;
 }
 
 .arrow {
@@ -164,74 +144,10 @@
   transform: translateX(5px);
 }
 
-/* Animazioni potenziate per l'immagine */
-.imageWrapper {
-  flex: 1;
-  max-width: 500px;
-  animation: floatImage 6s ease-in-out infinite;
-  position: relative;
-}
-
-@keyframes floatImage {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-  25% {
-    transform: translateY(-15px) rotate(2deg);
-  }
-  75% {
-    transform: translateY(15px) rotate(-2deg);
-  }
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-}
-
-.imageContainer {
-  position: relative;
-  padding: 1rem;
-}
-
-.heroImage {
-  width: 100%;
-  height: auto;
-  border-radius: 30px;
-  position: relative;
-  z-index: 2;
-  transition: transform 0.3s ease;
-}
-
-.heroImage:hover {
-  transform: scale(1.05);
-}
-
-.imageGlow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 120%;
-  height: 120%;
-  background: radial-gradient(
-    circle,
-    rgba(168, 228, 160, 0.4) 0%,
-    rgba(168, 228, 160, 0) 70%
-  );
-  filter: blur(40px);
-  z-index: 1;
-  animation: pulseGlow 4s ease-in-out infinite;
-}
-
-@keyframes pulseGlow {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.4;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.2);
-    opacity: 0.6;
-  }
+.icon {
+  width: 36px;
+  height: 36px;
+  vertical-align: middle;
 }
 
 @keyframes slideIn {
@@ -256,14 +172,9 @@
   }
 }
 
-/* Responsive Styles rimangono gli stessi */
 @media (max-width: 1200px) {
   .title {
     font-size: 3.5rem;
-  }
-
-  .imageWrapper {
-    max-width: 400px;
   }
 }
 
@@ -273,21 +184,24 @@
   }
 
   .content {
-    flex-direction: column;
-    text-align: center;
-    gap: 3rem;
+    max-width: 600px;
   }
+}
 
-  .textContent {
-    max-width: 100%;
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.8rem;
   }
 
   .actionButtons {
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
   }
 
-  .imageWrapper {
-    max-width: 350px;
+  .button {
+    width: 100%;
+    max-width: 200px;
+    justify-content: center;
   }
 }
 
@@ -304,16 +218,7 @@
     font-size: 1.1rem;
   }
 
-  .actionButtons {
-    flex-direction: column;
-  }
-
   .button {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .imageWrapper {
     max-width: 280px;
   }
 }
