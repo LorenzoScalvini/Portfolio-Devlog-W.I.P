@@ -9,7 +9,7 @@ const texts = {
     { to: "/", label: "Home" },
     { to: "/projects", label: "Progetti" },
     { to: "/contacts", label: "Contattami" },
-    { to: "/asgore", label: "❤️Asgore", desktopOnly: true }, // Aggiungi flag desktopOnly
+    { to: "/games", label: "❤️", desktopOnly: true }, // Aggiungi flag desktopOnly
   ],
 };
 

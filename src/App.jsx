@@ -7,12 +7,12 @@ import {
 } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home";
-import Projects from './pages/Projects'
-import Asgore from './pages/Asgore'
+import Projects from './pages/Projects';
+import Games from './pages/Games';
 import Footer from "./components/Footer/Footer";
 import Loader from "./components/Loader/Loader";
-import ScrollToTopButton from './components/ScrollToTopButton/ScrollToTopButton'
-import Me from './pages/Me'
+import ScrollToTopButton from './components/ScrollToTopButton/ScrollToTopButton';
+import Me from './pages/Me';
 import "./App.css";
 
 function AppContent() {
@@ -25,18 +25,27 @@ function AppContent() {
     return () => clearTimeout(timer);
   }, [location.pathname]);
 
+  // Controlla se la route corrente è /games
+  const isGamesRoute = location.pathname === '/games';
+
   return (
     <>
       {loading && <Loader />}
-      <Navbar />
-      <ScrollToTopButton />
+      
+      {/* Mostra Navbar solo se non è la route /games */}
+      {!isGamesRoute && <Navbar />}
+      
+      {!isGamesRoute && <ScrollToTopButton />}
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects" element={<Projects />} />
-        <Route path="/asgore" element={<Asgore />} />
+        <Route path="/games" element={<Games />} />
         <Route path="/contacts" element={<Me />} />
       </Routes>
-      <Footer />
+      
+      {/* Mostra Footer solo se non è la route /games */}
+      {!isGamesRoute && <Footer />}
     </>
   );
 }

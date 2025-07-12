@@ -1,16 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "VT323", monospace;
 }
 
 html,
 body {
-  font-weight: 400;
-  font-style: normal;
+font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
   height: 100%;
   line-height: 2;
   background-color: #121212; /* Optional: Set a background color */

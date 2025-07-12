@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Hero.module.css";
 
 import githubLogo from "../../assets/Logos/GithubLogo.svg";
-import notionLogo from "../../assets/Logos/NotionLogo.png";
 
 const heroTexts = {
   subtitle: "Full-Stack Developer | Programmatore",
@@ -11,7 +10,7 @@ const heroTexts = {
   description:
     "Full Stack Web Developer specializzato in React e Vanilla JS o Typescript",
   buttonProjects: "Progetti",
-  buttonAbout: "Conoscimi",
+  buttonAbout: "Contattami",
   buttonGithub: "Github",
   githubUrl: "https://github.com/LorenzoScalvini",
 };
@@ -24,7 +23,7 @@ export default function Hero() {
   };
 
   const handleGoToAbout = () => {
-    navigate("/about");
+    navigate("/contacts");
   };
 
   const handleGoToGitHub = () => {

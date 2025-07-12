@@ -10,7 +10,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin-bottom: 3rem;
-  margin-top: 7rem;
+  margin-top: 2rem;
 }
 
 .card {
@@ -207,5 +207,181 @@
   .tag {
     font-size: 0.75rem;
     padding: 0.15rem 0.5rem;
+  }
+}
+
+/* Tags Filter Styles */
+.tagsFilterContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.tagsScrollContainer {
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scroll-behavior: smooth;
+}
+
+.tagsScrollContainer::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.tagsList {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  white-space: nowrap;
+  margin-top: 7rem;
+}
+
+.filterTag {
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: rgba(18, 18, 18, 0.8);
+  color: #a8e4a0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filterTag:hover {
+  border-color: #a8e4a0;
+  transform: translateY(-2px);
+}
+
+.filterTag.active {
+  background: rgba(168, 228, 160, 0.9);
+  color: #121212;
+  border-color: #a8e4a0;
+}
+
+.scrollButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: rgba(18, 18, 18, 0.8);
+  color: #a8e4a0;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+}
+
+.scrollButton:hover {
+  border-color: #a8e4a0;
+  transform: scale(1.1);
+}
+
+/* Responsive Design for Filter */
+@media (max-width: 768px) {
+  .tagsFilterContainer {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .filterTag {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .scrollButton {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .tagsFilterContainer {
+    gap: 0.3rem;
+  }
+  
+  .filterTag {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.75rem;
+  }
+  
+  .scrollButton {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+  }
+}
+
+/* GitHub Button Styles */
+.githubButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  background: rgba(18, 18, 18, 0.9);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.githubButton:hover {
+  background: rgba(168, 228, 160, 0.9);
+  color: #121212;
+  transform: translateY(-2px);
+  border-color: #a8e4a0;
+}
+
+.githubIcon {
+  width: 20px;
+  height: 20px;
+  filter: invert(1);
+  transition: all 0.3s ease;
+}
+
+.githubButton:hover .githubIcon {
+  filter: invert(0);
+}
+
+/* Responsive adjustments for GitHub button */
+@media (max-width: 768px) {
+  .githubButton {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .githubIcon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 576px) {
+  .githubButton {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+    margin-top: 1rem;
+  }
+  
+  .githubIcon {
+    width: 16px;
+    height: 16px;
   }
 }
