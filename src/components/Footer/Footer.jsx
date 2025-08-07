@@ -7,8 +7,8 @@ import linkedinLogo from "../../assets/Logos/linkedinLogo.svg";
 const footerTexts = {
   infoTitle: "Informazioni",
   contactInfo: [
-    "Email: lorenzo.scalvini.dev@gmail.com",
-    "Phone: +39 ??? ??? ????",
+    "Email: lorenzo.scalvini1704@gmail.com",
+    "Phone: +39 379 151 0526",
     "Brescia (BS)",
   ],
   followTitle: "Seguimi",

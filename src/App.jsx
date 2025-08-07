@@ -12,7 +12,7 @@ import Games from './pages/Games';
 import Footer from "./components/Footer/Footer";
 import Loader from "./components/Loader/Loader";
 import ScrollToTopButton from './components/ScrollToTopButton/ScrollToTopButton';
-import InfiniteSlideIconText from './components/SlideIconText/SlideIconText'
+import InfiniteSlideIconText from './components/SlideIconText/SlideIconText';
 import Me from './pages/Me';
 import "./App.css";
 
@@ -26,8 +26,7 @@ function AppContent() {
     return () => clearTimeout(timer);
   }, [location.pathname]);
 
-  // Controlla se la route corrente è /games
-  const isGamesRoute = location.pathname === '/games';
+  const isGamesRoute = location.pathname.endsWith('/games');
 
   return (
     <>
@@ -44,7 +43,9 @@ function AppContent() {
         <Route path="/games" element={<Games />} />
         <Route path="/contacts" element={<Me />} />
       </Routes>
+      
       {!isGamesRoute && <InfiniteSlideIconText />}
+      
       {/* Mostra Footer solo se non è la route /games */}
       {!isGamesRoute && <Footer />}
     </>
@@ -53,7 +54,7 @@ function AppContent() {
 
 export default function App() {
   return (
-    <Router>
+    <Router basename="/portfolio-devlog-w-i-p">
       <AppContent />
     </Router>
   );
