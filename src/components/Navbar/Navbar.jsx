@@ -1,14 +1,21 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { 
+  HomeIcon,
+  FolderIcon,
+  EnvelopeIcon,
+  XMarkIcon,
+  Bars3Icon
+} from "@heroicons/react/24/outline";
 import styles from "./Navbar.module.css";
 
 const texts = {
   logo: "Lore.dev",
   ariaLabel: "Toggle menu",
   links: [
-    { to: "/", label: "Home" },
-    { to: "/projects", label: "Progetti" },
-    { to: "/contacts", label: "Contattami" },
+    { to: "/", label: "Home", icon: HomeIcon },
+    { to: "/projects", label: "Progetti", icon: FolderIcon },
+    { to: "/contacts", label: "Contattami", icon: EnvelopeIcon },
     { to: "/games", label: "❤️", desktopOnly: true },
   ],
 };
@@ -43,7 +50,6 @@ export default function Navbar() {
   const handleLinkClick = (to) => {
     setActiveLink(to);
     toggleMenu();
-    // Scroll to top when a link is clicked
     window.scrollTo({
       top: 0,
       behavior: "smooth"
@@ -62,16 +68,18 @@ export default function Navbar() {
           onClick={toggleMenu}
           aria-label={texts.ariaLabel}
         >
-          <img 
-            src={isOpen ? "close.svg" : "menu.svg"} 
-            alt={isOpen ? "Close menu" : "Open menu"}
-            className={styles.menuIcon}
-          />
+          {isOpen ? (
+            <XMarkIcon className={styles.menuIcon} />
+          ) : (
+            <Bars3Icon className={styles.menuIcon} />
+          )}
         </button>
 
         <div className={`${styles.navLinks} ${isOpen ? styles.active : ""}`}>
           {texts.links.map((link) => {
             if (link.desktopOnly && !isDesktop) return null;
+            
+            const IconComponent = link.icon;
             
             return (
               <NavLink
@@ -82,7 +90,14 @@ export default function Navbar() {
                   isActive || activeLink === link.to ? styles.activeLink : ""
                 }
               >
-                {link.label}
+                {IconComponent ? (
+                  <>
+                    <IconComponent className={styles.navIcon} />
+                    <span>{link.label}</span>
+                  </>
+                ) : (
+                  link.label
+                )}
               </NavLink>
             );
           })}

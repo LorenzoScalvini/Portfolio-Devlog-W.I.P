@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Contacts.module.css";
 import githubLogo from "../../assets/Logos/GithubLogo.svg";
+import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/24/outline";
 
 const contactTexts = {
   subtitle: "Disponibile per nuove opportunità",
@@ -10,6 +11,9 @@ const contactTexts = {
   buttonProjects: "Progetti",
   buttonGithub: "Github",
   githubUrl: "https://github.com/LorenzoScalvini",
+  email: "lorenzo.scalvini1704@gmail.com",
+  phone: "+39 379 151 0526",
+  contactTitle: "Contatti diretti"
 };
 
 export default function Contacts() {
@@ -52,6 +56,20 @@ export default function Contacts() {
 
           <div className={styles.description}>
             <p>{contactTexts.description}</p>
+          </div>
+
+          <div className={styles.contactInfo}>
+            <h3 className={styles.contactTitle}>{contactTexts.contactTitle}</h3>
+            <div className={styles.contactItems}>
+              <a href={`mailto:${contactTexts.email}`} className={styles.contactItem}>
+                <EnvelopeIcon className={styles.contactIcon} />
+                <span>{contactTexts.email}</span>
+              </a>
+              <a href={`tel:${contactTexts.phone.replace(/\s/g, '')}`} className={styles.contactItem}>
+                <PhoneIcon className={styles.contactIcon} />
+                <span>{contactTexts.phone}</span>
+              </a>
+            </div>
           </div>
 
           <div className={styles.actionButtons}>

@@ -20,13 +20,13 @@ export default function CardGrid() {
       image: img2,
       title: 'Asgore Undertale Remake',
       tags: ['React', 'JavaScript', 'Video Game', 'CSS', 'Web Game'],
-      githubUrl: '#'
+      githubUrl: 'https://github.com/LorenzoScalvini/Asgore-Remake-React'
     },
     {
       id: 3,
-      image: 'https://placehold.co/600x400',
-      title: 'Progetto 3',
-      tags: ['React', 'JavaScript', 'Video Game', 'CSS', 'Web Game'],
+      image: img6,
+      title: 'Old personal portfolio',
+      tags: ['UI/UX', 'React', 'CSS', 'JavaScript'],
       githubUrl: '#'
     },
     {
@@ -45,9 +45,9 @@ export default function CardGrid() {
     },
     {
       id: 6,
-      image: img6,
-      title: 'Old personal portfolio',
-      tags: ['UI/UX', 'React', 'CSS', 'JavaScript'],
+      image: 'https://placehold.co/600x400',
+      title: 'Progetto  6',
+      tags: [],
       githubUrl: '#'
     },
     {
