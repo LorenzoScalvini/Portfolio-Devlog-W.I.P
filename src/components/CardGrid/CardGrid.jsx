@@ -3,7 +3,7 @@ import styles from './CardGrid.module.css';
 import img1 from '../../assets/ProjectsCardsImg/image1.png';
 import img2 from '../../assets/ProjectsCardsImg/image2.png';
 import img3 from '../../assets/ProjectsCardsImg/image3.png';
-import img4 from '../../assets/ProjectsCardsImg/image4.png';
+import img6 from '../../assets/ProjectsCardsImg/image6.gif';
 import githubLogo from "../../assets/Logos/GithubLogo.svg";
 
 export default function CardGrid() {
@@ -24,15 +24,15 @@ export default function CardGrid() {
     },
     {
       id: 3,
-      image: img3,
-      title: 'Sans Undertale Remake',
+      image: 'https://placehold.co/600x400',
+      title: 'Progetto 3',
       tags: ['React', 'JavaScript', 'Video Game', 'CSS', 'Web Game'],
       githubUrl: '#'
     },
     {
       id: 4,
-      image: img4,
-      title: 'Task Manager',
+      image: 'https://placehold.co/600x400',
+      title: 'Progetto 4',
       tags: ['Frontend', 'React', 'JavaScript', 'Productivity', 'Backend'],
       githubUrl: '#'
     },
@@ -45,9 +45,9 @@ export default function CardGrid() {
     },
     {
       id: 6,
-      image: 'https://placehold.co/600x400',
-      title: 'Progetto 6',
-      tags: [],
+      image: img6,
+      title: 'Old personal portfolio',
+      tags: ['UI/UX', 'React', 'CSS', 'JavaScript'],
       githubUrl: '#'
     },
     {

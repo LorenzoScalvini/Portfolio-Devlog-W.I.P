@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Hero.module.css";
 
 import githubLogo from "../../assets/Logos/GithubLogo.svg";
+import profilePhoto from "../../assets/images/profile-photo.jpg"; // Assicurati di avere questa immagine
 
 const heroTexts = {
   subtitle: "Full-Stack Developer | Programmatore",
@@ -77,6 +78,15 @@ export default function Hero() {
               {heroTexts.buttonGithub}
             </button>
           </div>
+        </div>
+
+        {/* Aggiunta della foto floating */}
+        <div className={styles.floatingPhotoContainer}>
+          <img 
+            src={profilePhoto} 
+            alt="Lorenzo Scalvini" 
+            className={styles.floatingPhoto}
+          />
         </div>
       </div>
     </section>

@@ -25,6 +25,9 @@
   margin: 0 auto;
   z-index: 10;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .textContent {
@@ -150,6 +153,32 @@
   vertical-align: middle;
 }
 
+/* Stili per la foto floating */
+.floatingPhotoContainer {
+  margin-top: 3rem;
+  animation: float 6s ease-in-out infinite;
+}
+
+.floatingPhoto {
+  width: 200px;
+  height: auto;
+  border-radius: 999px;
+  border: 3px solid rgba(168, 228, 160, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -203,6 +232,10 @@
     max-width: 200px;
     justify-content: center;
   }
+
+  .floatingPhoto {
+    width: 120px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -220,5 +253,9 @@
 
   .button {
     max-width: 280px;
+  }
+
+  .floatingPhoto {
+    width: 100px;
   }
 }

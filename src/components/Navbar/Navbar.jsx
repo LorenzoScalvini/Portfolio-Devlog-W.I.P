@@ -9,7 +9,7 @@ const texts = {
     { to: "/", label: "Home" },
     { to: "/projects", label: "Progetti" },
     { to: "/contacts", label: "Contattami" },
-    { to: "/games", label: "❤️", desktopOnly: true }, // Aggiungi flag desktopOnly
+    { to: "/games", label: "❤️", desktopOnly: true },
   ],
 };
 
@@ -22,7 +22,6 @@ export default function Navbar() {
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 100);
     
-    // Controlla la dimensione dello schermo e il tipo di dispositivo
     const checkIfDesktop = () => {
       const isDesktop = window.innerWidth > 1024 && !navigator.userAgent.match(/Mobile|Tablet|Android|iPhone|iPad|iPod/i);
       setIsDesktop(isDesktop);
@@ -44,6 +43,11 @@ export default function Navbar() {
   const handleLinkClick = (to) => {
     setActiveLink(to);
     toggleMenu();
+    // Scroll to top when a link is clicked
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   };
 
   return (
@@ -67,7 +71,6 @@ export default function Navbar() {
 
         <div className={`${styles.navLinks} ${isOpen ? styles.active : ""}`}>
           {texts.links.map((link) => {
-            // Nascondi il link se è desktopOnly e non siamo su desktop
             if (link.desktopOnly && !isDesktop) return null;
             
             return (
