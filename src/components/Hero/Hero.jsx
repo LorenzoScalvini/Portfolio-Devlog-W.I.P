@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Hero.module.css";
 
 import githubLogo from "../../assets/Logos/GithubLogo.svg";
-import profilePhoto from "../../assets/images/profile-photo.jpg"; // Assicurati di avere questa immagine
+import profilePhoto from "../../assets/images/profile-photo.jpg";
+import bgVideo from "../../assets/videos/background.mp4"; 
 
 const heroTexts = {
   subtitle: "Full-Stack Developer | Programmatore",
@@ -40,7 +41,7 @@ export default function Hero() {
         playsInline 
         className={styles.backgroundVideo}
       >
-        <source src="background.mp4" type="video/mp4" />
+        <source src={bgVideo}/>
         Your browser does not support the video tag.
       </video>
 

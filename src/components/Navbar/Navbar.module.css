@@ -88,6 +88,7 @@
 
 /* Hamburger menu: Mobile only */
 .hamburger {
+  color: #f5f5f5;
   display: none;
   background: none;
   border: none;

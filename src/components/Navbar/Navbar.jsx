@@ -16,7 +16,6 @@ const texts = {
     { to: "/", label: "Home", icon: HomeIcon },
     { to: "/projects", label: "Progetti", icon: FolderIcon },
     { to: "/contacts", label: "Contattami", icon: EnvelopeIcon },
-    { to: "/games", label: "❤️", desktopOnly: true },
   ],
 };
 
@@ -24,23 +23,10 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeLink, setActiveLink] = useState(null);
-  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 100);
-    
-    const checkIfDesktop = () => {
-      const isDesktop = window.innerWidth > 1024 && !navigator.userAgent.match(/Mobile|Tablet|Android|iPhone|iPad|iPod/i);
-      setIsDesktop(isDesktop);
-    };
-    
-    checkIfDesktop();
-    window.addEventListener('resize', checkIfDesktop);
-    
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('resize', checkIfDesktop);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
   const toggleMenu = () => {
@@ -77,8 +63,6 @@ export default function Navbar() {
 
         <div className={`${styles.navLinks} ${isOpen ? styles.active : ""}`}>
           {texts.links.map((link) => {
-            if (link.desktopOnly && !isDesktop) return null;
-            
             const IconComponent = link.icon;
             
             return (

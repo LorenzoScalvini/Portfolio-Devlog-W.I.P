@@ -8,7 +8,6 @@ import {
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home";
 import Projects from './pages/Projects';
-import Games from './pages/Games';
 import Footer from "./components/Footer/Footer";
 import Loader from "./components/Loader/Loader";
 import ScrollToTopButton from './components/ScrollToTopButton/ScrollToTopButton';
@@ -40,7 +39,6 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects" element={<Projects />} />
-        <Route path="/games" element={<Games />} />
         <Route path="/contacts" element={<Me />} />
       </Routes>
       

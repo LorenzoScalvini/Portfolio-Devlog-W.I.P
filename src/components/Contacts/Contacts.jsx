@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Contacts.module.css";
 import githubLogo from "../../assets/Logos/GithubLogo.svg";
 import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/24/outline";
+import bgVideo from "../../assets/videos/background.mp4";    
 
 const contactTexts = {
   subtitle: "Disponibile per nuove opportunità",
@@ -36,7 +37,7 @@ export default function Contacts() {
         playsInline 
         className={styles.backgroundVideo}
       >
-        <source src="background.mp4" type="video/mp4" />
+        <source src={bgVideo}/>
         Your browser does not support the video tag.
       </video>
 
