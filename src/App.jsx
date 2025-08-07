@@ -54,7 +54,7 @@ function AppContent() {
 
 export default function App() {
   return (
-    <Router basename="/portfolio-devlog-w-i-p">
+    <Router basename="/Portfolio-Devlog-W.I.P">
       <AppContent />
     </Router>
   );
