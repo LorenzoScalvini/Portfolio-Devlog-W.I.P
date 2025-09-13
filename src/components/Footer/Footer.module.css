@@ -1,19 +1,36 @@
-/* Stile del footer - Versione migliorata con animazioni e dettagli */
 .footer {
   padding: 3rem 0 2rem;
   color: #ffffff;
   width: 100%;
   position: relative;
   transition: all 0.3s ease;
+  margin-top: 2rem;
 }
 
-/* Contenitore */
+.pokemonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+}
+
+.pokemonImage {
+  height: 96px;
+  transition: transform 0.3s ease;
+}
+
+.pokemonImage:hover {
+  transform: translateY(-5px);
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
-/* Layout contenuto del footer */
 .footerContent {
   display: flex;
   justify-content: space-between;
@@ -21,7 +38,6 @@
   gap: 2.5rem;
 }
 
-/* Sezioni del footer */
 .footerSection {
   flex: 1;
   min-width: 220px;
@@ -37,7 +53,6 @@
   }
 }
 
-/* Titoli delle sezioni */
 .footerTitle {
   font-size: 1.3rem;
   margin-bottom: 1.5rem;
@@ -53,7 +68,7 @@
   position: absolute;
   width: 50%;
   height: 2px;
-  background: #a8e4a0; /* Verde menta per un tocco fresco */
+  background: #a8e4a0; 
   bottom: -8px;
   left: 0;
   transition: width 0.3s ease;
@@ -63,7 +78,6 @@
   width: 100%;
 }
 
-/* Liste comuni */
 .contactInfo,
 .socialLinks {
   list-style: none;
@@ -89,7 +103,6 @@
   margin-bottom: 1.2rem;
 }
 
-/* Link social */
 .socialLink {
   display: flex;
   align-items: center;
@@ -116,7 +129,6 @@
   transform: scale(1.1);
 }
 
-/* Parte inferiore del footer */
 .footerBottom {
   text-align: center;
   margin-top: 3rem;
@@ -132,10 +144,17 @@
   }
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .footer {
     padding: 2rem 0;
+  }
+
+  .pokemonContainer {
+    margin-bottom: 1.5rem;
+  }
+  
+  .pokemonImage {
+    height: 72px;
   }
 
   .footerContent {
@@ -163,5 +182,15 @@
 
   .socialLink {
     justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .pokemonContainer {
+    gap: 5px;
+  }
+  
+  .pokemonImage {
+    height: 64px;
   }
 }
