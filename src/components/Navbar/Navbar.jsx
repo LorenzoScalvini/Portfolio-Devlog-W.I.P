@@ -6,8 +6,7 @@ import {
   EnvelopeIcon,
   XMarkIcon,
   Bars3Icon,
-  StarIcon,
-  UserCircleIcon
+  StarIcon
 } from "@heroicons/react/24/outline";
 import styles from "./Navbar.module.css";
 
@@ -18,7 +17,7 @@ const texts = {
     { to: "/", label: "Home", icon: HomeIcon },
     { to: "/projects", label: "Progetti", icon: FolderIcon },
     { to: "/contacts", label: "Contattami", icon: EnvelopeIcon },
-    { to: "/game", label: "Game", icon: StarIcon, desktopOnly: true },
+    { to: "/game", label: "Game", icon: StarIcon },
   ],
 };
 
@@ -66,10 +65,6 @@ export default function Navbar() {
 
         <div className={`${styles.navLinks} ${isOpen ? styles.active : ""}`}>
           {texts.links.map((link) => {
-            if (isOpen && link.desktopOnly) {
-              return null;
-            }
-            
             const IconComponent = link.icon;
             
             return (
@@ -78,9 +73,7 @@ export default function Navbar() {
                 to={link.to}
                 onClick={() => handleLinkClick(link.to)}
                 className={({ isActive }) =>
-                  `${isActive || activeLink === link.to ? styles.activeLink : ""} ${
-                    link.desktopOnly ? styles.desktopOnly : ""
-                  }`
+                  isActive || activeLink === link.to ? styles.activeLink : ""
                 }
               >
                 {IconComponent ? (
