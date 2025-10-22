@@ -48,8 +48,6 @@
   transition: all 0.3s ease;
   font-size: 1rem;
   position: relative;
-  display: flex;
-  align-items: center;
 }
 
 .navLinks a:hover {
@@ -126,15 +124,8 @@
     right: 0;
   }
   
-  .navIcon {
-    width: 24px;
-    height: 24px;
-    margin-right: 12px;
-  }
-  
-  .menuIcon {
-    width: 28px;
-    height: 28px;
+  .desktopOnly {
+    display: none !important;
   }
 }
 
@@ -149,6 +140,10 @@
 
   .navLinks a {
     font-size: 1.2rem;
+  }
+  
+  .desktopOnly {
+    display: flex !important;
   }
 }
 
@@ -174,4 +169,26 @@
   height: 20px;
   margin-right: 8px;
   color: currentColor;
+}
+
+.navLinks a {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .navIcon {
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+  }
+  
+  .menuIcon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.desktopOnly {
+  display: none;
 }
