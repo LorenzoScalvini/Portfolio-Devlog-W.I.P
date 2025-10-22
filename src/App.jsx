@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom"
+import { HashRouter as Router, Routes, Route, useLocation } from "react-router-dom"
 import Navbar from "./components/Navbar/Navbar"
 import Home from "./pages/Home"
 import Projects from "./pages/Projects"
@@ -20,6 +20,22 @@ function AppContent() {
     const timer = setTimeout(() => setLoading(false), 500)
     return () => clearTimeout(timer)
   }, [location.pathname])
+
+  // Force CSS animations to restart on route change
+  useEffect(() => {
+    const restartAnimations = () => {
+      const body = document.body;
+      body.style.animation = 'none';
+      void body.offsetHeight; // Trigger reflow
+      body.style.animation = null;
+    };
+    
+    // Restart animations after component mounts and after load
+    restartAnimations();
+    window.addEventListener('load', restartAnimations);
+    
+    return () => window.removeEventListener('load', restartAnimations);
+  }, []);
 
   return (
     <>
@@ -42,7 +58,7 @@ function AppContent() {
 
 export default function App() {
   return (
-    <Router basename="/Portfolio-Devlog-W.I.P">
+    <Router>
       <AppContent />
     </Router>
   )
