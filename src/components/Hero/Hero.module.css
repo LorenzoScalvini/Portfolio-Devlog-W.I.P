@@ -9,16 +9,6 @@
   margin-top: 2rem;
 }
 
-.backgroundVideo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-
 .content {
   position: relative;
   max-width: 800px;
@@ -39,12 +29,12 @@
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: #121212;
+  color: #ffffff;
   margin-bottom: 1.5rem;
   padding: 0.5rem 1rem;
-  background: rgba(168, 228, 160, 0.1);
   border-radius: 20px;
   animation: slideIn 1s ease;
+  background: rgba(168, 228, 160, 0.1);
 }
 
 .title {
@@ -80,7 +70,6 @@
 .description {
   margin-bottom: 2.5rem;
   animation: fadeInUp 1s ease 0.2s backwards;
-  background-color: rgba(0, 0, 0, 0.85);
   border-radius: 15px;
   padding: 2rem;
 }
@@ -114,14 +103,14 @@
 }
 
 .primaryButton {
-  background: rgba(18, 18, 18, 0.8);
-  color: #a8e4a0;
+  background: rgba(30, 30, 30, 0);
   border: 2px solid rgba(255, 255, 255, 0.1);
+  color: #a8e4a0;
   backdrop-filter: blur(10px);
 }
 
 .secondaryButton {
-  background: rgba(30, 30, 30, 0.8);
+  background: rgba(30, 30, 30, 0);
   color: #a8e4a0;
   border: 2px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -153,7 +142,6 @@
   vertical-align: middle;
 }
 
-/* Stili per la foto floating */
 .floatingPhotoContainer {
   margin-top: 3rem;
   animation: float 6s ease-in-out infinite;

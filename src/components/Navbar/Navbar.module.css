@@ -1,6 +1,5 @@
-/* Navbar: Fixed, hidden initially, appears with animation */
 .navbar {
-  background: #121212; /* Dark background */
+  background: #000000; 
   padding: 1rem 2rem;
   position: fixed;
   width: 100%;
@@ -9,16 +8,15 @@
   transform: translateY(-100%);
   opacity: 0;
   transition: transform 0.5s ease, opacity 0.5s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Darker shadow */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+  border-bottom: 2px solid rgb(255, 255, 255);
 }
 
-/* Navbar visible */
 .navbar.loaded {
   transform: translateY(0);
   opacity: 1;
 }
 
-/* Container: Flexbox, centered, max width */
 .container {
   display: flex;
   justify-content: space-between;
@@ -27,48 +25,42 @@
   margin: 0 auto;
 }
 
-/* Logo: Light text, hover animation */
 .logo {
-  color: #f5f5f5; /* Light text for dark mode */
+  color: #f5f5f5; 
   font-size: 1.5rem;
   text-decoration: none;
   font-weight: bold;
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
-/* Logo: Hover effect */
 .logo:hover {
-  color: #a8e4a0; /* Keep the green */
+  color: #a8e4a0; 
 }
 
-/* Navigation links: Flexbox, spacing */
 .navLinks {
   display: flex;
   gap: 3rem;
 }
 
-/* Links: Light text, hover animation */
 .navLinks a {
-  color: #f5f5f5; /* Light text for dark mode */
+  color: #f5f5f5; 
   text-decoration: none;
   transition: all 0.3s ease;
   font-size: 1rem;
   position: relative;
 }
 
-/* Links: Hover effect */
 .navLinks a:hover {
-  color: #a8e4a0; /* Keep the green */
+  color: #a8e4a0; 
   transform: translateY(-3px);
 }
 
-/* Links: Animated underline */
 .navLinks a::after {
   content: "";
   position: absolute;
   width: 100%;
   height: 1px;
-  background: #a8e4a0; /* Keep the green */
+  background: #a8e4a0; 
   left: 0;
   bottom: -5px;
   transform: scaleX(0);
@@ -81,12 +73,10 @@
   transform-origin: left;
 }
 
-/* Active link: Hover color */
 .navLinks .activeLink {
-  color: #a8e4a0; /* Keep the green */
+  color: #a8e4a0; 
 }
 
-/* Hamburger menu: Mobile only */
 .hamburger {
   color: #f5f5f5;
   display: none;
@@ -102,7 +92,6 @@
   background: rgba(168, 228, 160, 0.1);
 }
 
-/* Menu icon styling */
 .menuIcon {
   width: 24px;
   height: 24px;
@@ -113,7 +102,6 @@
   transform: scale(1.1);
 }
 
-/* Mobile media query (<= 768px) */
 @media (max-width: 768px) {
   .hamburger {
     display: flex;
@@ -125,7 +113,7 @@
     right: -100%;
     height: calc(100vh - 60px);
     width: 45%;
-    background: #121212;
+    background: #000000;
     flex-direction: column;
     align-items: center;
     padding-top: 2rem;
@@ -135,9 +123,12 @@
   .navLinks.active {
     right: 0;
   }
+  
+  .desktopOnly {
+    display: none !important;
+  }
 }
 
-/* Desktop media query (> 768px) */
 @media (min-width: 769px) {
   .navbar {
     padding: 1.5rem 3rem;
@@ -150,22 +141,20 @@
   .navLinks a {
     font-size: 1.2rem;
   }
+  
+  .desktopOnly {
+    display: flex !important;
+  }
 }
 
 .navLinks a:active {
   transform: translateY(0);
-  color: #a8e4a0; /* Keep the green */
+  color: #a8e4a0; 
 }
 
 .navLinks a:active::after {
   transform: scaleX(1);
   transform-origin: left;
-}
-
-@media (max-width: 1024px) {
-  .navLinks a[href="/asgore"] {
-    display: none !important;
-  }
 }
 
 .menuIcon {
@@ -182,13 +171,11 @@
   color: currentColor;
 }
 
-/* Per allineare l'icona con il testo */
 .navLinks a {
   display: flex;
   align-items: center;
 }
 
-/* Media query per dispositivi mobili */
 @media (max-width: 768px) {
   .navIcon {
     width: 24px;
@@ -200,4 +187,8 @@
     width: 28px;
     height: 28px;
   }
+}
+
+.desktopOnly {
+  display: none;
 }

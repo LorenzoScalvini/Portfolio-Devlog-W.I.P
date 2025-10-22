@@ -7,41 +7,104 @@
 }
 
 .infoCard {
-  background-color: rgba(0, 0, 0, 0.85);
+  background: rgba(30, 30, 30, 0);
   border-radius: 15px;
-  padding: 2rem;
-  border-radius: 20px;
+  padding: 2.5rem;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(168, 228, 160, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .infoCard::before {
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 4px;
+  background: linear-gradient(90deg, #a8e4a0, #ffffff);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.3s ease;
+  transition: transform 0.5s ease;
+  z-index: 2;
+}
+
+.infoCard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(168, 228, 160, 0.05) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
 }
 
 .infoCard:hover::before {
   transform: scaleX(1);
 }
 
+.infoCard:hover::after {
+  opacity: 1;
+}
+
 .infoCard:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(168, 228, 160, 0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.cardIcon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 1.5rem;
+  border-radius: 12px;
+  padding: 0.8rem;
+  background: rgba(168, 228, 160, 0.1);
+  border: 2px solid rgba(168, 228, 160, 0.2);
+  transition: all 0.3s ease;
+}
+
+.infoCard:hover .cardIcon {
+  transform: scale(1.1) rotate(5deg);
+  background: rgba(168, 228, 160, 0.2);
+  border-color: rgba(168, 228, 160, 0.4);
 }
 
 .cardTitle {
   font-size: 1.5rem;
-  color: #ffffff;
-  margin-bottom: 1rem;
+  color: #a8e4a0;
+  margin-bottom: 1.5rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  display: inline-block;
+}
+
+.cardTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: #a8e4a0;
+  transition: width 0.3s ease;
+}
+
+.infoCard:hover .cardTitle::after {
+  width: 100px;
 }
 
 .cardText {
@@ -49,13 +112,52 @@
   line-height: 1.7;
   color: #ffffff;
   margin: 0;
+  position: relative;
+  z-index: 3;
 }
 
-/* Animations */
+.cardBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.1;
+  z-index: 0;
+  transition: opacity 0.3s ease;
+}
+
+.infoCard:hover .cardBackground {
+  opacity: 0.15;
+}
+
+.techTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.techTag {
+  padding: 0.4rem 0.8rem;
+  border-radius: 15px;
+  background: rgba(168, 228, 160, 0.1);
+  color: #a8e4a0;
+  font-size: 0.85rem;
+  border: 1px solid rgba(168, 228, 160, 0.2);
+  transition: all 0.3s ease;
+}
+
+.techTag:hover {
+  background: rgba(168, 228, 160, 0.2);
+  transform: translateY(-2px);
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(40px);
   }
   to {
     opacity: 1;
@@ -63,10 +165,22 @@
   }
 }
 
-/* Responsive Design */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
 @media (max-width: 1200px) {
   .infoGrid {
     gap: 2rem;
+    margin: 4rem;
   }
 }
 
@@ -74,21 +188,65 @@
   .infoGrid {
     grid-template-columns: 1fr;
     gap: 2rem;
+    margin: 3rem;
+  }
+  
+  .cardIcon {
+    width: 50px;
+    height: 50px;
   }
 }
 
 @media (max-width: 768px) {
+  .infoGrid {
+    margin: 2rem;
+  }
+  
   .infoCard {
-    padding: 1.5rem;
+    padding: 2rem;
   }
 
   .cardTitle {
     font-size: 1.3rem;
   }
+  
+  .cardText {
+    font-size: 1rem;
+  }
+  
+  .cardIcon {
+    width: 45px;
+    height: 45px;
+    margin-bottom: 1rem;
+  }
 }
 
 @media (max-width: 576px) {
+  .infoGrid {
+    margin: 1.5rem;
+    gap: 1.5rem;
+  }
+  
   .infoCard {
     padding: 1.5rem;
+  }
+  
+  .cardTitle {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .cardText {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  
+  .techTags {
+    margin-top: 1rem;
+  }
+  
+  .techTag {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
   }
 }

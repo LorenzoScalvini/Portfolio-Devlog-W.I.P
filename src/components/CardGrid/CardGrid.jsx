@@ -3,7 +3,7 @@ import styles from './CardGrid.module.css';
 import img1 from '../../assets/ProjectsCardsImg/image1.png';
 import img2 from '../../assets/ProjectsCardsImg/image2.png';
 import img3 from '../../assets/ProjectsCardsImg/image3.png';
-import img6 from '../../assets/ProjectsCardsImg/image6.gif';
+import img4 from '../../assets/ProjectsCardsImg/image4.gif';
 import githubLogo from "../../assets/Logos/GithubLogo.svg";
 
 export default function CardGrid() {
@@ -24,17 +24,17 @@ export default function CardGrid() {
     },
     {
       id: 3,
-      image: img6,
-      title: 'Old personal portfolio',
-      tags: ['UI/UX', 'React', 'CSS', 'JavaScript'],
-      githubUrl: '#'
+      image: img3,
+      title: 'Lugia Pokemon Desktop-pet',
+      tags: ['UI/UX', 'HTML', 'CSS', 'JavaScript', 'Electron'],
+      githubUrl: 'https://github.com/LorenzoScalvini/Pokemon-desktop-pet'
     },
     {
       id: 4,
-      image: 'https://placehold.co/600x400',
-      title: 'Progetto 4',
-      tags: ['Frontend', 'React', 'JavaScript', 'Productivity', 'Backend'],
-      githubUrl: '#'
+      image: img4,
+      title: 'Personal Portoflio',
+      tags: ['Video Game', 'CSS', 'React', 'Javascript', 'CSS', 'UI/UX'],
+      githubUrl: 'https://github.com/LorenzoScalvini/Poke-react-random'
     },
     {
       id: 5,
@@ -107,7 +107,6 @@ export default function CardGrid() {
 
   return (
     <div className={styles.container}>
-      {/* Filtro Tags */}
       <div className={styles.tagsFilterContainer}>
         <button 
           className={styles.scrollButton} 

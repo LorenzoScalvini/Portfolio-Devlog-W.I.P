@@ -2,15 +2,16 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Contacts.module.css";
 import githubLogo from "../../assets/Logos/GithubLogo.svg";
+import linkedinLogo from "../../assets/Logos/linkedinLogo.svg"; 
 import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/24/outline";
-import bgVideo from "../../assets/videos/background.mp4";    
 
 const contactTexts = {
   subtitle: "Disponibile per nuove opportunità",
   description:
     "Programmatore / Web Developer: realizzo soluzioni web moderne, accessibili e performanti con tecnologie come React, TypeScript e Tailwind. Competenze in UI/UX, integrazione API.",
-  buttonProjects: "Progetti",
+  buttonLinkedIn: "LinkedIn", 
   buttonGithub: "Github",
+  linkedinUrl: "https://www.linkedin.com/in/lorenzo-scalvini-a2a68a31b/", 
   githubUrl: "https://github.com/LorenzoScalvini",
   email: "lorenzo.scalvini1704@gmail.com",
   phone: "+39 379 151 0526",
@@ -24,23 +25,12 @@ export default function Contacts() {
     window.open(contactTexts.githubUrl, "_blank");
   };
 
-  const handleGoToProjects = () => {
-    navigate("/projects");
+  const handleGoToLinkedIn = () => { 
+    window.open(contactTexts.linkedinUrl, "_blank");
   };
 
   return (
     <section className={styles.contactSection}>
-      <video 
-        autoPlay 
-        muted 
-        loop 
-        playsInline 
-        className={styles.backgroundVideo}
-      >
-        <source src={bgVideo}/>
-        Your browser does not support the video tag.
-      </video>
-
       <div className={styles.content}>
         <div className={styles.profileContainer}>
           <div className={styles.profileImageWrapper}>
@@ -75,11 +65,11 @@ export default function Contacts() {
 
           <div className={styles.actionButtons}>
             <button
-              onClick={handleGoToProjects}
+              onClick={handleGoToLinkedIn} 
               className={`${styles.button} ${styles.primaryButton}`}
             >
-              {contactTexts.buttonProjects}
-              <span className={styles.arrow}>→</span>
+              <img src={linkedinLogo} alt="LinkedIn" className={styles.icon} /> 
+              {contactTexts.buttonLinkedIn} 
             </button>
 
             <button

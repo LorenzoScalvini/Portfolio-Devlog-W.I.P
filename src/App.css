@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
 * {
   margin: 0;
@@ -8,32 +8,42 @@
 
 html,
 body {
-font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: normal;
   font-optical-sizing: auto;
-  height: 100%;
   line-height: 2;
-  background-color: #121212; /* Optional: Set a background color */
+  background-color: #000000;
   scrollbar-width: none;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridMove 2s linear infinite;
 }
 
-/* Optional: Add a smooth scroll behavior */
+@keyframes gridMove {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+  100% {
+    background-position: 50px 50px, 50px 50px;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
 
-/* Optional: Style for links */
 a {
   text-decoration: none;
   color: inherit;
 }
 
-/* Optional: Remove list styles */
 ul,
 ol {
   list-style: none;
 }
 
-/* Optional: Add some basic typography */
 h1,
 h2,
 h3,
@@ -42,18 +52,16 @@ h5,
 h6 {
   font-weight: bold;
   margin-bottom: 1rem;
-  color: black;
+  color: white;
 }
 
 p {
   margin-bottom: 1rem;
+  color: white;
 }
 
-/* Optional: Add a container class for consistent layout */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
 }
-
-

@@ -4,7 +4,6 @@ import styles from "./Hero.module.css";
 
 import githubLogo from "../../assets/Logos/GithubLogo.svg";
 import profilePhoto from "../../assets/images/profile-photo.jpg";
-import bgVideo from "../../assets/videos/background.mp4"; 
 
 const heroTexts = {
   subtitle: "Full-Stack Developer | Programmatore",
@@ -34,17 +33,6 @@ export default function Hero() {
 
   return (
     <section className={styles.heroSection}>
-      <video 
-        autoPlay 
-        muted 
-        loop 
-        playsInline 
-        className={styles.backgroundVideo}
-      >
-        <source src={bgVideo}/>
-        Your browser does not support the video tag.
-      </video>
-
       <div className={styles.content}>
         <div className={styles.textContent}>
           <span className={styles.subtitle}>{heroTexts.subtitle}</span>
@@ -81,7 +69,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Aggiunta della foto floating */}
         <div className={styles.floatingPhotoContainer}>
           <img 
             src={profilePhoto} 
@@ -89,6 +76,7 @@ export default function Hero() {
             className={styles.floatingPhoto}
           />
         </div>
+
       </div>
     </section>
   );

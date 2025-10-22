@@ -1,22 +1,12 @@
 .contactSection {
   position: relative;
-  padding: 6rem 1rem;
+  padding: 8rem 1rem;
   overflow: hidden;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.backgroundVideo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-  opacity: 0.7;
+  margin-top: 2rem;
 }
 
 .content {
@@ -40,9 +30,9 @@
   height: 300px;
   border-radius: 50%;
   overflow: hidden;
-  border: 5px solid rgba(168, 228, 160, 0.3);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 1s ease;
+  border: 3px solid rgba(168, 228, 160, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: float 6s ease-in-out infinite;
 }
 
 .profileImage {
@@ -61,19 +51,18 @@
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: #121212;
+  color: #ffffff;
   margin-bottom: 1.5rem;
   padding: 0.5rem 1rem;
-  background: rgba(168, 228, 160, 0.1);
   border-radius: 20px;
   animation: slideIn 1s ease;
   margin-top: 3rem;
+  background: rgba(168, 228, 160, 0.1);
 }
 
 .description {
   margin-bottom: 2.5rem;
   animation: fadeInUp 1s ease 0.2s backwards;
-  background-color: rgba(0, 0, 0, 0.85);
   border-radius: 15px;
   padding: 2rem;
 }
@@ -85,10 +74,48 @@
   margin: 0;
 }
 
+.contactInfo {
+  margin-bottom: 2.5rem;
+  animation: fadeInUp 1s ease 0.3s backwards;
+  border-radius: 15px;
+  padding: 2rem;
+}
+
+.contactTitle {
+  font-size: 1.25rem;
+  color: #a8e4a0;
+  margin-bottom: 1rem;
+}
+
+.contactItems {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contactItem:hover {
+  color: #a8e4a0;
+}
+
+.contactIcon {
+  width: 24px;
+  height: 24px;
+  color: #a8e4a0;
+}
+
 .actionButtons {
   display: flex;
   gap: 1rem;
-  animation: fadeInUp 1s ease 0.3s backwards;
+  animation: fadeInUp 1s ease 0.4s backwards;
   flex-wrap: wrap;
 }
 
@@ -106,14 +133,14 @@
 }
 
 .primaryButton {
-  background: rgba(18, 18, 18, 0.8);
-  color: #a8e4a0;
+  background: rgba(30, 30, 30, 0);
   border: 2px solid rgba(255, 255, 255, 0.1);
+  color: #a8e4a0;
   backdrop-filter: blur(10px);
 }
 
 .secondaryButton {
-  background: rgba(30, 30, 30, 0.8);
+  background: rgba(30, 30, 30, 0);
   color: #a8e4a0;
   border: 2px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -145,7 +172,18 @@
   vertical-align: middle;
 }
 
-/* Animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -154,15 +192,6 @@
   to {
     opacity: 1;
     transform: translateX(0);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }
 
@@ -177,9 +206,7 @@
   }
 }
 
-/* Responsive */
 @media (max-width: 1200px) {
-  /* Nessuna regola per .title */
 }
 
 @media (max-width: 992px) {
@@ -221,50 +248,7 @@
     width: 200px;
     height: 200px;
   }
-}
 
-/* Aggiungi queste regole al file CSS esistente */
-.contactInfo {
-  margin-bottom: 2.5rem;
-  animation: fadeInUp 1s ease 0.3s backwards;
-  background-color: rgba(0, 0, 0, 0.85);
-  border-radius: 15px;
-  padding: 2rem;
-}
-
-.contactTitle {
-  font-size: 1.25rem;
-  color: #a8e4a0;
-  margin-bottom: 1rem;
-}
-
-.contactItems {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.contactItem {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: #ffffff;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.contactItem:hover {
-  color: #a8e4a0;
-}
-
-.contactIcon {
-  width: 24px;
-  height: 24px;
-  color: #a8e4a0;
-}
-
-/* Modifica la media query per dispositivi mobili */
-@media (max-width: 576px) {
   .contactInfo {
     padding: 1.5rem;
   }

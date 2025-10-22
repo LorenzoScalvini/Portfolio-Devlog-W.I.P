@@ -1,53 +1,43 @@
-import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
-import Navbar from "./components/Navbar/Navbar";
-import Home from "./pages/Home";
-import Projects from './pages/Projects';
-import Footer from "./components/Footer/Footer";
-import Loader from "./components/Loader/Loader";
-import ScrollToTopButton from './components/ScrollToTopButton/ScrollToTopButton';
-import InfiniteSlideIconText from './components/SlideIconText/SlideIconText';
-import Me from './pages/Me';
-import "./App.css";
+import { useState, useEffect } from "react"
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom"
+import Navbar from "./components/Navbar/Navbar"
+import Home from "./pages/Home"
+import Projects from "./pages/Projects"
+import Footer from "./components/Footer/Footer"
+import Loader from "./components/Loader/Loader"
+import ScrollToTopButton from "./components/ScrollToTopButton/ScrollToTopButton"
+import Contact from "./pages/Contact"
+import GamePage from "./pages/GamePage"
+import "./App.css"
 
 function AppContent() {
-  const [loading, setLoading] = useState(false);
-  const location = useLocation();
-  
-  useEffect(() => {
-    setLoading(true);
-    const timer = setTimeout(() => setLoading(false), 500);
-    return () => clearTimeout(timer);
-  }, [location.pathname]);
+  const [loading, setLoading] = useState(false)
+  const location = useLocation()
+  const isGamePage = location.pathname === "/game"
 
-  const isGamesRoute = location.pathname.endsWith('/games');
+  useEffect(() => {
+    setLoading(true)
+    const timer = setTimeout(() => setLoading(false), 500)
+    return () => clearTimeout(timer)
+  }, [location.pathname])
 
   return (
     <>
       {loading && <Loader />}
-      
-      {/* Mostra Navbar solo se non è la route /games */}
-      {!isGamesRoute && <Navbar />}
-      
-      {!isGamesRoute && <ScrollToTopButton />}
-      
+
+      {!isGamePage && <Navbar />}
+      {!isGamePage && <ScrollToTopButton />}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects" element={<Projects />} />
-        <Route path="/contacts" element={<Me />} />
+        <Route path="/contacts" element={<Contact />} />
+        <Route path="/game" element={<GamePage />} />
       </Routes>
       
-      {!isGamesRoute && <InfiniteSlideIconText />}
-      
-      {/* Mostra Footer solo se non è la route /games */}
-      {!isGamesRoute && <Footer />}
+      {!isGamePage && <Footer />}
     </>
-  );
+  )
 }
 
 export default function App() {
@@ -55,5 +45,5 @@ export default function App() {
     <Router basename="/Portfolio-Devlog-W.I.P">
       <AppContent />
     </Router>
-  );
+  )
 }
