@@ -8,6 +8,7 @@ import Loader from "./components/Loader/Loader"
 import ScrollToTopButton from "./components/ScrollToTopButton/ScrollToTopButton"
 import Contact from "./pages/Contact"
 import GamePage from "./pages/GamePage"
+import Me from "./pages/Me"
 import "./App.css"
 
 function AppContent() {
@@ -49,6 +50,7 @@ function AppContent() {
         <Route path="/projects" element={<Projects />} />
         <Route path="/contacts" element={<Contact />} />
         <Route path="/game" element={<GamePage />} />
+        <Route path="/me" element={<Me />} />
       </Routes>
       
       {!isGamePage && <Footer />}

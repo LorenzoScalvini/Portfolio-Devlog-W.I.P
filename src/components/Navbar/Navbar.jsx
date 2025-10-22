@@ -18,6 +18,7 @@ const texts = {
     { to: "/", label: "Home", icon: HomeIcon },
     { to: "/projects", label: "Progetti", icon: FolderIcon },
     { to: "/contacts", label: "Contattami", icon: EnvelopeIcon },
+    { to: "/me", label: "Me", icon: UserCircleIcon },
     { to: "/game", label: "Game", icon: StarIcon, desktopOnly: true },
   ],
 };

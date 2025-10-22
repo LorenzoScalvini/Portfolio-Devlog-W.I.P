@@ -749,6 +749,7 @@ export default function Game() {
     const playVideo = async () => {
       try {
         video.volume = 0.2
+        video.preload = "auto"
         await video.play()
       } catch (err) {
         console.error("Video play failed:", err)
@@ -801,7 +802,18 @@ export default function Game() {
       {/* Intro Video */}
       {showVideo && (
         <div className={styles.videoContainer}>
-          <video ref={videoRef} src={startVideo} className={styles.videoPlayer} autoPlay playsInline />
+          <video
+            ref={videoRef}
+            src={startVideo}
+            className={styles.videoPlayer}
+            autoPlay
+            playsInline
+            webkit-playsinline="true"
+            preload="auto"
+            controlsList="nodownload"
+            disablePictureInPicture
+            onContextMenu={(e) => e.preventDefault()}
+          />
           <div className={styles.videoTitle}>{narratorLines[currentNarratorLine]}</div>
           <button onClick={skipVideo} className={styles.skipButton}>
             Salta
