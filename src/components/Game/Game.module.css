@@ -722,3 +722,85 @@
     font-size: 1.2rem;
   }
 }
+
+/* Added mobile touch controls styling */
+.mobileControls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: none;
+}
+
+.controlsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.controlsRow {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.controlButton {
+  width: 70px;
+  height: 70px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 3px solid #fff;
+  color: #fff;
+  font-size: 2rem;
+  font-family: inherit;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s ease;
+  box-shadow: 0 0 0 2px #000, 0 0 0 5px #fff;
+}
+
+.controlButton:active {
+  background-color: #fff;
+  color: #000;
+  transform: scale(0.95);
+  box-shadow: 0 0 0 2px #000, 0 0 0 5px #fff, 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+/* Show mobile controls on touch devices and smaller screens */
+@media (max-width: 768px) {
+  .mobileControls {
+    display: block;
+  }
+
+  .controlsHint {
+    display: none;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .mobileControls {
+    display: block;
+  }
+
+  .controlsHint {
+    display: none;
+  }
+}
+
+/* Adjust mobile controls for very small screens */
+@media (max-width: 480px) {
+  .controlButton {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+
+  .mobileControls {
+    bottom: 10px;
+  }
+}

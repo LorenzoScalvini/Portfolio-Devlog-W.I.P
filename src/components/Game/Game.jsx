@@ -219,6 +219,10 @@ export default function Game() {
   const flameWaveTypes = ["horizontal", "vertical", "diagonal", "circle"]
   const starFormationTypes = ["straight", "vertical", "diagonal"]
 
+  const handleTouchButton = (direction, isPressed) => {
+    keys.current[direction] = isPressed
+  }
+
   // Clear all timers function
   const clearAllTimers = () => {
     clearTimeout(attackCycleRef.current)
@@ -956,6 +960,55 @@ export default function Game() {
             </div>
           </div>
           <div className={styles.controlsHint}>Usa i tasti WASD per muoverti</div>
+
+          <div className={styles.mobileControls}>
+            <div className={styles.controlsGrid}>
+              <div className={styles.controlsRow}>
+                <button
+                  className={styles.controlButton}
+                  onTouchStart={() => handleTouchButton("w", true)}
+                  onTouchEnd={() => handleTouchButton("w", false)}
+                  onMouseDown={() => handleTouchButton("w", true)}
+                  onMouseUp={() => handleTouchButton("w", false)}
+                  onMouseLeave={() => handleTouchButton("w", false)}
+                >
+                  ▲
+                </button>
+              </div>
+              <div className={styles.controlsRow}>
+                <button
+                  className={styles.controlButton}
+                  onTouchStart={() => handleTouchButton("a", true)}
+                  onTouchEnd={() => handleTouchButton("a", false)}
+                  onMouseDown={() => handleTouchButton("a", true)}
+                  onMouseUp={() => handleTouchButton("a", false)}
+                  onMouseLeave={() => handleTouchButton("a", false)}
+                >
+                  ◄
+                </button>
+                <button
+                  className={styles.controlButton}
+                  onTouchStart={() => handleTouchButton("s", true)}
+                  onTouchEnd={() => handleTouchButton("s", false)}
+                  onMouseDown={() => handleTouchButton("s", true)}
+                  onMouseUp={() => handleTouchButton("s", false)}
+                  onMouseLeave={() => handleTouchButton("s", false)}
+                >
+                  ▼
+                </button>
+                <button
+                  className={styles.controlButton}
+                  onTouchStart={() => handleTouchButton("d", true)}
+                  onTouchEnd={() => handleTouchButton("d", false)}
+                  onMouseDown={() => handleTouchButton("d", true)}
+                  onMouseUp={() => handleTouchButton("d", false)}
+                  onMouseLeave={() => handleTouchButton("d", false)}
+                >
+                  ►
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
