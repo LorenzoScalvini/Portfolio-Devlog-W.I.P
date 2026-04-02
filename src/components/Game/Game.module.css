@@ -89,16 +89,6 @@
   z-index: 21;
 }
 
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
 .skipButton {
   position: absolute;
   top: 20px;
@@ -639,6 +629,73 @@
   }
 }
 
+/* Speedrun Timer */
+.speedrunTimer {
+  font-size: 2.5rem;
+  color: #fff;
+  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  letter-spacing: 3px;
+  z-index: 10;
+  font-variant-numeric: tabular-nums;
+  animation: timerGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes timerGlow {
+  from {
+    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  }
+  to {
+    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 15px rgba(255, 255, 255, 0.5);
+  }
+}
+
+/* Attack Name Display - Outside Box */
+.attackNameDisplay {
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  margin-bottom: 1rem;
+  z-index: 10;
+}
+
+.flameAttackName {
+  color: #ff6b35;
+  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  animation: flameGlow 2s ease-in-out infinite alternate;
+}
+
+.starAttackName {
+  color: #ffd700;
+  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  animation: starTextGlow 2s ease-in-out infinite alternate;
+}
+
+.transitionAttackName {
+  color: #9b59b6;
+  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  animation: transitionGlow 1s ease-in-out infinite alternate;
+}
+
+/* Survival Time Result on Death Screen */
+.survivalTimeResult {
+  font-size: 2rem;
+  color: #ffd700;
+  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  letter-spacing: 2px;
+  margin-bottom: 1.5rem;
+  animation: resultGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes resultGlow {
+  from {
+    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  }
+  to {
+    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 20px rgba(255, 215, 0, 0.8);
+  }
+}
+
 /* Design responsive */
 @media (max-width: 768px) {
   .container {
@@ -705,6 +762,18 @@
 
   .menuButtons {
     gap: 1rem;
+  }
+
+  .speedrunTimer {
+    font-size: 2rem;
+  }
+
+  .attackNameDisplay {
+    font-size: 1.5rem;
+  }
+
+  .survivalTimeResult {
+    font-size: 1.5rem;
   }
 }
 
@@ -783,9 +852,16 @@
     font-size: 1.2rem;
   }
 
-  /* Added attack info mobile styles */
-  .attackInfo {
-    font-size: 1rem;
-    padding: 0 5px;
+  .speedrunTimer {
+    font-size: 1.5rem;
+  }
+
+  .attackNameDisplay {
+    font-size: 1.2rem;
+  }
+
+  .survivalTimeResult {
+    font-size: 1.2rem;
   }
 }
+

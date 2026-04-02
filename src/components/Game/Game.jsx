@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import styles from "./Game.module.css"
@@ -170,7 +168,6 @@ export default function Game() {
 
   // Attack phase states
   const [attackPhase, setAttackPhase] = useState("transition")
-  const [isStarAttack, setIsStarAttack] = useState(false)
   const [attackCountdown, setAttackCountdown] = useState(GAME_CONFIG.FLAME_ATTACK_DURATION / 1000)
   const [starAttackCountdown, setStarAttackCountdown] = useState(GAME_CONFIG.STAR_ATTACK_DURATION / 1000)
   const [difficultyLevel, setDifficultyLevel] = useState(1)
@@ -179,7 +176,6 @@ export default function Game() {
   const [visibleFlames, setVisibleFlames] = useState([])
   const [visibleStars, setVisibleStars] = useState([])
   const [currentFlameWave, setCurrentFlameWave] = useState(0)
-  const [currentStarFormation, setCurrentStarFormation] = useState(0)
 
   // Mid attack states
   const [midAttack, setMidAttack] = useState({
@@ -193,6 +189,11 @@ export default function Game() {
   // Asgore visual states
   const [showAngryAsgore, setShowAngryAsgore] = useState(false)
   const [showWarningAsgore, setShowWarningAsgore] = useState(false)
+
+  // Survival timer states
+  const [survivalTime, setSurvivalTime] = useState(0)
+  const [finalSurvivalTime, setFinalSurvivalTime] = useState(0)
+  const survivalTimerRef = useRef(null)
 
   // Refs for input and timers
   const keys = useRef({ w: false, a: false, s: false, d: false })
@@ -225,6 +226,22 @@ export default function Game() {
     clearTimeout(starAttackCycleRef.current)
     clearTimeout(waveChangeRef.current)
     clearInterval(countdownIntervalRef.current)
+  }
+
+  // Format time as MM:SS.ms
+  const formatSurvivalTime = (ms) => {
+    const totalSeconds = Math.floor(ms / 1000)
+    const minutes = Math.floor(totalSeconds / 60)
+    const seconds = totalSeconds % 60
+    const milliseconds = Math.floor((ms % 1000) / 10)
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`
+  }
+
+  // Get current attack name
+  const getCurrentAttackName = () => {
+    if (attackPhase === "flame") return "Flames"
+    if (attackPhase === "star") return "Stars"
+    return "Prossimo attacco"
   }
 
   // Update stars animation
@@ -289,7 +306,6 @@ export default function Game() {
   const startFlameAttackCycle = () => {
     clearAllTimers()
     setAttackPhase("flame")
-    setIsStarAttack(false)
     setCurrentFlameWave(0)
     setVisibleFlames(createFlameWave(flameWaveTypes[0]))
     setVisibleStars([])
@@ -328,8 +344,6 @@ export default function Game() {
   const startStarAttackCycle = () => {
     clearAllTimers()
     setAttackPhase("star")
-    setIsStarAttack(true)
-    setCurrentStarFormation(0)
     setVisibleFlames([])
     setVisibleStars(createStarFormation(starFormationTypes[0]))
     setMidAttack((prev) => ({ ...prev, active: false }))
@@ -337,7 +351,6 @@ export default function Game() {
 
     const changeFormation = (formationIndex) => {
       if (formationIndex < starFormationTypes.length) {
-        setCurrentStarFormation(formationIndex)
         setVisibleStars(createStarFormation(starFormationTypes[formationIndex]))
         waveChangeRef.current = setTimeout(() => {
           changeFormation(formationIndex + 1)
@@ -711,6 +724,28 @@ export default function Game() {
     }
   }, [gameState])
 
+  // Survival timer effect
+  useEffect(() => {
+    if (gameState === "fight") {
+      setSurvivalTime(0)
+      survivalTimerRef.current = setInterval(() => {
+        setSurvivalTime((prev) => prev + 10)
+      }, 10)
+    } else {
+      if (survivalTimerRef.current) {
+        clearInterval(survivalTimerRef.current)
+      }
+      if (gameState === "gameover") {
+        setFinalSurvivalTime(survivalTime)
+      }
+    }
+    return () => {
+      if (survivalTimerRef.current) {
+        clearInterval(survivalTimerRef.current)
+      }
+    }
+  }, [gameState])
+
   // Video intro handling
   useEffect(() => {
     if (!showVideo) return
@@ -737,7 +772,6 @@ export default function Game() {
       })
       setAttackPhase("transition")
       setCurrentFlameWave(0)
-      setCurrentStarFormation(0)
       if (ostRef.current) {
         ostRef.current.currentTime = 0
       }
@@ -827,7 +861,14 @@ export default function Game() {
       {/* Menu and Game Over */}
       {(gameState === "menu" || gameState === "gameover") && !showVideo && (
         <div className={gameState === "menu" ? styles.menu : styles.retryMenu}>
-          {gameState === "gameover" && <div className={styles.retryText}>Non puoi arrenderti proprio ora...</div>}
+          {gameState === "gameover" && (
+            <>
+              <div className={styles.retryText}>Non puoi arrenderti proprio ora...</div>
+              <div className={styles.survivalTimeResult}>
+                Tempo sopravvissuto: {formatSurvivalTime(finalSurvivalTime)}
+              </div>
+            </>
+          )}
           <img src={startImage || "/placeholder.svg"} alt="Start Image" className={styles.startImage} />
           <div className={styles.menuButtons}>
             <button onClick={startFight} className={styles.menuButton}>
@@ -846,6 +887,22 @@ export default function Game() {
       {/* Fight Screen */}
       {(gameState === "fight" || gameState === "countdown") && !showVideo && (
         <div className={styles.gameWrapper}>
+          {/* Attack Name - Outside box, above Asgore */}
+          <div className={styles.attackNameDisplay}>
+            {attackPhase === "star" ? (
+              <span className={styles.starAttackName}>Stars</span>
+            ) : attackPhase === "flame" ? (
+              <span className={styles.flameAttackName}>Flames</span>
+            ) : (
+              <span className={styles.transitionAttackName}>Prossimo attacco</span>
+            )}
+          </div>
+          
+          {/* Speedrun Timer */}
+          <div className={styles.speedrunTimer}>
+            {formatSurvivalTime(survivalTime)}
+          </div>
+          
           <div className={styles.battleLayout}>
             <img src={getAsgoreImage() || "/placeholder.svg"} alt="Asgore" className={styles.asgore} />
             <div className={styles.box}>
@@ -950,21 +1007,6 @@ export default function Game() {
               {gameState === "countdown" && (
                 <div className={styles.countdownText}>{countdown === 0 ? "" : countdown}</div>
               )}
-
-              {/* Attack Info */}
-              <div className={styles.attackInfo}>
-                {attackPhase === "star" ? (
-                  <div className={styles.starAttackText}>
-                    Stars: {starAttackCountdown}s | Livello {difficultyLevel}
-                  </div>
-                ) : attackPhase === "flame" ? (
-                  <div className={styles.flameAttackText}>
-                    Flames: {attackCountdown}s | Livello {difficultyLevel}
-                  </div>
-                ) : (
-                  <div className={styles.transitionText}>⚡ Prossimo attacco? </div>
-                )}
-              </div>
             </div>
           </div>
           <div className={styles.controlsHint}>Usa i tasti WASD per muoverti</div>
