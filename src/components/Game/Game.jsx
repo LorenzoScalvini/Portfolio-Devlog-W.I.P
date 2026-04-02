@@ -13,7 +13,6 @@ import heartImage from "../../assets/game/heart.png"
 import asgoreAngryGif from "../../assets/game/asgore-angry.gif"
 import asgoreGif from "../../assets/game/asgore.gif"
 import flamesImage from "../../assets/game/flames.png"
-import starImage from "../../assets/game/star.png"
 import midImage from "../../assets/game/mid.png"
 
 // GAME CONFIGURATION CONSTANTS
@@ -23,9 +22,8 @@ const GAME_CONFIG = {
   BOX_SIZE: 280,
   MID_ATTACK_WIDTH: 80,
   MID_ATTACK_HEIGHT: 80,
-  STAR_SIZE: 32,
   FLAME_ATTACK_DURATION: 12000,
-  STAR_ATTACK_DURATION: 10000,
+  SPECIAL_ATTACK_DURATION: 5000,
   TRANSITION_DURATION: 2000,
 }
 
@@ -113,40 +111,6 @@ const createFlameWave = (waveType) => {
   }
 }
 
-// CREATE STAR FORMATIONS
-const createStarFormation = (formationType) => {
-  const { BOX_SIZE } = GAME_CONFIG
-  switch (formationType) {
-    case "straight":
-      return [
-        { id: 1, x: -100, y: 70, dx: 1.4, dy: 0, angle: 0, rotationSpeed: 0.05 },
-        { id: 2, x: -100, y: 140, dx: 1.4, dy: 0, angle: 0, rotationSpeed: 0.05 },
-        { id: 3, x: -100, y: 210, dx: 1.4, dy: 0, angle: 0, rotationSpeed: 0.05 },
-        { id: 4, x: BOX_SIZE + 100, y: 100, dx: -1.4, dy: 0, angle: 0, rotationSpeed: 0.05 },
-        { id: 5, x: BOX_SIZE + 100, y: 170, dx: -1.4, dy: 0, angle: 0, rotationSpeed: 0.05 },
-      ]
-    case "vertical":
-      return [
-        { id: 6, x: 70, y: -100, dx: 0, dy: 1.4, angle: 0, rotationSpeed: 0.05 },
-        { id: 7, x: 140, y: -100, dx: 0, dy: 1.4, angle: 0, rotationSpeed: 0.05 },
-        { id: 8, x: 210, y: -100, dx: 0, dy: 1.4, angle: 0, rotationSpeed: 0.05 },
-        { id: 9, x: 100, y: BOX_SIZE + 100, dx: 0, dy: -1.4, angle: 0, rotationSpeed: 0.05 },
-        { id: 10, x: 170, y: BOX_SIZE + 100, dx: 0, dy: -1.4, angle: 0, rotationSpeed: 0.05 },
-      ]
-    case "diagonal":
-      return [
-        { id: 11, x: -100, y: -100, dx: 1.3, dy: 1.3, angle: 0, rotationSpeed: 0.05 },
-        { id: 12, x: -80, y: -80, dx: 1.3, dy: 1.3, angle: 0, rotationSpeed: 0.05 },
-        { id: 13, x: BOX_SIZE + 100, y: BOX_SIZE + 100, dx: -1.3, dy: -1.3, angle: 0, rotationSpeed: 0.05 },
-        { id: 14, x: BOX_SIZE + 80, y: BOX_SIZE + 80, dx: -1.3, dy: -1.3, angle: 0, rotationSpeed: 0.05 },
-        { id: 15, x: -100, y: BOX_SIZE + 100, dx: 1.3, dy: -1.3, angle: 0, rotationSpeed: 0.05 },
-        { id: 16, x: BOX_SIZE + 100, y: -100, dx: -1.3, dy: 1.3, angle: 0, rotationSpeed: 0.05 },
-      ]
-    default:
-      return []
-  }
-}
-
 // MAIN ASGORE COMPONENT
 export default function Game() {
   const navigate = useNavigate()
@@ -169,12 +133,10 @@ export default function Game() {
   // Attack phase states
   const [attackPhase, setAttackPhase] = useState("transition")
   const [attackCountdown, setAttackCountdown] = useState(GAME_CONFIG.FLAME_ATTACK_DURATION / 1000)
-  const [starAttackCountdown, setStarAttackCountdown] = useState(GAME_CONFIG.STAR_ATTACK_DURATION / 1000)
   const [difficultyLevel, setDifficultyLevel] = useState(1)
 
   // Projectile states
   const [visibleFlames, setVisibleFlames] = useState([])
-  const [visibleStars, setVisibleStars] = useState([])
   const [currentFlameWave, setCurrentFlameWave] = useState(0)
 
   // Mid attack states
@@ -198,16 +160,16 @@ export default function Game() {
   // Refs for input and timers
   const keys = useRef({ w: false, a: false, s: false, d: false })
   const intervalRef = useRef(null)
-  const zoneIntervalRef = useRef(null)
-  const zoneTimerRef = useRef(null)
   const narratorIntervalRef = useRef(null)
-  const midAttackIntervalRef = useRef(null)
   const angryAsgoreTimeoutRef = useRef(null)
   const warningAsgoreTimeoutRef = useRef(null)
   const attackCycleRef = useRef(null)
-  const starAttackCycleRef = useRef(null)
+  const specialAttackCycleRef = useRef(null)
   const countdownIntervalRef = useRef(null)
   const waveChangeRef = useRef(null)
+  const midAttackMoveIntervalRef = useRef(null)
+  const redZoneTimeoutRef = useRef(null)
+  const redZoneCountdownRef = useRef(null)
 
   // Audio refs
   const ostRef = useRef(null)
@@ -218,14 +180,16 @@ export default function Game() {
 
   // Attack patterns
   const flameWaveTypes = ["horizontal", "vertical", "diagonal", "circle"]
-  const starFormationTypes = ["straight", "vertical", "diagonal"]
 
   // Clear all timers function
   const clearAllTimers = () => {
     clearTimeout(attackCycleRef.current)
-    clearTimeout(starAttackCycleRef.current)
+    clearTimeout(specialAttackCycleRef.current)
     clearTimeout(waveChangeRef.current)
+    clearTimeout(redZoneTimeoutRef.current)
     clearInterval(countdownIntervalRef.current)
+    clearInterval(midAttackMoveIntervalRef.current)
+    clearInterval(redZoneCountdownRef.current)
   }
 
   // Format time as MM:SS.ms
@@ -235,29 +199,6 @@ export default function Game() {
     const seconds = totalSeconds % 60
     const milliseconds = Math.floor((ms % 1000) / 10)
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`
-  }
-
-  // Get current attack name
-  const getCurrentAttackName = () => {
-    if (attackPhase === "flame") return "Flames"
-    if (attackPhase === "star") return "Stars"
-    return "Prossimo attacco"
-  }
-
-  // Update stars animation
-  const updateStars = (stars) => {
-    return stars.map((star) => {
-      let newX = star.x + star.dx
-      let newY = star.y + star.dy
-      const newAngle = star.angle + star.rotationSpeed
-
-      if (newX > GAME_CONFIG.BOX_SIZE + 100) newX = -100 - GAME_CONFIG.STAR_SIZE
-      if (newX < -100 - GAME_CONFIG.STAR_SIZE) newX = GAME_CONFIG.BOX_SIZE + 100
-      if (newY > GAME_CONFIG.BOX_SIZE + 100) newY = -100 - GAME_CONFIG.STAR_SIZE
-      if (newY < -100 - GAME_CONFIG.STAR_SIZE) newY = GAME_CONFIG.BOX_SIZE + 100
-
-      return { ...star, x: newX, y: newY, angle: newAngle }
-    })
   }
 
   // Update flames with special patterns
@@ -302,33 +243,117 @@ export default function Game() {
     })
   }
 
-  // Start flame attack cycle
-  const startFlameAttackCycle = () => {
-    clearAllTimers()
-    setAttackPhase("flame")
-    setCurrentFlameWave(0)
-    setVisibleFlames(createFlameWave(flameWaveTypes[0]))
-    setVisibleStars([])
-    setAttackCountdown(GAME_CONFIG.FLAME_ATTACK_DURATION / 1000)
-
-    const changeWave = (waveIndex) => {
-      if (waveIndex < flameWaveTypes.length) {
-        setCurrentFlameWave(waveIndex)
-        setVisibleFlames(createFlameWave(flameWaveTypes[waveIndex]))
-        waveChangeRef.current = setTimeout(() => {
-          changeWave(waveIndex + 1)
-        }, GAME_CONFIG.FLAME_ATTACK_DURATION / flameWaveTypes.length)
-      }
+  // Activate red zone for special attack
+  const activateRedZoneForSpecial = () => {
+    setRedZoneOnRight(Math.random() > 0.5)
+    setZoneActive(true)
+    setRedZoneDeadly(false)
+    setZoneCountdown(3)
+    setShowWarningAsgore(true)
+    
+    if (dangerRef.current) {
+      dangerRef.current.currentTime = 0
+      dangerRef.current.play().catch((e) => console.log("Audio play error:", e))
     }
+    
+    warningAsgoreTimeoutRef.current = setTimeout(() => {
+      setShowWarningAsgore(false)
+    }, 2000)
+    
+    redZoneTimeoutRef.current = setTimeout(() => {
+      setRedZoneDeadly(true)
+      setShowAngryAsgore(true)
+      angryAsgoreTimeoutRef.current = setTimeout(() => {
+        setShowAngryAsgore(false)
+      }, 500)
+      
+      if (attackRef.current) {
+        attackRef.current.currentTime = 0
+        attackRef.current.play().catch((e) => console.log("Audio play error:", e))
+      }
+    }, 2500)
+    
+    redZoneCountdownRef.current = setInterval(() => {
+      setZoneCountdown((prev) => {
+        if (prev <= 0) {
+          clearInterval(redZoneCountdownRef.current)
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+    
+    setTimeout(() => {
+      setZoneActive(false)
+      setRedZoneDeadly(false)
+      clearInterval(redZoneCountdownRef.current)
+    }, 4500)
+  }
 
-    waveChangeRef.current = setTimeout(() => {
-      changeWave(1)
-    }, GAME_CONFIG.FLAME_ATTACK_DURATION / flameWaveTypes.length)
+  // Activate mid attack for special attack
+  const activateMidAttackForSpecial = () => {
+    const fromRight = Math.random() > 0.5
+    setMidAttack({
+      active: true,
+      x: fromRight ? GAME_CONFIG.BOX_SIZE : -GAME_CONFIG.MID_ATTACK_WIDTH,
+      y: Math.random() * (GAME_CONFIG.BOX_SIZE - GAME_CONFIG.MID_ATTACK_HEIGHT),
+      speed: 2.0,
+      direction: fromRight ? -1 : 1,
+    })
+    
+    // Mid attack moves back and forth during special attack
+    midAttackMoveIntervalRef.current = setInterval(() => {
+      setMidAttack(prev => {
+        if (!prev.active) {
+          clearInterval(midAttackMoveIntervalRef.current)
+          return prev
+        }
+        let newDirection = prev.direction
+        let newX = prev.x + prev.speed * prev.direction
+        
+        if (newX > GAME_CONFIG.BOX_SIZE) {
+          newDirection = -1
+          newX = GAME_CONFIG.BOX_SIZE
+        } else if (newX < -GAME_CONFIG.MID_ATTACK_WIDTH) {
+          newDirection = 1
+          newX = -GAME_CONFIG.MID_ATTACK_WIDTH
+        }
+        
+        return { ...prev, x: newX, direction: newDirection }
+      })
+    }, 16)
+    
+    setTimeout(() => {
+      clearInterval(midAttackMoveIntervalRef.current)
+    }, GAME_CONFIG.SPECIAL_ATTACK_DURATION)
+  }
 
-    attackCycleRef.current = setTimeout(() => {
-      startTransition(() => startStarAttackCycle())
-    }, GAME_CONFIG.FLAME_ATTACK_DURATION)
-
+  // Start special attack cycle (mid + red zone together)
+  const startSpecialAttackCycle = () => {
+    clearAllTimers()
+    setAttackPhase("special")
+    setVisibleFlames([])
+    setAttackCountdown(GAME_CONFIG.SPECIAL_ATTACK_DURATION / 1000)
+    
+    // Activate red zone and mid attack together
+    activateRedZoneForSpecial()
+    activateMidAttackForSpecial()
+    
+    // Timer for special attack duration
+    specialAttackCycleRef.current = setTimeout(() => {
+      setZoneActive(false)
+      setRedZoneDeadly(false)
+      setMidAttack(prev => ({ ...prev, active: false }))
+      setShowAngryAsgore(false)
+      setShowWarningAsgore(false)
+      clearInterval(midAttackMoveIntervalRef.current)
+      clearInterval(redZoneCountdownRef.current)
+      clearTimeout(redZoneTimeoutRef.current)
+      
+      // After special attack, go back to normal cycle
+      startTransition(() => startFlameAttackCycle())
+    }, GAME_CONFIG.SPECIAL_ATTACK_DURATION)
+    
     countdownIntervalRef.current = setInterval(() => {
       setAttackCountdown((prev) => {
         if (prev <= 1) {
@@ -340,35 +365,40 @@ export default function Game() {
     }, 1000)
   }
 
-  // Start star attack cycle
-  const startStarAttackCycle = () => {
+  // Start flame attack cycle
+  const startFlameAttackCycle = () => {
     clearAllTimers()
-    setAttackPhase("star")
-    setVisibleFlames([])
-    setVisibleStars(createStarFormation(starFormationTypes[0]))
-    setMidAttack((prev) => ({ ...prev, active: false }))
-    setStarAttackCountdown(GAME_CONFIG.STAR_ATTACK_DURATION / 1000)
-
-    const changeFormation = (formationIndex) => {
-      if (formationIndex < starFormationTypes.length) {
-        setVisibleStars(createStarFormation(starFormationTypes[formationIndex]))
+    setAttackPhase("flame")
+    setCurrentFlameWave(0)
+    setVisibleFlames(createFlameWave(flameWaveTypes[0]))
+    setMidAttack(prev => ({ ...prev, active: false }))
+    setZoneActive(false)
+    setRedZoneDeadly(false)
+    
+    // Subtract special attack duration from flame attack
+    const adjustedFlameDuration = GAME_CONFIG.FLAME_ATTACK_DURATION - GAME_CONFIG.SPECIAL_ATTACK_DURATION
+    setAttackCountdown(adjustedFlameDuration / 1000)
+    
+    const changeWave = (waveIndex) => {
+      if (waveIndex < flameWaveTypes.length) {
+        setCurrentFlameWave(waveIndex)
+        setVisibleFlames(createFlameWave(flameWaveTypes[waveIndex]))
         waveChangeRef.current = setTimeout(() => {
-          changeFormation(formationIndex + 1)
-        }, GAME_CONFIG.STAR_ATTACK_DURATION / starFormationTypes.length)
+          changeWave(waveIndex + 1)
+        }, adjustedFlameDuration / flameWaveTypes.length)
       }
     }
-
+    
     waveChangeRef.current = setTimeout(() => {
-      changeFormation(1)
-    }, GAME_CONFIG.STAR_ATTACK_DURATION / starFormationTypes.length)
-
-    starAttackCycleRef.current = setTimeout(() => {
-      setDifficultyLevel((prev) => prev + 1)
-      startTransition(() => startFlameAttackCycle())
-    }, GAME_CONFIG.STAR_ATTACK_DURATION)
-
+      changeWave(1)
+    }, adjustedFlameDuration / flameWaveTypes.length)
+    
+    attackCycleRef.current = setTimeout(() => {
+      startTransition(() => startSpecialAttackCycle())
+    }, adjustedFlameDuration)
+    
     countdownIntervalRef.current = setInterval(() => {
-      setStarAttackCountdown((prev) => {
+      setAttackCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(countdownIntervalRef.current)
           return 0
@@ -382,7 +412,9 @@ export default function Game() {
   const startTransition = (nextAttack) => {
     setAttackPhase("transition")
     setVisibleFlames([])
-    setVisibleStars([])
+    setMidAttack(prev => ({ ...prev, active: false }))
+    setZoneActive(false)
+    setRedZoneDeadly(false)
     setTimeout(() => {
       nextAttack()
     }, GAME_CONFIG.TRANSITION_DURATION)
@@ -529,24 +561,6 @@ export default function Game() {
           return newFlames
         })
       }
-      // Update stars during star attack
-      else if (attackPhase === "star") {
-        setVisibleStars((prevStars) => {
-          const newStars = updateStars(prevStars)
-          for (const star of newStars) {
-            if (
-              star.x < position.x + GAME_CONFIG.HEART_SIZE &&
-              star.x + GAME_CONFIG.STAR_SIZE > position.x &&
-              star.y < position.y + GAME_CONFIG.HEART_SIZE &&
-              star.y + GAME_CONFIG.STAR_SIZE > position.y
-            ) {
-              setGameState("gameover")
-              break
-            }
-          }
-          return newStars
-        })
-      }
 
       // Red zone collision
       if (redZoneDeadly) {
@@ -558,27 +572,14 @@ export default function Game() {
 
       // Mid attack movement and collision
       if (midAttack.active) {
-        setMidAttack((prev) => {
-          const newX = prev.x + prev.speed * prev.direction
-          if (
-            (prev.direction === 1 && newX > GAME_CONFIG.BOX_SIZE) ||
-            (prev.direction === -1 && newX < -GAME_CONFIG.MID_ATTACK_WIDTH)
-          ) {
-            return { ...prev, active: false }
-          }
-
-          if (
-            newX < position.x + GAME_CONFIG.HEART_SIZE &&
-            newX + GAME_CONFIG.MID_ATTACK_WIDTH > position.x &&
-            prev.y < position.y + GAME_CONFIG.HEART_SIZE &&
-            prev.y + GAME_CONFIG.MID_ATTACK_HEIGHT > position.y
-          ) {
-            setGameState("gameover")
-            return { ...prev, active: false }
-          }
-
-          return { ...prev, x: newX }
-        })
+        if (
+          midAttack.x < position.x + GAME_CONFIG.HEART_SIZE &&
+          midAttack.x + GAME_CONFIG.MID_ATTACK_WIDTH > position.x &&
+          midAttack.y < position.y + GAME_CONFIG.HEART_SIZE &&
+          midAttack.y + GAME_CONFIG.MID_ATTACK_HEIGHT > position.y
+        ) {
+          setGameState("gameover")
+        }
       }
     }
 
@@ -593,126 +594,6 @@ export default function Game() {
     }
   }, [gameState, position, redZoneDeadly, redZoneOnRight, midAttack.active, attackPhase])
 
-  // Red zone attacks
-  useEffect(() => {
-    if (gameState !== "fight") {
-      clearInterval(zoneIntervalRef.current)
-      clearTimeout(zoneTimerRef.current)
-      clearTimeout(angryAsgoreTimeoutRef.current)
-      clearTimeout(warningAsgoreTimeoutRef.current)
-      clearAllTimers()
-      setZoneActive(false)
-      setRedZoneDeadly(false)
-      setShowAngryAsgore(false)
-      setShowWarningAsgore(false)
-      setAttackPhase("transition")
-      setVisibleFlames([])
-      setVisibleStars([])
-      if (dangerRef.current) {
-        dangerRef.current.pause()
-        dangerRef.current.currentTime = 0
-      }
-      if (attackRef.current) {
-        attackRef.current.pause()
-        attackRef.current.currentTime = 0
-      }
-      return
-    }
-
-    const activateZone = () => {
-      setRedZoneOnRight((prev) => !prev)
-      setZoneActive(true)
-      setRedZoneDeadly(false)
-      setZoneCountdown(3)
-      setShowWarningAsgore(true)
-
-      if (dangerRef.current) {
-        dangerRef.current.currentTime = 0
-        dangerRef.current.play().catch((e) => console.log("Audio play error:", e))
-      }
-
-      warningAsgoreTimeoutRef.current = setTimeout(() => {
-        setShowWarningAsgore(false)
-      }, 2500)
-
-      setTimeout(() => {
-        setRedZoneDeadly(true)
-        setShowAngryAsgore(true)
-        angryAsgoreTimeoutRef.current = setTimeout(() => {
-          setShowAngryAsgore(false)
-        }, 500)
-
-        if (attackRef.current) {
-          attackRef.current.currentTime = 0
-          attackRef.current.play().catch((e) => console.log("Audio play error:", e))
-        }
-      }, 3000)
-
-      zoneTimerRef.current = setTimeout(() => {
-        setZoneActive(false)
-        setRedZoneDeadly(false)
-        setShowAngryAsgore(false)
-        setShowWarningAsgore(false)
-      }, 4000)
-
-      const countdownInterval = setInterval(() => {
-        setZoneCountdown((prev) => {
-          if (prev <= 0) {
-            clearInterval(countdownInterval)
-            return 0
-          }
-          return prev - 1
-        })
-      }, 1000)
-    }
-
-    const zoneInterval = Math.max(4000, 6000 - difficultyLevel * 200)
-    const initialDelay = setTimeout(() => {
-      activateZone()
-      zoneIntervalRef.current = setInterval(activateZone, zoneInterval)
-    }, 3000)
-
-    return () => {
-      clearInterval(zoneIntervalRef.current)
-      clearTimeout(zoneTimerRef.current)
-      clearTimeout(angryAsgoreTimeoutRef.current)
-      clearTimeout(warningAsgoreTimeoutRef.current)
-      clearTimeout(initialDelay)
-    }
-  }, [gameState, difficultyLevel])
-
-  // Mid attacks
-  useEffect(() => {
-    if (gameState !== "fight") {
-      setMidAttack((prev) => ({ ...prev, active: false }))
-      clearInterval(midAttackIntervalRef.current)
-      return
-    }
-
-    const activateMidAttack = () => {
-      if (attackPhase === "star") return
-      const fromRight = Math.random() > 0.5
-      setMidAttack({
-        active: true,
-        x: fromRight ? GAME_CONFIG.BOX_SIZE : -GAME_CONFIG.MID_ATTACK_WIDTH,
-        y: Math.random() * (GAME_CONFIG.BOX_SIZE - GAME_CONFIG.MID_ATTACK_HEIGHT),
-        speed: 1.5,
-        direction: fromRight ? -1 : 1,
-      })
-    }
-
-    const midAttackInterval = Math.max(3000, 5000 - difficultyLevel * 150)
-    const initialDelay = setTimeout(() => {
-      activateMidAttack()
-      midAttackIntervalRef.current = setInterval(activateMidAttack, midAttackInterval)
-    }, 4000)
-
-    return () => {
-      clearTimeout(initialDelay)
-      clearInterval(midAttackIntervalRef.current)
-    }
-  }, [gameState, attackPhase, difficultyLevel])
-
   // Start attack cycle when fight begins
   useEffect(() => {
     if (gameState === "fight") {
@@ -721,6 +602,7 @@ export default function Game() {
     }
     return () => {
       clearAllTimers()
+      clearInterval(midAttackMoveIntervalRef.current)
     }
   }, [gameState])
 
@@ -746,18 +628,30 @@ export default function Game() {
     }
   }, [gameState])
 
-  // Video intro handling
+  // Video intro handling with fade out at 19 seconds
   useEffect(() => {
     if (!showVideo) return
     const video = videoRef.current
     if (!video) return
+
+    let fadeOutStarted = false
+    const titleElement = document.querySelector(`.${styles.videoTitle}`)
+
+    const handleTimeUpdate = () => {
+      if (video.currentTime >= 19.0 && !fadeOutStarted) {
+        fadeOutStarted = true
+        if (titleElement) {
+          titleElement.style.transition = 'opacity 1s ease-out'
+          titleElement.style.opacity = '0'
+        }
+      }
+    }
 
     const handleVideoEnd = () => {
       setShowVideo(false)
       setPosition({ x: 128, y: 128 })
       keys.current = { w: false, a: false, s: false, d: false }
       setVisibleFlames([])
-      setVisibleStars([])
       setZoneActive(false)
       setRedZoneDeadly(false)
       setRedZoneOnRight(true)
@@ -778,6 +672,7 @@ export default function Game() {
       startCountdown()
     }
 
+    video.addEventListener("timeupdate", handleTimeUpdate)
     video.addEventListener("ended", handleVideoEnd)
 
     const playVideo = async () => {
@@ -800,7 +695,12 @@ export default function Game() {
     playVideo()
 
     return () => {
+      video.removeEventListener("timeupdate", handleTimeUpdate)
       video.removeEventListener("ended", handleVideoEnd)
+      if (titleElement) {
+        titleElement.style.transition = ''
+        titleElement.style.opacity = ''
+      }
     }
   }, [showVideo])
 
@@ -889,12 +789,12 @@ export default function Game() {
         <div className={styles.gameWrapper}>
           {/* Attack Name - Outside box, above Asgore */}
           <div className={styles.attackNameDisplay}>
-            {attackPhase === "star" ? (
-              <span className={styles.starAttackName}>Stars</span>
-            ) : attackPhase === "flame" ? (
-              <span className={styles.flameAttackName}>Flames</span>
+            {attackPhase === "flame" ? (
+              <span className={styles.flameAttackName}>🔥 FLAMES 🔥</span>
+            ) : attackPhase === "special" ? (
+              <span className={styles.specialAttackName}>⚠ SPECIAL ATTACK! ⚠</span>
             ) : (
-              <span className={styles.transitionAttackName}>Prossimo attacco</span>
+              <span className={styles.transitionAttackName}>⚡ PROSSIMO ATTACCO ⚡</span>
             )}
           </div>
           
@@ -968,27 +868,8 @@ export default function Game() {
                     />
                   ))}
 
-              {/* Stars during Star Attack */}
-              {attackPhase === "star" &&
-                visibleStars.map((star) => (
-                  <img
-                    key={star.id}
-                    src={starImage || "/placeholder.svg"}
-                    alt="Star"
-                    className={styles.star}
-                    style={{
-                      top: star.y,
-                      left: star.x,
-                      transform: `rotate(${star.angle}rad)`,
-                      width: `${GAME_CONFIG.STAR_SIZE}px`,
-                      height: `${GAME_CONFIG.STAR_SIZE}px`,
-                    }}
-                    draggable={false}
-                  />
-                ))}
-
-              {/* Mid Attack */}
-              {attackPhase === "flame" && midAttack.active && (
+              {/* Mid Attack - visible during flame and special attacks */}
+              {(attackPhase === "flame" || attackPhase === "special") && midAttack.active && (
                 <img
                   src={midImage || "/placeholder.svg"}
                   alt="Mid Attack"

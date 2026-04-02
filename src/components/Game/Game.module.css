@@ -60,12 +60,10 @@
   background-color: rgba(0, 0, 0, 0.95);
   border: 8px solid #fff;
   box-sizing: border-box;
-  /* Added padding for mobile spacing */
   padding: 20px;
 }
 
 .videoPlayer {
-  /* Made video responsive with max-width instead of fixed width */
   width: 100%;
   max-width: 800px;
   max-height: 100%;
@@ -386,41 +384,6 @@
   }
 }
 
-/* Stelle */
-.star {
-  position: absolute;
-  background-image: url("/placeholder.svg?height=48&width=48");
-  background-size: contain;
-  background-repeat: no-repeat;
-  z-index: 25;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
-  animation: slowSpin 10s linear infinite, pastel-rgb-shadow 3s linear infinite;
-}
-
-@keyframes pastel-rgb-shadow {
-  0% {
-    filter: drop-shadow(0 0 15px #ffb3ba);
-  }
-  16% {
-    filter: drop-shadow(0 0 15px #ffdfba);
-  }
-  33% {
-    filter: drop-shadow(0 0 15px #ffffba);
-  }
-  50% {
-    filter: drop-shadow(0 0 15px #baffc9);
-  }
-  66% {
-    filter: drop-shadow(0 0 15px #bae1ff);
-  }
-  83% {
-    filter: drop-shadow(0 0 15px #d4baff);
-  }
-  100% {
-    filter: drop-shadow(0 0 15px #ffb3ba);
-  }
-}
-
 /* Attacco centrale */
 .midAttack {
   width: 80px;
@@ -539,62 +502,6 @@
   }
 }
 
-/* Informazioni attacco */
-.attackInfo {
-  position: absolute;
-  top: 10px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.flameAttackText {
-  color: #ff6b35;
-  text-shadow: 2px 2px 0 #000;
-  animation: flameGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes flameGlow {
-  from {
-    text-shadow: 2px 2px 0 #000;
-  }
-  to {
-    text-shadow: 2px 2px 0 #000, 0 0 10px rgba(255, 107, 53, 0.8);
-  }
-}
-
-.starAttackText {
-  color: #ffd700;
-  text-shadow: 2px 2px 0 #000;
-  animation: starTextGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes starTextGlow {
-  from {
-    text-shadow: 2px 2px 0 #000;
-  }
-  to {
-    text-shadow: 2px 2px 0 #000, 0 0 10px rgba(255, 215, 0, 0.8);
-  }
-}
-
-.transitionText {
-  color: #9b59b6;
-  text-shadow: 2px 2px 0 #000;
-  animation: transitionGlow 1s ease-in-out infinite alternate;
-}
-
-@keyframes transitionGlow {
-  from {
-    text-shadow: 2px 2px 0 #000;
-  }
-  to {
-    text-shadow: 2px 2px 0 #000, 0 0 8px rgba(155, 89, 182, 0.8);
-  }
-}
-
 /* Warning circles per attacco circolare */
 .circleWarning {
   position: absolute;
@@ -659,22 +566,54 @@
   z-index: 10;
 }
 
+/* Flame Attack Name */
 .flameAttackName {
   color: #ff6b35;
   text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-  animation: flameGlow 2s ease-in-out infinite alternate;
+  animation: flameGlow 0.3s ease-in-out infinite alternate;
 }
 
-.starAttackName {
-  color: #ffd700;
-  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-  animation: starTextGlow 2s ease-in-out infinite alternate;
+@keyframes flameGlow {
+  from {
+    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  }
+  to {
+    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 20px rgba(255, 107, 53, 0.8);
+  }
 }
 
+/* Transition Attack Name */
 .transitionAttackName {
   color: #9b59b6;
   text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-  animation: transitionGlow 1s ease-in-out infinite alternate;
+  animation: transitionGlow 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes transitionGlow {
+  from {
+    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  }
+  to {
+    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 20px rgba(155, 89, 182, 0.8);
+  }
+}
+
+/* Special Attack Name */
+.specialAttackName {
+  color: #ff3366;
+  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  animation: specialGlow 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes specialGlow {
+  from {
+    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color: #ff3366;
+  }
+  to {
+    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 20px rgba(255, 51, 102, 0.8);
+    color: #ff6699;
+  }
 }
 
 /* Survival Time Result on Death Screen */
@@ -696,14 +635,22 @@
   }
 }
 
+/* Animazione float per videoTitle */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
 /* Design responsive */
 @media (max-width: 768px) {
   .container {
-    /* Removed padding that causes overflow */
     padding: 0;
   }
 
-  /* Added video container mobile styles */
   .videoContainer {
     padding: 10px;
     border: 4px solid #fff;
@@ -715,14 +662,12 @@
   }
 
   .videoTitle {
-    /* Adjusted video title for mobile */
     bottom: 6rem;
     font-size: 1.8rem;
     padding: 0 20px;
   }
 
   .skipButton {
-    /* Made skip button more mobile-friendly */
     top: 10px;
     right: 10px;
     padding: 0.6rem 1rem;
@@ -756,7 +701,6 @@
   .controlsHint {
     font-size: 1.2rem;
     bottom: 2rem;
-    /* Added padding to prevent text cutoff */
     padding: 0 20px;
   }
 
@@ -778,7 +722,6 @@
 }
 
 @media (max-width: 480px) {
-  /* Added video container styles for small mobile */
   .videoContainer {
     padding: 5px;
     border: 3px solid #fff;
@@ -834,7 +777,6 @@
 
   .retryText {
     font-size: 2rem;
-    /* Added padding and text wrapping for mobile */
     padding: 0 20px;
     text-align: center;
   }
@@ -864,4 +806,3 @@
     font-size: 1.2rem;
   }
 }
-
