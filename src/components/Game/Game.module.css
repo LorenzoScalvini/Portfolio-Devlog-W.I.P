@@ -668,7 +668,7 @@
   }
 }
 
-/* Victory Screen - same aesthetic as start.png */
+/* Victory Screen */
 .victoryContainer {
   position: absolute;
   inset: 0;
@@ -714,25 +714,38 @@
   }
 }
 
-.victoryText {
+/* TESTO VITTORIA ARCOBALENO ANIMATO */
+.victoryTextRainbow {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #ffd700;
-  text-shadow: 4px 4px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
   text-transform: uppercase;
   letter-spacing: 2px;
   text-align: center;
-  animation: victoryTextPulse 1.5s ease-in-out infinite alternate;
+  background: linear-gradient(
+    90deg,
+    #ff0000,
+    #ff7700,
+    #ffff00,
+    #00ff00,
+    #0000ff,
+    #4b0082,
+    #9400d3,
+    #ff0000
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: rainbowText 3s linear infinite;
+  text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
-@keyframes victoryTextPulse {
-  from {
-    text-shadow: 4px 4px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
-    transform: scale(1);
+@keyframes rainbowText {
+  0% {
+    background-position: 0% center;
   }
-  to {
-    text-shadow: 4px 4px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 0 30px rgba(255, 215, 0, 0.8);
-    transform: scale(1.05);
+  100% {
+    background-position: 200% center;
   }
 }
 
@@ -851,10 +864,8 @@
     font-size: 0.95rem;
   }
   
-  .victoryText {
+  .victoryTextRainbow {
     font-size: 1.8rem;
-    text-align: center;
-    padding: 0 20px;
   }
   
   .victoryImage {
@@ -955,7 +966,7 @@
     font-size: 0.85rem;
   }
   
-  .victoryText {
+  .victoryTextRainbow {
     font-size: 1.3rem;
   }
   
