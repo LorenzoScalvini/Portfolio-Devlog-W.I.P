@@ -7,6 +7,7 @@ import ostAudio from "../../assets/game/ost.mp3"
 import deathAudio from "../../assets/game/death.mp3"
 import dangerAudio from "../../assets/game/danger.mp3"
 import attackAudio from "../../assets/game/attack.mp3"
+import flamecastAudio from "../../assets/game/flamecast.mp3"
 import startVideo from "../../assets/game/start.mp4"
 import startImage from "../../assets/game/start.png"
 import heartImage from "../../assets/game/heart.png"
@@ -14,6 +15,12 @@ import asgoreAngryGif from "../../assets/game/asgore-angry.gif"
 import asgoreGif from "../../assets/game/asgore.gif"
 import flamesImage from "../../assets/game/flames.png"
 import midImage from "../../assets/game/mid.png"
+import winImage from "../../assets/game/win.png"
+
+// Asgore voice audio imports
+import asgoreTalk1 from "../../assets/game/asgoretalk1.mp3"
+import asgoreTalk2 from "../../assets/game/asgoretalk2.mp3"
+import asgoreTalk3 from "../../assets/game/asgoretalk3.mp3"
 
 // GAME CONFIGURATION CONSTANTS
 const GAME_CONFIG = {
@@ -22,9 +29,10 @@ const GAME_CONFIG = {
   BOX_SIZE: 280,
   MID_ATTACK_WIDTH: 80,
   MID_ATTACK_HEIGHT: 80,
-  FLAME_ATTACK_DURATION: 12000,
-  SPECIAL_ATTACK_DURATION: 5000,
-  TRANSITION_DURATION: 2000,
+  FLAME_ATTACK_DURATION: 12000, // 12 seconds
+  SPECIAL_ATTACK_DURATION: 5000, // 5 seconds
+  TRANSITION_DURATION: 2000, // 2 seconds
+  VICTORY_TIME: 154000, // 2:34 in milliseconds
 }
 
 // NARRATOR LINES FOR INTRO
@@ -34,6 +42,26 @@ const narratorLines = [
   "Sembra che il tuo viaggio sia finalmente finito.",
   "Sei pieno di DETERMINAZIONE.",
 ]
+
+// ASGORE DIALOGUE LINES - 10 lines
+const asgoreLines = [
+  "Sei determinato... ma non abbastanza!",
+  "Il destino di tutti i mostri è sulle mie spalle!",
+  "La tua ANIMA brucerà come fuoco ardente!",
+  "Mostrami cosa sai fare, piccolo umano!",
+  "Non posso permettermi di perdere!",
+  "Il peso delle mie azioni mi schiaccia...",
+  "Ogni mostro conta su di me!",
+  "La barriera deve cadere!",
+  "La tua DETERMINAZIONE è ammirevole!",
+  "Dammi tutto ciò che hai!",
+]
+
+// Asgore voice audio array
+const asgoreTalkAudios = [asgoreTalk1, asgoreTalk2, asgoreTalk3]
+
+// FLAME WAVE TYPES - circle appare due volte (indice 3 e 4)
+const flameWaveTypes = ["horizontal", "vertical", "diagonal", "circle", "circle"]
 
 // CREATE FLAME WAVE PATTERNS
 const createFlameWave = (waveType) => {
@@ -133,7 +161,7 @@ export default function Game() {
   // Attack phase states
   const [attackPhase, setAttackPhase] = useState("transition")
   const [attackCountdown, setAttackCountdown] = useState(GAME_CONFIG.FLAME_ATTACK_DURATION / 1000)
-  const [difficultyLevel, setDifficultyLevel] = useState(1)
+  const [flameCycleCount, setFlameCycleCount] = useState(0) // Conta quanti flame attack sono passati
 
   // Projectile states
   const [visibleFlames, setVisibleFlames] = useState([])
@@ -152,10 +180,10 @@ export default function Game() {
   const [showAngryAsgore, setShowAngryAsgore] = useState(false)
   const [showWarningAsgore, setShowWarningAsgore] = useState(false)
 
-  // Survival timer states
-  const [survivalTime, setSurvivalTime] = useState(0)
-  const [finalSurvivalTime, setFinalSurvivalTime] = useState(0)
-  const survivalTimerRef = useRef(null)
+  // Victory and dialogue states
+  const [gameWin, setGameWin] = useState(false)
+  const [currentAsgoreLine, setCurrentAsgoreLine] = useState("")
+  const [showAsgoreDialogue, setShowAsgoreDialogue] = useState(true)
 
   // Refs for input and timers
   const keys = useRef({ w: false, a: false, s: false, d: false })
@@ -170,16 +198,36 @@ export default function Game() {
   const midAttackMoveIntervalRef = useRef(null)
   const redZoneTimeoutRef = useRef(null)
   const redZoneCountdownRef = useRef(null)
+  const asgoreDialogueIntervalRef = useRef(null)
+  const victoryTimeoutRef = useRef(null)
+  const flameAttackTimeoutRef = useRef(null)
 
   // Audio refs
   const ostRef = useRef(null)
   const deathRef = useRef(null)
   const dangerRef = useRef(null)
   const attackRef = useRef(null)
+  const flamecastRef = useRef(null)
   const videoRef = useRef(null)
+  const asgoreTalkRefs = useRef([null, null, null])
 
-  // Attack patterns
-  const flameWaveTypes = ["horizontal", "vertical", "diagonal", "circle"]
+  // Play flamecast audio when flame wave starts
+  const playFlamecast = () => {
+    if (flamecastRef.current) {
+      flamecastRef.current.currentTime = 0
+      flamecastRef.current.play().catch(e => console.log("Flamecast audio play error:", e))
+    }
+  }
+
+  // Play random Asgore voice audio
+  const playRandomAsgoreTalk = () => {
+    const randomIndex = Math.floor(Math.random() * asgoreTalkAudios.length)
+    const audio = asgoreTalkRefs.current[randomIndex]
+    if (audio) {
+      audio.currentTime = 0
+      audio.play().catch(e => console.log("Asgore talk audio play error:", e))
+    }
+  }
 
   // Clear all timers function
   const clearAllTimers = () => {
@@ -187,18 +235,50 @@ export default function Game() {
     clearTimeout(specialAttackCycleRef.current)
     clearTimeout(waveChangeRef.current)
     clearTimeout(redZoneTimeoutRef.current)
+    clearTimeout(flameAttackTimeoutRef.current)
     clearInterval(countdownIntervalRef.current)
     clearInterval(midAttackMoveIntervalRef.current)
     clearInterval(redZoneCountdownRef.current)
   }
 
-  // Format time as MM:SS.ms
-  const formatSurvivalTime = (ms) => {
-    const totalSeconds = Math.floor(ms / 1000)
-    const minutes = Math.floor(totalSeconds / 60)
-    const seconds = totalSeconds % 60
-    const milliseconds = Math.floor((ms % 1000) / 10)
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`
+  // Start cycling Asgore dialogues based on OST time (distributed evenly)
+  const startAsgoreDialogueCycle = () => {
+    const dialogueInterval = GAME_CONFIG.VICTORY_TIME / asgoreLines.length
+    
+    let dialogueIndex = 0
+    setCurrentAsgoreLine(asgoreLines[dialogueIndex])
+    playRandomAsgoreTalk()
+    
+    asgoreDialogueIntervalRef.current = setInterval(() => {
+      if (gameState === "fight" && !gameWin) {
+        dialogueIndex = (dialogueIndex + 1) % asgoreLines.length
+        setCurrentAsgoreLine(asgoreLines[dialogueIndex])
+        playRandomAsgoreTalk()
+      }
+    }, dialogueInterval)
+  }
+
+  // Trigger victory at 2:34
+  const triggerVictory = () => {
+    if (gameWin || gameState !== "fight") return
+    
+    setGameWin(true)
+    
+    clearAllTimers()
+    clearInterval(intervalRef.current)
+    clearTimeout(victoryTimeoutRef.current)
+    clearInterval(asgoreDialogueIntervalRef.current)
+    clearInterval(midAttackMoveIntervalRef.current)
+    
+    setVisibleFlames([])
+    setZoneActive(false)
+    setMidAttack(prev => ({ ...prev, active: false }))
+    
+    setGameState("victory")
+    
+    if (ostRef.current) {
+      ostRef.current.pause()
+    }
   }
 
   // Update flames with special patterns
@@ -301,7 +381,6 @@ export default function Game() {
       direction: fromRight ? -1 : 1,
     })
     
-    // Mid attack moves back and forth during special attack
     midAttackMoveIntervalRef.current = setInterval(() => {
       setMidAttack(prev => {
         if (!prev.active) {
@@ -328,18 +407,16 @@ export default function Game() {
     }, GAME_CONFIG.SPECIAL_ATTACK_DURATION)
   }
 
-  // Start special attack cycle (mid + red zone together)
+  // Start special attack cycle
   const startSpecialAttackCycle = () => {
     clearAllTimers()
     setAttackPhase("special")
     setVisibleFlames([])
     setAttackCountdown(GAME_CONFIG.SPECIAL_ATTACK_DURATION / 1000)
     
-    // Activate red zone and mid attack together
     activateRedZoneForSpecial()
     activateMidAttackForSpecial()
     
-    // Timer for special attack duration
     specialAttackCycleRef.current = setTimeout(() => {
       setZoneActive(false)
       setRedZoneDeadly(false)
@@ -350,8 +427,8 @@ export default function Game() {
       clearInterval(redZoneCountdownRef.current)
       clearTimeout(redZoneTimeoutRef.current)
       
-      // After special attack, go back to normal cycle
-      startTransition(() => startFlameAttackCycle())
+      // Dopo lo special attack, torna al flame attack
+      startFlameAttackCycle()
     }, GAME_CONFIG.SPECIAL_ATTACK_DURATION)
     
     countdownIntervalRef.current = setInterval(() => {
@@ -365,6 +442,18 @@ export default function Game() {
     }, 1000)
   }
 
+  // Change flame wave - ogni volta che cambia onda, parte flamecast.mp3
+  const changeFlameWave = (waveIndex) => {
+    if (waveIndex < flameWaveTypes.length) {
+      setCurrentFlameWave(waveIndex)
+      setVisibleFlames(createFlameWave(flameWaveTypes[waveIndex]))
+      playFlamecast() // 🔥 PARTE FLAMECAST AD OGNI NUOVA ONDA
+      waveChangeRef.current = setTimeout(() => {
+        changeFlameWave(waveIndex + 1)
+      }, GAME_CONFIG.FLAME_ATTACK_DURATION / flameWaveTypes.length)
+    }
+  }
+
   // Start flame attack cycle
   const startFlameAttackCycle = () => {
     clearAllTimers()
@@ -374,28 +463,31 @@ export default function Game() {
     setMidAttack(prev => ({ ...prev, active: false }))
     setZoneActive(false)
     setRedZoneDeadly(false)
+    setAttackCountdown(GAME_CONFIG.FLAME_ATTACK_DURATION / 1000)
     
-    // Subtract special attack duration from flame attack
-    const adjustedFlameDuration = GAME_CONFIG.FLAME_ATTACK_DURATION - GAME_CONFIG.SPECIAL_ATTACK_DURATION
-    setAttackCountdown(adjustedFlameDuration / 1000)
+    // 🔥 PRIMA ONDA - parte flamecast
+    playFlamecast()
     
-    const changeWave = (waveIndex) => {
-      if (waveIndex < flameWaveTypes.length) {
-        setCurrentFlameWave(waveIndex)
-        setVisibleFlames(createFlameWave(flameWaveTypes[waveIndex]))
-        waveChangeRef.current = setTimeout(() => {
-          changeWave(waveIndex + 1)
-        }, adjustedFlameDuration / flameWaveTypes.length)
-      }
-    }
-    
+    // Start wave cycling
     waveChangeRef.current = setTimeout(() => {
-      changeWave(1)
-    }, adjustedFlameDuration / flameWaveTypes.length)
+      changeFlameWave(1)
+    }, GAME_CONFIG.FLAME_ATTACK_DURATION / flameWaveTypes.length)
     
-    attackCycleRef.current = setTimeout(() => {
-      startTransition(() => startSpecialAttackCycle())
-    }, adjustedFlameDuration)
+    // Schedule next attack after flame attack ends
+    flameAttackTimeoutRef.current = setTimeout(() => {
+      // Incrementa il contatore dei flame attack completati
+      setFlameCycleCount(prev => {
+        const newCount = prev + 1
+        // Dopo 2 flame attack, vai allo special attack
+        if (newCount >= 2) {
+          setFlameCycleCount(0)
+          startTransitionToSpecial()
+        } else {
+          startTransitionToFlame()
+        }
+        return newCount
+      })
+    }, GAME_CONFIG.FLAME_ATTACK_DURATION)
     
     countdownIntervalRef.current = setInterval(() => {
       setAttackCountdown((prev) => {
@@ -408,15 +500,27 @@ export default function Game() {
     }, 1000)
   }
 
-  // Transition between attacks
-  const startTransition = (nextAttack) => {
+  // Transition to next flame attack
+  const startTransitionToFlame = () => {
     setAttackPhase("transition")
     setVisibleFlames([])
     setMidAttack(prev => ({ ...prev, active: false }))
     setZoneActive(false)
     setRedZoneDeadly(false)
     setTimeout(() => {
-      nextAttack()
+      startFlameAttackCycle()
+    }, GAME_CONFIG.TRANSITION_DURATION)
+  }
+
+  // Transition to special attack
+  const startTransitionToSpecial = () => {
+    setAttackPhase("transition")
+    setVisibleFlames([])
+    setMidAttack(prev => ({ ...prev, active: false }))
+    setZoneActive(false)
+    setRedZoneDeadly(false)
+    setTimeout(() => {
+      startSpecialAttackCycle()
     }, GAME_CONFIG.TRANSITION_DURATION)
   }
 
@@ -501,9 +605,11 @@ export default function Game() {
       attackRef.current.currentTime = 0
     }
 
-    if (gameState === "menu" || gameState === "loading") {
-      ostRef.current.pause()
-      ostRef.current.currentTime = 0
+    if (gameState === "menu" || gameState === "loading" || gameState === "victory") {
+      if (gameState !== "victory") {
+        ostRef.current.pause()
+        ostRef.current.currentTime = 0
+      }
       deathRef.current.pause()
       deathRef.current.currentTime = 0
       dangerRef.current.pause()
@@ -543,7 +649,6 @@ export default function Game() {
         return { x, y }
       })
 
-      // Update flames during flame attack
       if (attackPhase === "flame") {
         setVisibleFlames((prevFlames) => {
           const newFlames = updateFlames(prevFlames)
@@ -562,7 +667,6 @@ export default function Game() {
         })
       }
 
-      // Red zone collision
       if (redZoneDeadly) {
         const inRedZone = redZoneOnRight ? position.x > GAME_CONFIG.BOX_SIZE / 2 : position.x < GAME_CONFIG.BOX_SIZE / 2
         if (inRedZone) {
@@ -570,7 +674,6 @@ export default function Game() {
         }
       }
 
-      // Mid attack movement and collision
       if (midAttack.active) {
         if (
           midAttack.x < position.x + GAME_CONFIG.HEART_SIZE &&
@@ -594,37 +697,24 @@ export default function Game() {
     }
   }, [gameState, position, redZoneDeadly, redZoneOnRight, midAttack.active, attackPhase])
 
-  // Start attack cycle when fight begins
+  // Start attack cycle, victory timer, and dialogue cycle when fight begins
   useEffect(() => {
     if (gameState === "fight") {
-      setDifficultyLevel(1)
-      startFlameAttackCycle()
+      setGameWin(false)
+      setShowAsgoreDialogue(true)
+      setFlameCycleCount(0)
+      startFlameAttackCycle() // Parte con il primo flame attack
+      startAsgoreDialogueCycle()
+      
+      victoryTimeoutRef.current = setTimeout(() => {
+        triggerVictory()
+      }, GAME_CONFIG.VICTORY_TIME)
     }
     return () => {
       clearAllTimers()
       clearInterval(midAttackMoveIntervalRef.current)
-    }
-  }, [gameState])
-
-  // Survival timer effect
-  useEffect(() => {
-    if (gameState === "fight") {
-      setSurvivalTime(0)
-      survivalTimerRef.current = setInterval(() => {
-        setSurvivalTime((prev) => prev + 10)
-      }, 10)
-    } else {
-      if (survivalTimerRef.current) {
-        clearInterval(survivalTimerRef.current)
-      }
-      if (gameState === "gameover") {
-        setFinalSurvivalTime(survivalTime)
-      }
-    }
-    return () => {
-      if (survivalTimerRef.current) {
-        clearInterval(survivalTimerRef.current)
-      }
+      clearTimeout(victoryTimeoutRef.current)
+      clearInterval(asgoreDialogueIntervalRef.current)
     }
   }, [gameState])
 
@@ -666,6 +756,7 @@ export default function Game() {
       })
       setAttackPhase("transition")
       setCurrentFlameWave(0)
+      setFlameCycleCount(0)
       if (ostRef.current) {
         ostRef.current.currentTime = 0
       }
@@ -732,6 +823,12 @@ export default function Game() {
       <audio ref={deathRef} src={deathAudio} />
       <audio ref={dangerRef} src={dangerAudio} />
       <audio ref={attackRef} src={attackAudio} />
+      <audio ref={flamecastRef} src={flamecastAudio} />
+      
+      {/* Asgore Talk Audio Elements */}
+      <audio ref={el => asgoreTalkRefs.current[0] = el} src={asgoreTalk1} />
+      <audio ref={el => asgoreTalkRefs.current[1] = el} src={asgoreTalk2} />
+      <audio ref={el => asgoreTalkRefs.current[2] = el} src={asgoreTalk3} />
 
       {/* Intro Video */}
       {showVideo && (
@@ -758,15 +855,23 @@ export default function Game() {
       {/* Loading Screen */}
       {gameState === "loading" && <div className={styles.countdownText} style={{ userSelect: "none" }}></div>}
 
+      {/* Victory Screen */}
+      {gameState === "victory" && !showVideo && (
+        <div className={styles.victoryContainer}>
+          <img src={winImage} alt="Victory" className={styles.victoryImage} />
+          <div className={styles.victoryText}>mi hai sconfitto...<br />la tua DETERMINAZIONE era troppa</div>
+          <button onClick={goHome} className={styles.victoryHomeButton}>
+            Torna alla Home
+          </button>
+        </div>
+      )}
+
       {/* Menu and Game Over */}
-      {(gameState === "menu" || gameState === "gameover") && !showVideo && (
+      {(gameState === "menu" || gameState === "gameover") && !showVideo && gameState !== "victory" && (
         <div className={gameState === "menu" ? styles.menu : styles.retryMenu}>
           {gameState === "gameover" && (
             <>
               <div className={styles.retryText}>Non puoi arrenderti proprio ora...</div>
-              <div className={styles.survivalTimeResult}>
-                Tempo sopravvissuto: {formatSurvivalTime(finalSurvivalTime)}
-              </div>
             </>
           )}
           <img src={startImage || "/placeholder.svg"} alt="Start Image" className={styles.startImage} />
@@ -780,27 +885,21 @@ export default function Game() {
               Torna alla Home
             </button>
           </div>
-          <div className={styles.controlsHint}>Usa i tasti WASD per muoverti</div>
         </div>
       )}
 
       {/* Fight Screen */}
-      {(gameState === "fight" || gameState === "countdown") && !showVideo && (
+      {(gameState === "fight" || gameState === "countdown") && !showVideo && !gameWin && (
         <div className={styles.gameWrapper}>
           {/* Attack Name - Outside box, above Asgore */}
           <div className={styles.attackNameDisplay}>
             {attackPhase === "flame" ? (
-              <span className={styles.flameAttackName}>🔥 FLAMES 🔥</span>
+              <span className={styles.flameAttackName}>FLAMES</span>
             ) : attackPhase === "special" ? (
-              <span className={styles.specialAttackName}>⚠ SPECIAL ATTACK! ⚠</span>
+              <span className={styles.specialAttackName}>SPECIAL ATTACK</span>
             ) : (
-              <span className={styles.transitionAttackName}>⚡ PROSSIMO ATTACCO ⚡</span>
+              <span className={styles.transitionAttackName}>PROSSIMO ATTACCO</span>
             )}
-          </div>
-          
-          {/* Speedrun Timer */}
-          <div className={styles.speedrunTimer}>
-            {formatSurvivalTime(survivalTime)}
           </div>
           
           <div className={styles.battleLayout}>
@@ -851,7 +950,7 @@ export default function Game() {
 
               {/* Warning Circles for Circle Attack */}
               {attackPhase === "flame" &&
-                currentFlameWave === 3 &&
+                (currentFlameWave === 3 || currentFlameWave === 4) &&
                 visibleFlames
                   .filter((flame) => flame.isCircle && flame.warningTime > 0)
                   .map((flame) => (
@@ -868,8 +967,8 @@ export default function Game() {
                     />
                   ))}
 
-              {/* Mid Attack - visible during flame and special attacks */}
-              {(attackPhase === "flame" || attackPhase === "special") && midAttack.active && (
+              {/* Mid Attack - visible during special attacks */}
+              {attackPhase === "special" && midAttack.active && (
                 <img
                   src={midImage || "/placeholder.svg"}
                   alt="Mid Attack"
@@ -890,7 +989,14 @@ export default function Game() {
               )}
             </div>
           </div>
-          <div className={styles.controlsHint}>Usa i tasti WASD per muoverti</div>
+          
+          {/* Asgore Dialogue Box */}
+          {showAsgoreDialogue && (
+            <div className={styles.asgoreDialogue}>
+              <span className={styles.asgoreName}>ASGORE:</span>
+              <span className={styles.dialogueText}>"{currentAsgoreLine}"</span>
+            </div>
+          )}
         </div>
       )}
     </div>

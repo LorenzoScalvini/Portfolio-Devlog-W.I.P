@@ -235,16 +235,9 @@
   letter-spacing: 2px;
 }
 
+/* Nascondi il testo dei controlli WASD */
 .controlsHint {
-  bottom: 8rem;
-  left: 0;
-  right: 0;
-  text-align: center;
-  color: white;
-  font-size: 1.5rem;
-  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-  letter-spacing: 2px;
-  z-index: 10;
+  display: none;
 }
 
 /* Layout di combattimento */
@@ -253,7 +246,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
+  gap: 1.5rem;
   z-index: 10;
 }
 
@@ -536,24 +529,9 @@
   }
 }
 
-/* Speedrun Timer */
+/* Speedrun Timer - NASCOSTO */
 .speedrunTimer {
-  font-size: 2.5rem;
-  color: #fff;
-  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-  letter-spacing: 3px;
-  z-index: 10;
-  font-variant-numeric: tabular-nums;
-  animation: timerGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes timerGlow {
-  from {
-    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-  }
-  to {
-    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 15px rgba(255, 255, 255, 0.5);
-  }
+  display: none;
 }
 
 /* Attack Name Display - Outside Box */
@@ -562,7 +540,7 @@
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 4px;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   z-index: 10;
 }
 
@@ -635,6 +613,155 @@
   }
 }
 
+/* Asgore Dialogue Box - positioned near the fight */
+.asgoreDialogue {
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 4px solid #ffffff;
+  padding: 0.8rem 1.5rem;
+  min-width: 350px;
+  max-width: 500px;
+  text-align: center;
+  z-index: 60;
+  animation: dialogueGlow 2s ease-in-out infinite alternate;
+  box-shadow: 0 0 0 2px #000, 0 0 0 5px #fff;
+  backdrop-filter: blur(2px);
+  margin-top: 0.5rem;
+}
+
+@keyframes dialogueGlow {
+  from {
+    box-shadow: 0 0 0 2px #000, 0 0 0 5px #fff;
+  }
+  to {
+    box-shadow: 0 0 0 2px #000, 0 0 0 5px #fff, 0 0 20px rgba(255, 255, 255, 0.5);
+  }
+}
+
+.asgoreName {
+  display: block;
+  font-size: 1rem;
+  color: #ffcc00;
+  text-shadow: 2px 2px 0 #000;
+  letter-spacing: 2px;
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+}
+
+.dialogueText {
+  display: block;
+  font-size: 1.1rem;
+  color: #ffffff;
+  text-shadow: 2px 2px 0 #000;
+  letter-spacing: 1px;
+  font-style: italic;
+  animation: textFade 0.5s ease-in-out;
+}
+
+@keyframes textFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Victory Screen - same aesthetic as start.png */
+.victoryContainer {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  z-index: 100;
+  border: 8px solid #fff;
+  box-sizing: border-box;
+  animation: victoryFadeIn 1s ease-out;
+}
+
+@keyframes victoryFadeIn {
+  from {
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.95);
+  }
+}
+
+.victoryImage {
+  width: 300px;
+  height: auto;
+  image-rendering: pixelated;
+  animation: victoryFloat 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+  border: 6px solid #fff;
+  box-shadow: 0 0 0 6px #000, 0 0 0 12px #fff;
+}
+
+@keyframes victoryFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.victoryText {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 4px 4px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  animation: victoryTextPulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes victoryTextPulse {
+  from {
+    text-shadow: 4px 4px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+    transform: scale(1);
+  }
+  to {
+    text-shadow: 4px 4px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 0 30px rgba(255, 215, 0, 0.8);
+    transform: scale(1.05);
+  }
+}
+
+.victoryHomeButton {
+  background-color: #000000;
+  color: #fff;
+  border: 3px solid #ffffff;
+  padding: 1rem 2rem;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.victoryHomeButton:hover {
+  background-color: #ffffff;
+  color: #000000;
+  transform: scale(1.05);
+}
+
+.victoryHomeButton:active {
+  animation: pixelPress 0.1s;
+}
+
 /* Animazione float per videoTitle */
 @keyframes float {
   0%, 100% {
@@ -698,18 +825,8 @@
     width: 250px;
   }
 
-  .controlsHint {
-    font-size: 1.2rem;
-    bottom: 2rem;
-    padding: 0 20px;
-  }
-
   .menuButtons {
     gap: 1rem;
-  }
-
-  .speedrunTimer {
-    font-size: 2rem;
   }
 
   .attackNameDisplay {
@@ -718,6 +835,35 @@
 
   .survivalTimeResult {
     font-size: 1.5rem;
+  }
+
+  .asgoreDialogue {
+    padding: 0.6rem 1.2rem;
+    min-width: 280px;
+    max-width: 90%;
+  }
+  
+  .asgoreName {
+    font-size: 0.9rem;
+  }
+  
+  .dialogueText {
+    font-size: 0.95rem;
+  }
+  
+  .victoryText {
+    font-size: 1.8rem;
+    text-align: center;
+    padding: 0 20px;
+  }
+  
+  .victoryImage {
+    width: 200px;
+  }
+  
+  .victoryHomeButton {
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
   }
 }
 
@@ -769,12 +915,6 @@
     width: 200px;
   }
 
-  .controlsHint {
-    font-size: 1rem;
-    bottom: 1.5rem;
-    padding: 0 10px;
-  }
-
   .retryText {
     font-size: 2rem;
     padding: 0 20px;
@@ -794,15 +934,32 @@
     font-size: 1.2rem;
   }
 
-  .speedrunTimer {
-    font-size: 1.5rem;
-  }
-
   .attackNameDisplay {
     font-size: 1.2rem;
   }
 
   .survivalTimeResult {
     font-size: 1.2rem;
+  }
+
+  .asgoreDialogue {
+    padding: 0.5rem 1rem;
+    min-width: 250px;
+  }
+  
+  .asgoreName {
+    font-size: 0.8rem;
+  }
+  
+  .dialogueText {
+    font-size: 0.85rem;
+  }
+  
+  .victoryText {
+    font-size: 1.3rem;
+  }
+  
+  .victoryImage {
+    width: 150px;
   }
 }
