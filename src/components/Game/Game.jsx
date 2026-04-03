@@ -844,7 +844,7 @@ export default function Game() {
       {gameState === "victory" && !showVideo && (
         <div className={styles.victoryContainer}>
           <img src={winImage} alt="Victory" className={styles.victoryImage} />
-          <div className={styles.victoryTextRainbow}>mi hai sconfitto...<br />che DETERMINAZIONE incredibile</div>
+          <div className={styles.victoryTextRainbow}>mi hai sconfitto...<br />la tua DETERMINAZIONE era troppa</div>
           <button onClick={goHome} className={styles.victoryHomeButton}>
             Torna alla Home
           </button>
