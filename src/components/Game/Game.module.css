@@ -1,3 +1,4 @@
+/* Game.module.css */
 @import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
 
 /* Contenitore principale con effetti CRT */
@@ -46,45 +47,42 @@
   pointer-events: none;
 }
 
-/* Contenitore video introduttivo */
+/* Contenitore video introduttivo - centrato con bordo estetico e più piccolo */
 .videoContainer {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 20;
   background-color: rgba(0, 0, 0, 0.95);
-  border: 8px solid #fff;
   box-sizing: border-box;
-  padding: 20px;
+  padding: 15px;
+  border: 6px solid #ffffff;
+  box-shadow: 0 0 0 3px #000, 0 0 0 6px #fff, 0 0 20px rgba(255, 255, 255, 0.3);
+  animation: videoContainerGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes videoContainerGlow {
+  from {
+    box-shadow: 0 0 0 3px #000, 0 0 0 6px #fff, 0 0 15px rgba(255, 255, 255, 0.3);
+  }
+  to {
+    box-shadow: 0 0 0 3px #000, 0 0 0 6px #fff, 0 0 30px rgba(255, 255, 255, 0.5);
+  }
 }
 
 .videoPlayer {
-  width: 100%;
-  max-width: 800px;
-  max-height: 100%;
+  width: 560px;
+  max-width: 70vw;
+  max-height: 70vh;
   object-fit: contain;
-  border: 4px solid #fff;
-  box-shadow: 0 0 0 4px #000, 0 0 0 8px #fff;
   image-rendering: pixelated;
-}
-
-.videoTitle {
-  position: absolute;
-  bottom: 9rem;
-  width: 100%;
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: white;
-  text-shadow: 3px 3px 0 #000;
-  letter-spacing: 2px;
-  animation: float 2s ease-in-out infinite;
-  z-index: 21;
+  display: block;
 }
 
 .skipButton {
@@ -128,22 +126,22 @@
   box-sizing: border-box;
 }
 
+/* Start Image styling */
 .startImage {
-  width: 500px;
-  display: block;
-  margin: 0 auto 20px;
+  width: 280px;
+  height: auto;
   image-rendering: pixelated;
-  animation: floatVertical 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 10px rgba(248, 248, 248, 0.5));
+  margin-bottom: 1rem;
+  animation: startImageFloat 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
 }
 
-@keyframes floatVertical {
-  0%,
-  100% {
+@keyframes startImageFloat {
+  0%, 100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-20px);
+    transform: translateY(-10px);
   }
 }
 
@@ -181,13 +179,6 @@
   animation: pixelPress 0.1s;
 }
 
-.menuHeart {
-  width: 24px;
-  height: 24px;
-  image-rendering: pixelated;
-  filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));
-}
-
 /* Home button styling */
 .homeButton {
   position: relative;
@@ -222,6 +213,10 @@
 
 .homeIcon {
   font-size: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
+  image-rendering: pixelated;
   filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
 }
 
@@ -240,34 +235,62 @@
   display: none;
 }
 
-/* Layout di combattimento */
+/* Vertical layout per Asriel, testo, arena */
+.verticalLayout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  z-index: 10;
+}
+
+/* Layout di combattimento wrapper */
 .gameWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
   z-index: 10;
 }
 
-.battleLayout {
+/* Asriel container per movimento orizzontale e verticale - attivo anche durante countdown */
+.asrielContainer {
   display: flex;
-  align-items: center;
-  gap: 3rem;
-  z-index: 10;
+  justify-content: center;
+  transition: transform 0.03s linear;
+  will-change: transform;
 }
 
-/* Asgore con animazioni */
-.asgore {
-  width: 400px;
-  height: auto;
+/* Asriel senza bordi */
+.asriel {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
   pointer-events: none;
   image-rendering: pixelated;
-  animation: floaty-wiggle 3s ease-in-out infinite, pastel-glow 2s linear infinite;
-  display: inline-block;
+  animation: pastel-glow 2s linear infinite;
   filter: drop-shadow(0 0 15px #ffb3ba);
-  border: 6px solid #fff;
-  box-shadow: 0 0 0 6px #000, 0 0 0 12px #fff;
+}
+
+/* Asriel arrabbiato */
+.asrielAngry {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+  pointer-events: none;
+  image-rendering: pixelated;
+  animation: angryGlow 0.8s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 15px #ff4444);
+}
+
+@keyframes angryGlow {
+  from {
+    filter: drop-shadow(0 0 10px #ff0000);
+  }
+  to {
+    filter: drop-shadow(0 0 25px #ff6666);
+  }
 }
 
 @keyframes pastel-glow {
@@ -294,24 +317,6 @@
   }
 }
 
-@keyframes floaty-wiggle {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-  25% {
-    transform: translateY(-8px) rotate(1deg);
-  }
-  50% {
-    transform: translateY(0) rotate(0deg);
-  }
-  75% {
-    transform: translateY(8px) rotate(-1deg);
-  }
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-}
-
 /* Area di gioco */
 .box {
   position: relative;
@@ -325,8 +330,7 @@
 }
 
 @keyframes floaty {
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(0);
   }
   50% {
@@ -346,7 +350,7 @@
   filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.8));
 }
 
-/* Fiamme */
+/* Fiamme e stelle */
 .flame {
   position: absolute;
   width: 32px;
@@ -400,8 +404,7 @@
 }
 
 @keyframes verticalFloat {
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(0px);
   }
   50% {
@@ -418,39 +421,51 @@
   }
 }
 
-/* Zone di attacco */
-.greenZone {
+/* Safe zone - completamente nera come sfondo */
+.safeZone {
   position: absolute;
   top: 0;
   height: 100%;
   z-index: 1;
-  border-right: 3px dashed rgba(0, 255, 0, 0.8);
+  background-color: transparent;
 }
 
-.redZone {
+/* Rainbow zone pastel */
+.rainbowZone {
   position: absolute;
   top: 0;
   height: 100%;
-  background-color: rgba(255, 157, 0, 0.2);
+  background: linear-gradient(135deg, 
+    #ffb3ba, #ffd4a8, #fff5ba, #baffc9, #bae1ff, #d4baff, #f5baff, #ffb3ba);
+  background-size: 200% 200%;
+  animation: rainbowGradient 2s ease infinite;
   z-index: 1;
   transition: all 0.3s ease;
-  border-right: 3px dashed rgba(255, 149, 0, 0.8);
+  opacity: 1;
 }
 
-.redZone.deadly {
-  background-color: rgba(255, 255, 255, 0.8);
-  animation: redPulse 0.5s ease-in-out infinite alternate;
-  border-right: 3px dashed rgb(0, 64, 255);
+.rainbowZone.deadly {
+  animation: rainbowPulse 0.5s ease-in-out infinite alternate;
+  opacity: 1;
 }
 
-@keyframes redPulse {
+@keyframes rainbowGradient {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes rainbowPulse {
   from {
-    background-color: rgba(0, 174, 255, 0.6);
-    border-color: rgba(0, 68, 255, 0.8);
+    background: linear-gradient(135deg, #ffb3ba, #ffd4a8, #fff5ba, #baffc9, #bae1ff, #d4baff, #f5baff);
+    background-size: 200% 200%;
   }
   to {
-    background-color: rgba(255, 255, 255, 0.9);
-    border-color: rgb(0, 132, 255);
+    background: linear-gradient(135deg, #ffd4a8, #fff5ba, #baffc9, #bae1ff, #d4baff, #f5baff, #ffb3ba);
+    background-size: 200% 200%;
   }
 }
 
@@ -534,63 +549,64 @@
   display: none;
 }
 
-/* Attack Name Display - Outside Box */
+/* Attack Name Display - Smaller text */
 .attackNameDisplay {
-  font-size: 2rem;
+  font-size: 1.2rem;
   font-weight: bold;
   text-transform: uppercase;
-  letter-spacing: 4px;
-  margin-bottom: 0.5rem;
+  letter-spacing: 3px;
+  margin: 0.3rem 0;
   z-index: 10;
+  text-align: center;
 }
 
 /* Flame Attack Name */
 .flameAttackName {
-  color: #ff6b35;
-  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  color: #ff9f7c;
+  text-shadow: 2px 2px 0 #000;
   animation: flameGlow 0.3s ease-in-out infinite alternate;
 }
 
 @keyframes flameGlow {
   from {
-    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    text-shadow: 2px 2px 0 #000;
   }
   to {
-    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 20px rgba(255, 107, 53, 0.8);
+    text-shadow: 2px 2px 0 #000, 0 0 15px rgba(255, 159, 124, 0.6);
   }
 }
 
 /* Transition Attack Name */
 .transitionAttackName {
-  color: #9b59b6;
-  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  color: #c9a0dc;
+  text-shadow: 2px 2px 0 #000;
   animation: transitionGlow 0.8s ease-in-out infinite alternate;
 }
 
 @keyframes transitionGlow {
   from {
-    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    text-shadow: 2px 2px 0 #000;
   }
   to {
-    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 20px rgba(155, 89, 182, 0.8);
+    text-shadow: 2px 2px 0 #000, 0 0 15px rgba(201, 160, 220, 0.6);
   }
 }
 
 /* Special Attack Name */
 .specialAttackName {
-  color: #ff3366;
-  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  color: #ff99bb;
+  text-shadow: 2px 2px 0 #000;
   animation: specialGlow 0.5s ease-in-out infinite alternate;
 }
 
 @keyframes specialGlow {
   from {
-    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    color: #ff3366;
+    text-shadow: 2px 2px 0 #000;
+    color: #ff99bb;
   }
   to {
-    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 20px rgba(255, 51, 102, 0.8);
-    color: #ff6699;
+    text-shadow: 2px 2px 0 #000, 0 0 15px rgba(255, 153, 187, 0.6);
+    color: #ffbbcc;
   }
 }
 
@@ -613,19 +629,24 @@
   }
 }
 
-/* Asgore Dialogue Box - positioned near the fight */
-.asgoreDialogue {
+/* Asriel Dialogue Box - consistent size */
+.asrielDialogue {
   background-color: rgba(0, 0, 0, 0.9);
   border: 4px solid #ffffff;
   padding: 0.8rem 1.5rem;
-  min-width: 350px;
+  min-width: 380px;
   max-width: 500px;
+  width: auto;
+  min-height: 85px;
   text-align: center;
   z-index: 60;
   animation: dialogueGlow 2s ease-in-out infinite alternate;
   box-shadow: 0 0 0 2px #000, 0 0 0 5px #fff;
   backdrop-filter: blur(2px);
-  margin-top: 0.5rem;
+  margin: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 @keyframes dialogueGlow {
@@ -637,7 +658,7 @@
   }
 }
 
-.asgoreName {
+.asrielName {
   display: block;
   font-size: 1rem;
   color: #ffcc00;
@@ -668,123 +689,6 @@
   }
 }
 
-/* Victory Screen */
-.victoryContainer {
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.95);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  z-index: 100;
-  border: 8px solid #fff;
-  box-sizing: border-box;
-  animation: victoryFadeIn 1s ease-out;
-}
-
-@keyframes victoryFadeIn {
-  from {
-    opacity: 0;
-    background-color: rgba(0, 0, 0, 0);
-  }
-  to {
-    opacity: 1;
-    background-color: rgba(0, 0, 0, 0.95);
-  }
-}
-
-.victoryImage {
-  width: 300px;
-  height: auto;
-  image-rendering: pixelated;
-  animation: victoryFloat 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
-  border: 6px solid #fff;
-  box-shadow: 0 0 0 6px #000, 0 0 0 12px #fff;
-}
-
-@keyframes victoryFloat {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-/* TESTO VITTORIA ARCOBALENO ANIMATO */
-.victoryTextRainbow {
-  font-size: 2.5rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-align: center;
-  background: linear-gradient(
-    90deg,
-    #ff0000,
-    #ff7700,
-    #ffff00,
-    #00ff00,
-    #0000ff,
-    #4b0082,
-    #9400d3,
-    #ff0000
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: rainbowText 3s linear infinite;
-  text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-}
-
-@keyframes rainbowText {
-  0% {
-    background-position: 0% center;
-  }
-  100% {
-    background-position: 200% center;
-  }
-}
-
-.victoryHomeButton {
-  background-color: #000000;
-  color: #fff;
-  border: 3px solid #ffffff;
-  padding: 1rem 2rem;
-  font-size: 1.3rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: inherit;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.victoryHomeButton:hover {
-  background-color: #ffffff;
-  color: #000000;
-  transform: scale(1.05);
-}
-
-.victoryHomeButton:active {
-  animation: pixelPress 0.1s;
-}
-
-/* Animazione float per videoTitle */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
 /* Design responsive */
 @media (max-width: 768px) {
   .container {
@@ -792,19 +696,13 @@
   }
 
   .videoContainer {
-    padding: 10px;
-    border: 4px solid #fff;
+    padding: 12px;
   }
 
   .videoPlayer {
-    border: 2px solid #fff;
-    box-shadow: 0 0 0 2px #000, 0 0 0 4px #fff;
-  }
-
-  .videoTitle {
-    bottom: 6rem;
-    font-size: 1.8rem;
-    padding: 0 20px;
+    width: 420px;
+    max-width: 75vw;
+    max-height: 65vh;
   }
 
   .skipButton {
@@ -814,18 +712,19 @@
     font-size: 1rem;
   }
 
-  .battleLayout {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
   .box {
     width: 240px;
     height: 240px;
   }
 
-  .asgore {
-    width: 280px;
+  .asriel,
+  .asrielAngry {
+    width: 220px;
+    height: 220px;
+  }
+
+  .startImage {
+    width: 220px;
   }
 
   .menuButton,
@@ -834,65 +733,43 @@
     padding: 0.8rem 1.5rem;
   }
 
-  .startImage {
-    width: 250px;
-  }
-
   .menuButtons {
     gap: 1rem;
   }
 
   .attackNameDisplay {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 
   .survivalTimeResult {
     font-size: 1.5rem;
   }
 
-  .asgoreDialogue {
+  .asrielDialogue {
     padding: 0.6rem 1.2rem;
-    min-width: 280px;
+    min-width: 300px;
     max-width: 90%;
+    min-height: 75px;
   }
   
-  .asgoreName {
+  .asrielName {
     font-size: 0.9rem;
   }
   
   .dialogueText {
     font-size: 0.95rem;
   }
-  
-  .victoryTextRainbow {
-    font-size: 1.8rem;
-  }
-  
-  .victoryImage {
-    width: 200px;
-  }
-  
-  .victoryHomeButton {
-    font-size: 1rem;
-    padding: 0.8rem 1.5rem;
-  }
 }
 
 @media (max-width: 480px) {
   .videoContainer {
-    padding: 5px;
-    border: 3px solid #fff;
+    padding: 8px;
   }
 
   .videoPlayer {
-    border: 2px solid #fff;
-    box-shadow: 0 0 0 2px #000, 0 0 0 3px #fff;
-  }
-
-  .videoTitle {
-    bottom: 4rem;
-    font-size: 1.3rem;
-    padding: 0 10px;
+    width: 300px;
+    max-width: 85vw;
+    max-height: 60vh;
   }
 
   .skipButton {
@@ -902,28 +779,25 @@
     font-size: 0.9rem;
   }
 
-  .battleLayout {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
   .box {
     width: 200px;
     height: 200px;
   }
 
-  .asgore {
-    width: 240px;
+  .asriel,
+  .asrielAngry {
+    width: 180px;
+    height: 180px;
+  }
+
+  .startImage {
+    width: 180px;
   }
 
   .menuButton,
   .homeButton {
     font-size: 1rem;
     padding: 0.6rem 1.2rem;
-  }
-
-  .startImage {
-    width: 200px;
   }
 
   .retryText {
@@ -946,31 +820,103 @@
   }
 
   .attackNameDisplay {
-    font-size: 1.2rem;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
   }
 
   .survivalTimeResult {
     font-size: 1.2rem;
   }
 
-  .asgoreDialogue {
+  .asrielDialogue {
     padding: 0.5rem 1rem;
-    min-width: 250px;
+    min-width: 260px;
+    min-height: 70px;
   }
   
-  .asgoreName {
+  .asrielName {
     font-size: 0.8rem;
   }
   
   .dialogueText {
     font-size: 0.85rem;
   }
-  
-  .victoryTextRainbow {
-    font-size: 1.3rem;
+}
+
+/* Blue warning zone - più scura per contrasto */
+.warningZone {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(135deg, #1e3a5f, #2a4a6e, #1e3a5f);
+  background-size: 200% 200%;
+  animation: warningZonePulse 0.8s ease infinite;
+  z-index: 1;
+  transition: all 0.3s ease;
+  opacity: 1;
+}
+
+@keyframes warningZonePulse {
+  0% {
+    background-position: 0% 0%;
   }
-  
-  .victoryImage {
-    width: 150px;
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+/* Countdown numbers styling */
+.zoneCountdown {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 3px 3px 0 #000;
+  z-index: 2;
+  animation: countdownNumberPulse 0.5s ease-out;
+}
+
+@keyframes countdownNumberPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Exclamation mark for deadly zone - nero */
+.zoneDeadlyExclamation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 5rem;
+  font-weight: bold;
+  color: #000000;
+  text-shadow: 3px 3px 0 #ffffff, 0 0 20px rgba(255, 255, 255, 0.8);
+  z-index: 2;
+  animation: exclamationPulse 0.3s ease-in-out infinite alternate;
+}
+
+@keyframes exclamationPulse {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+    text-shadow: 2px 2px 0 #ffffff;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1.3);
+    text-shadow: 4px 4px 0 #ffffff, 0 0 30px rgba(255, 255, 255, 0.5);
   }
 }

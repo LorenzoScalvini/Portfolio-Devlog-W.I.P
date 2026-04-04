@@ -4,6 +4,7 @@ import img1 from '../../assets/ProjectsCardsImg/image1.png';
 import img2 from '../../assets/ProjectsCardsImg/image2.png';
 import img3 from '../../assets/ProjectsCardsImg/image3.png';
 import img4 from '../../assets/ProjectsCardsImg/image4.gif';
+import img5 from '../../assets/ProjectsCardsImg/image5.png';
 import githubLogo from "../../assets/Logos/GithubLogo.svg";
 
 export default function CardGrid() {
@@ -38,7 +39,7 @@ export default function CardGrid() {
     },
     {
       id: 5,
-      image: 'https://placehold.co/600x400',
+      image: img5,
       title: 'Progetto 5',
       tags: [],
       githubUrl: '#'
